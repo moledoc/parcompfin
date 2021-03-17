@@ -32,7 +32,7 @@ mc_tst: mc_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid 10000000 8
 
 mc: init mc_bin
-	./runscript_mc_eur
+	./runscript_mc_eur.sh
 
 clean:
 	rm -rf bin obj results

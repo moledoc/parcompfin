@@ -1,7 +1,8 @@
-#!/bin/zsh
+#!/bin/sh
 
 results=results/results_mc_eur.csv
-echo "time_overall,time_calculation,result,N,Processes,Threads" > ${results}
+
+echo "T_overall,T_calculation,Result,N,Processes,Threads" > ${results}
 for N in 1 10 100 #1 2 5 10 25 50 100
 do
  	./bin/mc_eur ${N}000000 >> ${results} 
