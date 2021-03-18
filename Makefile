@@ -54,7 +54,7 @@ binom_tst: binom_bin
 	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
 
 binom: init binom_bin
-	./runscript_binom_vanilla.sh
+	# ./runscript_binom_vanilla.sh
 
 clean:
 	rm -rf bin obj results

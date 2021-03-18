@@ -22,7 +22,7 @@ double binom (
     v_ij[i] = payoff(S0*pow(u,i)*pow(d,N-i),E);
     }
 
-  for (int n=N-1;n>0;--n){
+  for (int n=N;n>0;--n){
 #pragma omp parallel 
     {
 #pragma omp for schedule(dynamic,1000) nowait
