@@ -3,6 +3,7 @@
 #include <iostream>
 #include <chrono>
 #include <iomanip>
+#include <string>
 
 int getN(char *argv[]){
   std::size_t pos;
@@ -20,6 +21,7 @@ int getThreads(char *argv[]){
 
 void reporting
 (
+    std::string method,
     double time_overall,
     double time,
     double result,
@@ -31,6 +33,7 @@ void reporting
 {
   /* std::cout << "time_overall,time_calculation,result,N,error,P,script" << std::endl; */
   std::cout << std::setprecision(10) \
+    << method << "," \
     << time_overall << "," \
     << time << "," \
     << result << "," \

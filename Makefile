@@ -34,5 +34,27 @@ mc_tst: mc_bin
 mc: init mc_bin
 	./runscript_mc_eur.sh
 
+
+binom_prep: include/example_eur.h include/reporting.h
+	$(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o
+	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_omp.cpp -o obj/binom_vanilla_omp.o -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_mpi.cpp -o obj/binom_vanilla_mpi.o
+	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_hybrid.cpp -o obj/binom_vanilla_hybrid.o -fopenmp
+
+binom_bin: binom_prep
+	$(CXX) $(CXXFLAGS) obj/binom_vanilla.o -o bin/binom_vanilla 
+	$(CXX) $(CXXFLAGS) obj/binom_vanilla_omp.o -o bin/binom_vanilla_omp -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_mpi.o -o bin/binom_vanilla_mpi
+	# $(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_hybrid.o -o bin/binom_vanilla_hybrid -fopenmp
+
+binom_tst: binom_bin
+	./bin/binom_vanilla 50000
+	./bin/binom_vanilla_omp 50000 2
+	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 50000
+	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
+
+binom: init binom_bin
+	./runscript_binom_vanilla.sh
+
 clean:
 	rm -rf bin obj results

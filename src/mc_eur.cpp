@@ -29,6 +29,7 @@ int main (int argc, char *argv[]){
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start;
   reporting(
+      "mc",
       elapsed_seconds_overall.count(),
       elapsed_seconds.count(),
       result,

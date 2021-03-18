@@ -31,6 +31,7 @@ double mc_eur
 
 int main (int argc, char *argv[]){
   int N = getN(argv);
+  auto start_overall = std::chrono::system_clock::now();
   int threads = getThreads(argv);
   omp_set_num_threads(threads);
 
@@ -39,8 +40,9 @@ int main (int argc, char *argv[]){
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
-  std::chrono::duration<double> elapsed_seconds_overall = end-start;
+  std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
+      "mc",
       elapsed_seconds_overall.count(),
       elapsed_seconds.count(),
       result,
