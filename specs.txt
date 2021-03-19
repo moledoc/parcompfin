@@ -1,0 +1,8 @@
+OS: Solus x86_64 
+Host: Latitude E7240 01 
+Kernel: 5.10.15-172.current 
+Shell: zsh 5.8 
+DE: Budgie (git-481e9bd25afaa4f35ae9db6fdde28d17ec29cbe9 
+CPU: Intel i5-4200U (4) @ 2.600GHz 
+GPU: Intel Haswell-ULT 
+Memory: 7881MiB 

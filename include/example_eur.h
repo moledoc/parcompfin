@@ -20,7 +20,7 @@ double E = 40;
 double r = 0.05;
 double sigma = 0.75;
 double T = 0.5;
-double analytical = 61.5; // not proven number
+double analytical = 61.47789; 
 
 double payoff(double ST,double E){
   /* european call */

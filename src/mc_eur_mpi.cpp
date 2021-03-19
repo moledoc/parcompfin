@@ -12,7 +12,7 @@ double mc_eur(
 
     double result=0;
     for(int n=0;n<N;++n){
-      result += payoff(S0*exp((r-sigma*sigma/2)*T+sigma*norm(gen)),E);
+      result += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E);
     };
     return (exp(-r*T)*result)/(double)N;
 }
@@ -54,7 +54,7 @@ int main (int argc, char *argv[]){
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
     reporting(
-        "mc",
+        "MPI",
         elapsed_seconds_overall.count(),
         elapsed_seconds.count(),
         result,

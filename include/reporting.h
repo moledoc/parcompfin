@@ -27,8 +27,7 @@ void reporting
     double result,
     double analytical,
     int N,
-    int processes=1,
-    int threads=1
+    int parallel=0
     )
 {
   /* std::cout << "time_overall,time_calculation,result,N,error,P,script" << std::endl; */
@@ -37,9 +36,8 @@ void reporting
     << time_overall << "," \
     << time << "," \
     << result << "," \
-    /* << abs(result-analytical) << "," \ */ 
+    << abs(result-analytical) << "," \ 
     << N << "," \ 
-    << processes << "," \ 
-    << threads \
+    << parallel \
     << std::endl;
 }
