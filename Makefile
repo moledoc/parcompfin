@@ -17,19 +17,19 @@ mc_prep: include/example_eur.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/mc_eur.cpp -o obj/mc_eur.o
 	$(CXX) $(CXXFLAGS) -c src/mc_eur_omp.cpp -o obj/mc_eur_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_eur_mpi.cpp -o obj/mc_eur_mpi.o
-	# $(CXX_MPI) $(CXXFLAGS) -c src/mc_eur_hybrid.cpp -o obj/mc_eur_hybrid.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) -c src/mc_eur_hybrid.cpp -o obj/mc_eur_hybrid.o -fopenmp
 
 mc_bin: mc_prep
 	$(CXX) $(CXXFLAGS) obj/mc_eur.o -o bin/mc_eur 
 	$(CXX) $(CXXFLAGS) obj/mc_eur_omp.o -o bin/mc_eur_omp -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) obj/mc_eur_mpi.o -o bin/mc_eur_mpi
-	# $(CXX_MPI) $(CXXFLAGS) obj/mc_eur_hybrid.o -o bin/mc_eur_hybrid -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) obj/mc_eur_hybrid.o -o bin/mc_eur_hybrid -fopenmp
 
 mc_tst: mc_bin
 	./bin/mc_eur 10000000
 	./bin/mc_eur_omp 10000000 4
 	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_mpi 10000000
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid 10000000 8
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid 10000000 4
 
 mc: init mc_bin
 	./runscript_mc_eur.sh

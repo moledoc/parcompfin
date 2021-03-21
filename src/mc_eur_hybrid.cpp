@@ -5,17 +5,16 @@ double mc_eur(
     int N,double S0,double E,double r, double T,double sigma,
     time_t cur_time, int rank=0
     ){
+
+    double result=0;
+#pragma omp parallel //private(n) shared(T,N,r,sigma,E,S0)
+{
     std::random_device rd{};
     std::mt19937 gen{rd()};
     gen.seed(time(&cur_time)+rank);
     std::normal_distribution<> norm{0,sqrt(T)};
-
-    double result=0;
-    int n;
-#pragma omp parallel //private(n) shared(T,N,r,sigma,E,S0)
-{
-#pragma omp for nowait reduction(+:result)
-    for(n=0;n<N;++n){
+#pragma omp for nowait schedule(dynamic,1000) reduction(+:result) 
+    for(int n=0;n<N;++n){
       result += payoff(S0*exp((r-sigma*sigma/2)*T+sigma*norm(gen)),E);
     };
 }
@@ -61,14 +60,13 @@ int main (int argc, char *argv[]){
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
     reporting(
-        "mc",
+        "Hybrid",
         elapsed_seconds_overall.count(),
         elapsed_seconds.count(),
         result,
         analytical,
         N,
-        size,
-        threads
+        size*1000+threads
         );
   };
   MPI_Finalize();
