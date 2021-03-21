@@ -34,6 +34,12 @@ mc_tst: mc_bin
 mc: init mc_bin
 	./runscript_mc_eur.sh
 
+mc_amer_prep: include/example_amer.h include/reporting.h
+	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
+
+mc_amer: mc_amer_prep
+	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+
 
 binom_prep: include/example_eur.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o

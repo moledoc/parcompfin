@@ -7,9 +7,10 @@ double binom (
     )
 {
   double dt = (double)T/(double)N;
-  double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt));
-  double u = beta + sqrt(beta*beta-1);
+  /* double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt)); */
+  /* double u = beta + sqrt(beta*beta-1); */
   /* double d = beta - sqrt(beta*beta-1); */
+  double u = exp(sigma*sqrt(dt));
   double d = 1/u;
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
@@ -17,11 +18,11 @@ double binom (
 
   std::vector<double> v_ij;//(N+1,0);
 
-  for(int i=0;i<N+1;++i)
+  for(int i=0;i<N;++i)
     v_ij.push_back(payoff(S0*pow(u,i)*pow(d,N-i),E));
     /* v_ij[i] = payoff(S0*pow(u,i)*pow(d,N-i),E); */
 
-  for (int n=N;n>=0;--n){
+  for (int n=N-1;n>=0;--n){
     for(int i=0;i<n+1;++i){
       v_ij[i] = (p*v_ij[i+1] + q*v_ij[i])/R;
     };

@@ -6,6 +6,10 @@ double binom (
     double T, int N, double E
     )
 {
+  double result;
+#pragma omp parallel 
+    {
+  std::vector<double> v_ij(N);
   double dt = T/(double)N;
   double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt));
   double u = beta + sqrt(beta*beta-1);
@@ -13,27 +17,22 @@ double binom (
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
   double q = 1-p;
-
-  std::vector<double> v_ij(N+1,0);
-
-#pragma omp parallel 
-    {
 #pragma omp for schedule(dynamic,1000) nowait
-  for(int i=0;i<N+1;++i)
+  for(int i=0;i<N;++i){
     v_ij[i] = payoff(S0*pow(u,i)*pow(d,N-i),E);
-    }
+  };
 
-  for (int n=N;n>=0;--n){
-#pragma omp parallel 
-    {
+  for (int n=N-1;n>=0;--n){
 #pragma omp for schedule(dynamic,1000) nowait
     for(int i=0;i<n+1;++i){
       v_ij[i] = (p*v_ij[i+1] + q*v_ij[i])/R;
     };
-    }
-  };
-  return v_ij[0];
+    };
+  result = v_ij[0];
+  }
+  return result;
 }
+
 
 
 int main (int argc, char *argv[]){
