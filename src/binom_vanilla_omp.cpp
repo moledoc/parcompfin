@@ -11,8 +11,9 @@ double binom (
     {
   std::vector<double> v_ij(N);
   double dt = T/(double)N;
-  double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt));
-  double u = beta + sqrt(beta*beta-1);
+  /* double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt)); */
+  /* double u = beta + sqrt(beta*beta-1); */
+  double u = exp(sigma*sqrt(dt));
   double d = 1/u;//beta - sqrt(beta*beta-1);
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
