@@ -62,11 +62,11 @@ binom_bin: binom_prep
 binom_tst: binom_bin
 	./bin/binom_vanilla 1000
 	./bin/binom_vanilla_omp 1000 2
-	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 10
-	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
+	# # mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 10
+	# # mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
 	./bin/binom_embar 1000
 	./bin/binom_embar_omp 1000 2
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000
+	# mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000
 
 binom: init binom_bin
 	# ./runscript_binom_vanilla.sh

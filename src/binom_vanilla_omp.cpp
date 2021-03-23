@@ -7,8 +7,6 @@ double binom (
     )
 {
   double result;
-#pragma omp parallel 
-    {
   std::vector<double> v_ij(N);
   double dt = T/(double)N;
   /* double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt)); */
@@ -18,20 +16,36 @@ double binom (
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
   double q = 1-p;
+#pragma omp parallel //private(dt,u,d,R,p,q,E,S0)
+    {
 #pragma omp for schedule(dynamic,1000) nowait
   for(int i=0;i<N;++i){
     v_ij[i] = payoff(S0*pow(u,i)*pow(d,N-i),E);
   };
+    }
 
+  std::vector<double> tmp(N);
   for (int n=N-1;n>=0;--n){
-#pragma omp for schedule(dynamic,1000) nowait
+#pragma omp parallel //private(dt,u,d,R,p,q,E,S0)
+    {
+#pragma omp for schedule(dynamic,10) nowait
     for(int i=0;i<n+1;++i){
-      v_ij[i] = (p*v_ij[i+1] + q*v_ij[i])/R;
+      /* v_ij[i] = (p*v_ij[i+1] + q*v_ij[i])/R; */
+      tmp[i] = (p*v_ij[i+1] + q*v_ij[i])/R;
+      };
+/* #pragma omp for schedule(dynamic,1000) nowait */
+/*     for(int i=0;i<n+1;++i){ */
+/*       v_ij[i] = tmp[i]; */
+/*     }; */
+    v_ij.clear();
+    copy(tmp.begin(),tmp.end(),back_inserter(v_ij));
+    tmp.clear();
+    }
+
     };
-    };
-  result = v_ij[0];
-  }
-  return result;
+  /* result = v_ij[0]; */
+  /* return result; */
+    return v_ij[0];
 }
 
 
