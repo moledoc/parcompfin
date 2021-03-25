@@ -20,6 +20,7 @@ void reporting
     double result,
     double analytical,
     int N,
+    int M=0,
     int parallel=0
     )
 {
@@ -31,6 +32,7 @@ void reporting
     << result << "," \
     << abs(result-analytical) << "," \ 
     << N << "," \ 
+    << M << "," \ 
     << parallel \
     << std::endl;
 }

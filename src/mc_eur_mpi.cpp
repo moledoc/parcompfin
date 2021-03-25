@@ -39,12 +39,13 @@ int main (int argc, char *argv[]){
   /* }; */
 
   /* Fix N if necessary */
+  double N_fixed = N;
   if (N % size > 0){
-    N = N + (size - (N % size));
+    N_fixed = N + (size - (N % size));
   };
 
   auto start = std::chrono::system_clock::now();
-  double inter_result = mc_eur(N/size,S0,E,r,T,sigma,cur_time,rank);
+  double inter_result = mc_eur(N_fixed/size,S0,E,r,T,sigma,cur_time,rank);
   double result;
   MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   result = result/size;

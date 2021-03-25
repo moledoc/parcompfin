@@ -40,46 +40,45 @@ mc: init mc_bin
 
 ########################################################################################################################
 
-mc_amer_prep: include/example_amer.h include/reporting.h
-	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
-	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
+# mc_amer_prep: include/example_amer.h include/reporting.h
+# 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
+# 	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
+# 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
 
-mc_amer: mc_amer_prep
-	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
-	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
+# mc_amer_bin: mc_amer_prep
+# 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+# 	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
+# 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
 
-mc_amer_tst: mc_amer
-	./bin/mc_amer 1000000 100
-	./bin/mc_amer_omp 1000000 100 5
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 1000000 100
+# mc_amer_tst: mc_amer_prep
+# 	./bin/mc_amer 1000000 100
+# 	./bin/mc_amer_omp 1000000 100 4
+# 	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 100000 100
+
+# mc_amer: init mc_amer_bin
+# 	./runscript_mc_amer.sh
 
 ########################################################################################################################
 
 binom_prep: include/example_eur.h include/reporting.h
-	$(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o
-	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_omp.cpp -o obj/binom_vanilla_omp.o -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_mpi.cpp -o obj/binom_vanilla_mpi.o
-	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_hybrid.cpp -o obj/binom_vanilla_hybrid.o -fopenmp
+	# $(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o
+	# $(CXX) $(CXXFLAGS) -c src/binom_vanilla_omp.cpp -o obj/binom_vanilla_omp.o -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_mpi.cpp -o obj/binom_vanilla_mpi.o
 	$(CXX) $(CXXFLAGS) -c src/binom_embar.cpp -o obj/binom_embar.o
 	$(CXX) $(CXXFLAGS) -c src/binom_embar_omp.cpp -o obj/binom_embar_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_mpi.cpp -o obj/binom_embar_mpi.o
 
 binom_bin: binom_prep
-	$(CXX) $(CXXFLAGS) obj/binom_vanilla.o -o bin/binom_vanilla 
-	$(CXX) $(CXXFLAGS) obj/binom_vanilla_omp.o -o bin/binom_vanilla_omp -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_mpi.o -o bin/binom_vanilla_mpi
-	# $(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_hybrid.o -o bin/binom_vanilla_hybrid -fopenmp
+	# $(CXX) $(CXXFLAGS) obj/binom_vanilla.o -o bin/binom_vanilla 
+	# $(CXX) $(CXXFLAGS) obj/binom_vanilla_omp.o -o bin/binom_vanilla_omp -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_mpi.o -o bin/binom_vanilla_mpi
 	$(CXX) $(CXXFLAGS) obj/binom_embar.o -o bin/binom_embar 
 	$(CXX) $(CXXFLAGS) obj/binom_embar_omp.o -o bin/binom_embar_omp -fopenmp 
 	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_mpi.o -o bin/binom_embar_mpi
 
 binom_tst: binom_bin
-	./bin/binom_vanilla 1000
-	./bin/binom_vanilla_omp 1000 2
-	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 10
-	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
+	# ./bin/binom_vanilla 1000
+	# ./bin/binom_vanilla_omp 1000 2
 	./bin/binom_embar 1000
 	./bin/binom_embar_omp 1000 2
 	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000

@@ -8,8 +8,8 @@ double binom (
 {
   double dt = (double)T/(double)N;
   /* double beta = 0.5*(exp(-r*dt)+exp((r+sigma*sigma)*dt)); */
-  /* double u = beta + sqrt(beta*beta-1); */
-  /* double d = beta - sqrt(beta*beta-1); */
+  /* double u = beta + sqrt(beta*beta+1); */
+  /* double d = beta - sqrt(beta*beta+1); */
   double u = exp(sigma*sqrt(dt));
   double d = 1/u;
   double R = exp(r*dt);

@@ -7,16 +7,17 @@ double mc_amer
  )
 {
   double result=0;
-  time_t cur_time;
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
-  gen.seed(time(&cur_time));
-  std::normal_distribution<> norm{0,sqrt(T)};
-
   /* std::vector<double> walk; */
   /* std::vector<std::vector<double>> random_walks; */
 
   for(int n=0;n<N;++n){
+
+    time_t cur_time;
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+    gen.seed(time(&cur_time));
+    std::normal_distribution<> norm{0,sqrt(T)};
+
     double maximum=S0;
     double prev=S0;
     /* walk.push_back(S0); */
@@ -49,7 +50,8 @@ int main (int argc, char *argv[]){
       elapsed_seconds.count(),
       result,
       analytical,
-      N
+      N,
+      M
       );
   return EXIT_SUCCESS;
 }

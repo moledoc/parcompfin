@@ -4,17 +4,20 @@
 double mc_eur
 (
  int N,int M,double S0,double E,double r, double T,double sigma, 
- time_t cur_time, int rank=0
+ /* time_t cur_time, int rank=0 */
+ int rank=0
 )
 {
   double result=0;
 
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
-  gen.seed(time(&cur_time)+rank);
-  std::normal_distribution<> norm{0,sqrt(T)};
-
   for(int n=0;n<N;++n){
+
+    time_t cur_time;
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+    gen.seed(time(&cur_time)+rank);
+    std::normal_distribution<> norm{0,sqrt(T)};
+
     double maximum=S0;
     double prev=S0;
     /* walk.push_back(S0); */
@@ -35,7 +38,7 @@ int main (int argc, char *argv[]){
   int N = getArg(argv,1);
   int M = getArg(argv,2);
 
-  time_t cur_time;
+  /* time_t cur_time; */
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
   if (ierr !=0){
@@ -54,12 +57,14 @@ int main (int argc, char *argv[]){
   /* }; */
 
   /* Fix N if necessary */
+  double N_fixed = N;
   if (N % size > 0){
-    N = N + (size - (N % size));
+    N_fixed = N + (size - (N % size));
   };
 
   auto start = std::chrono::system_clock::now();
-  double inter_result = mc_eur(N/size,M,S0,E,r,T,sigma,cur_time,rank);
+  /* double inter_result = mc_eur(N/size,M,S0,E,r,T,sigma,cur_time,rank); */
+  double inter_result = mc_eur(N_fixed/size,M,S0,E,r,T,sigma,rank);
   double result;
   MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   result = result/size;
@@ -74,6 +79,7 @@ int main (int argc, char *argv[]){
         result,
         analytical,
         N,
+        M,
         size
         );
   };
