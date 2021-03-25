@@ -1,41 +1,51 @@
 
-/* #include <mc_example_eur.h> */
-#include <example_eur.h>
+#include <example_amer.h>
 
-double mc_eur
+
+double mc_amer
  (
- int N,double S0,double E,double r, double T,double sigma
+ int N,int M,double S0,double E,double r, double T,double sigma
  )
 {
   double result=0;
-  /* int chunk = 100; */
-#pragma omp parallel //private(T,r,sigma,E,S0,norm,gen)
-{
+#pragma omp parallel
+  {
   time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
   gen.seed(time(&cur_time));
   std::normal_distribution<> norm{0,sqrt(T)};
-  /* double local_result=0; */
-#pragma omp for nowait schedule(dynamic,1000) reduction(+:result) 
+
+  /* std::vector<double> walk; */
+  /* std::vector<std::vector<double>> random_walks; */
+
+#pragma omp for schedule(dynamic,100) nowait reduction(+:result)
   for(int n=0;n<N;++n){
-    result += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E);
-    /* local_result += payoff(S0*exp((r-sigma*sigma/2)*T+sigma*norm(gen)),E)/(double)N; */
+    double maximum=S0;
+    double prev=S0;
+    /* walk.push_back(S0); */
+    for (int m=1;m<M;++m){
+      prev+=norm(gen);
+      /* double st = walk[m-1]+norm(gen); */
+      /* walk.push_back(st); */
+      if(prev>maximum) maximum = prev;
+    };
+    result+=maximum;
+    /* walk.clear(); */
   };
-/* #pragma omp atomic */
-/*     result += local_result; */
-}
+  }
   return (exp(-r*T)*result)/(double)N;
 }
 
 int main (int argc, char *argv[]){
   auto start_overall = std::chrono::system_clock::now();
   int N = getArg(argv,1);
-  int threads = getArg(argv,2);
+  int M = getArg(argv,2);
+  int threads = getArg(argv,3);
   omp_set_num_threads(threads);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(N,S0,E,r,T,sigma);
+  double result = mc_amer(N,M,S0,E,r,T,sigma);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

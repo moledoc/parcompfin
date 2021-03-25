@@ -62,7 +62,8 @@ double binom (
 
 
 int main (int argc, char *argv[]){
-  int N = getN(argv);
+  auto start_overall = std::chrono::system_clock::now();
+  int N = getArg(argv,1);
   /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 
   auto start = std::chrono::system_clock::now();
@@ -70,7 +71,7 @@ int main (int argc, char *argv[]){
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
-  std::chrono::duration<double> elapsed_seconds_overall = end-start;
+  std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
       "Serial",
       elapsed_seconds_overall.count(),

@@ -33,9 +33,9 @@ double binom
 
 
 int main (int argc, char *argv[]){
-  int N = getN(argv);
   auto start_overall = std::chrono::system_clock::now();
-  int threads = getThreads(argv);
+  int N = getArg(argv,1);
+  int threads = getArg(argv,2);
   omp_set_num_threads(threads);
   /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 

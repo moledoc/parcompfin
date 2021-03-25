@@ -6,12 +6,16 @@ CXX_MPI=mpic++
 # -std=c++11 	enables the C++11 standard mode
 CXXFLAGS = -Wall -std=c++11 -Iinclude
 
+########################################################################################################################
+
 all: init mc
 
 init:
 		if [ ! -d bin ]; then mkdir bin; fi
 		if [ ! -d obj ]; then mkdir obj; fi
 		if [ ! -d results ]; then mkdir results; fi
+
+########################################################################################################################
 
 mc_prep: include/example_eur.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/mc_eur.cpp -o obj/mc_eur.o
@@ -34,12 +38,24 @@ mc_tst: mc_bin
 mc: init mc_bin
 	./runscript_mc_eur.sh
 
+########################################################################################################################
+
 mc_amer_prep: include/example_amer.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
+	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
 
 mc_amer: mc_amer_prep
 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
 
+mc_amer_tst: mc_amer
+	./bin/mc_amer 1000000 100
+	./bin/mc_amer_omp 1000000 100 5
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 1000000 100
+
+########################################################################################################################
 
 binom_prep: include/example_eur.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o
@@ -62,14 +78,16 @@ binom_bin: binom_prep
 binom_tst: binom_bin
 	./bin/binom_vanilla 1000
 	./bin/binom_vanilla_omp 1000 2
-	# # mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 10
-	# # mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
+	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_mpi 10
+	# mpirun -n 4 --hostfile hostfile ./bin/binom_vanilla_hybrid 50000 8
 	./bin/binom_embar 1000
 	./bin/binom_embar_omp 1000 2
-	# mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000
 
 binom: init binom_bin
 	# ./runscript_binom_vanilla.sh
+
+########################################################################################################################
 
 clean:
 	rm -rf bin obj #results

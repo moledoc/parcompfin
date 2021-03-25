@@ -5,18 +5,11 @@
 #include <iomanip>
 #include <string>
 
-int getN(char *argv[]){
+int getArg(char *argv[],int idx){
   std::size_t pos;
-  std::string arg = argv[1];
-  int N = std::stoi(arg,&pos);
-  return N;
-}
-
-int getThreads(char *argv[]){
-  std::size_t pos;
-  std::string arg = argv[2];
-  int threads = std::stoi(arg,&pos);
-  return threads;
+  std::string arg = argv[idx];
+  int argi = std::stoi(arg,&pos);
+  return argi;
 }
 
 void reporting

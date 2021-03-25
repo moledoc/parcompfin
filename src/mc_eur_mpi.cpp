@@ -18,9 +18,8 @@ double mc_eur(
 }
 
 int main (int argc, char *argv[]){
-  int N = getN(argv);
-
   auto start_overall = std::chrono::system_clock::now();
+  int N = getArg(argv,1);
   time_t cur_time;
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
