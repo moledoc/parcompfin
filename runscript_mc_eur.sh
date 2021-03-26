@@ -2,7 +2,7 @@
 
 results=results/results_mc_eur.csv
 
-echo "Method,T_overall,T_calculation,Result,Error,N,Parallel" > ${results}
+echo "Method,T_overall,T_calculation,Result,Error,N,M,Parallel" > ${results}
 for N in 1 2 5 10 25 50 100 #1 10 100 #
 do
  	./bin/mc_eur ${N}000000 >> ${results} 
