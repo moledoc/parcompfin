@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -std=c++11 -Iinclude
 
 ########################################################################################################################
 
-all: init mc
+all: init mc_bin binom_bin
 
 init:
 		if [ ! -d bin ]; then mkdir bin; fi
