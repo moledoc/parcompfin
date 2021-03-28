@@ -22,8 +22,18 @@ double sigma = 0.75;
 double T = 0.5;
 double analytical = 0;// TODO: //61.47789; 
 
-double payoff(double St,double E){
+double payoff_call(double St,double E){
   /* american call */
   if(St-E < 0) return 0;
   else return St-E;
+}
+
+double payoff_put(double St,double E){
+  /* american put */
+  if(E-St < 0) return 0;
+  else return E-St;
+}
+
+double payoff(double St,double E){
+  return(payoff_call(St,E));
 }

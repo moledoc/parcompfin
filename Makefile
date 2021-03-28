@@ -50,8 +50,8 @@ mc_amer_bin: mc_amer_prep
 # 	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
 # 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
 
-mc_amer_tst: mc_amer_prep
-	./bin/mc_amer 1000000 100
+mc_amer_tst: mc_amer_bin
+	./bin/mc_amer 5000 100
 # 	./bin/mc_amer_omp 1000000 100 4
 # 	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 100000 100
 
