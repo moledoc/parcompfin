@@ -124,105 +124,6 @@ std::vector<std::vector<double>> inverse
 }
 
 
-std::vector<double> coefficients
-(
-  std::vector<double> x, std::vector<double> y
-)
-{
-  /* std::vector<double> coef; */
-    std::vector<double> coef(3,1);
-
-  // calc (x^T*x) - analytically calculated the 3x3 matrix form
-
-  /* double sum_x = 0; */
-  /* double sum_x2 = 0; */
-  /* double sum_x3 = 0; */
-  /* double sum_x4 = 0; */
-  /* double sum_y = 0; */
-  /* double sum_yx = 0; */
-  /* double sum_yx2 = 0; */
-
-  /* std::cout << x.size() << std::endl; */
-  /* std::for_each(x.begin(), x.end(), [&] (double xi) { */
-  /*     sum_x += xi; */
-  /*     sum_x2 += xi*xi; */
-  /*     sum_x3 += xi*xi*xi; */
-  /*     sum_x4 += xi*xi*xi*xi; */
-  /* }); */
-
-  /* for(int i=0;i<x.size();++i){ */
-  /*   sum_x   += x[i]; */
-  /*   sum_x2  += x[i]*x[i]; */
-  /*   sum_x3  += x[i]*x[i]*x[i]; */
-  /*   sum_x4  += x[i]*x[i]*x[i]*x[i]; */
-  /*   sum_y   += y[i]; */
-  /*   sum_yx  += y[i]*x[i]; */
-  /*   sum_yx2 += y[i]*x[i]*x[i]; */
-  /* }; */
-
-  /* for(int i=0;i<x.size();++i){ */
-  /*   double tmp = pow(x[i],2); */
-  /*   sum_x += x[i]; */
-  /*   /1* sum_x2 += pow(x[i],2); *1/ */
-  /*   sum_x2 += tmp; */
-  /*   /1* sum_x3 += pow(x[i],3); *1/ */
-  /*   sum_x3 += tmp*x[i]; */
-  /*   sum_x4 += pow(tmp,2); */
-  /*   sum_y += y[i]; */
-  /*   sum_yx += y[i]*x[i]; */
-  /*   sum_yx2 += y[i]*tmp; */
-  /* }; */
-
-  /* std::vector<double> row(3); */
-  /* std::vector<std::vector<double>> xTx; */
-  /* std::vector<std::vector<double>> xTy; */
-
-  /* row[0] = x.size(); row[1] = sum_x ; row[2] =  sum_x2; xTx.push_back(row); */
-  /* row[0] =    sum_x; row[1] = sum_x2; row[2] =  sum_x3; xTx.push_back(row); */
-  /* row[0] =   sum_x2; row[1] = sum_x3; row[2] =  sum_x4; xTx.push_back(row); */
-
-  /* row[0] =    sum_y; row[1] = sum_yx; row[2] = sum_yx2; xTy.push_back(row); */
-  /* std::vector<std::vector<double>> coef_mat = matmul(inverse(xTx),xTy); */
-
-/* ----------------------------------------------- */
-  /* std::vector<std::vector<double>> x_mat_transposed; */
-
-  /* // fill x_mat^T */
-  /* std::vector<double> x_mat_trans_tmp(x.size(),1); */
-  /* // fill with ones */
-  /* x_mat_transposed.push_back(x_mat_trans_tmp); */
-  /* // fill with x */
-  /* x_mat_transposed.push_back(x); */
-  /* // fill with x^2 */
-  /* for(int i=0;i<x.size();++i){ */
-  /*   /1* std::vector<double> x_mat_tmp; x_mat_tmp.push_back(1); x_mat_tmp.push_back(x[n]); x_mat_tmp.push_back(pow(x[n],2)); x_mat.push_back(x_mat_tmp); *1/ */
-  /*   x_mat_trans_tmp[i] = pow(x[i],2); */
-  /* }; */
-  /* x_mat_transposed.push_back(x_mat_trans_tmp); */
-
-
-  /* std::vector<std::vector<double>> x_mat = transpose(x_mat_transposed); // make x matrix */
-  /* std::vector<std::vector<double>> xTx = matmul(x_mat_transposed,x_mat); // calc x^T * x */
-  /* std::vector<std::vector<double>> y_mat(1,y);// y_mat.push_back(y); //make y vector into a matrix */
-  /* std::vector<std::vector<double>> xTy = matmul(x_mat_transposed,y_mat); // calc x^T*y */
-  /* std::vector<std::vector<double>> xTx_inv = inverse(xTx); // calc (x^T*x)^{-1} */
-  /* std::vector<std::vector<double>> coef_mat = matmul(xTx_inv,xTy); // calculate coefficient matrix */
-
-  /* /1* matmul(x_mat_transposed,transpose(x_mat_transposed));// calc x^T* x *1/ */
-  /* std::vector<std::vector<double>> y_mat(1,y); //make y vector into a matrix */
-  /* /1* xTy = matmul(x_mat_transposed,y_mat); // calc x^T*y *1/ */
-  /* /1* xTx_inv = inverse(matmul(x_mat_transposed,transpose(x_mat_transposed));); // calc (x^T*x)^{-1} *1/ */
-  /* std::vector<std::vector<double>> coef_mat = matmul(inverse(matmul(x_mat_transposed,transpose(x_mat_transposed))),matmul(x_mat_transposed,y_mat)); // calculate coefficient matrix */
-/* ----------------------------------------------- */
-
-
-  /* for(int i=0;i<coef_mat.size();++i) coef.push_back(coef_mat[i][0]);//extract coefficients to a vector; */
-  
-
-  return coef;
-
-}
-
 double mc_amer
  (
  int N,int M,double S0,double E,double r, double T,double sigma
@@ -244,31 +145,26 @@ double mc_amer
   /* xTy[0].resize(3); */
   std::vector<double> xTy(3);
 
-  // Calculate timestep M payoff values for each path.
-  // Store corresponding when and st values.
-  for(int n=0;n<N;++n){
-    double payoff_val = payoff(paths[M][n],E);
-    if(payoff_val>0){
-      exercise_when[n] = M;
-      exercise_st[n] = payoff_val;
-      /* exercise_when.push_back(M); */
-      /* exercise_st.push_back(payoff_val); */
-    /* } else{ */
-    /*   exercise_when.push_back(M); */
-    /*   exercise_st.push_back(0); */
-    };
-  };
 
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
   for(int m=M-1;m>0;--m){
-    std::vector<double> x(N,0);
-    std::vector<double> y(N,0);
+    std::vector<double> x(N,-1);
+    std::vector<double> y(N,-1);
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
 
     for(int n=0;n<N;++n){
-      double payoff_val = payoff(paths[m][n],E);
+      if(m==M-1){
+        // Calculate timestep M payoff values for each path.
+        // Store corresponding when and st values.
+        double payoff_val = payoff(paths[M][n],E);
+        if(payoff_val>0){
+          exercise_when[n] = M;
+          exercise_st[n] = payoff_val;
+        };
+      };
 
+      double payoff_val = payoff(paths[m][n],E);
       // keep only paths that are in the money
       if(payoff_val>0){
         // stock price at time t_m
@@ -280,6 +176,7 @@ double mc_amer
         /* y[n] = exp(-r*dt)*payoff(paths[m+1][n],E); */
         y[n] = tmp_y;
 
+        // calc values for xTx and xTy.
         sum_x   += tmp_x;
         sum_x2  += tmp_x*tmp_x;
         sum_x3  += tmp_x*tmp_x*tmp_x;
@@ -291,65 +188,25 @@ double mc_amer
     };
 
     // delete those elements, that are not in the money.
-    remove(x.begin(),x.end(),0);
-    remove(y.begin(),y.end(),0);
-    // calculate coef
-    // and calculate whether we continue or exercise
+    remove(x.begin(),x.end(),-1);
+    remove(y.begin(),y.end(),-1);
 
-    xTx[0][0] = x.size(); xTx[0][1] = sum_x ; xTx[0][2] =  sum_x2;
-    xTx[1][0] =    sum_x; xTx[1][1] = sum_x2; xTx[1][2] =  sum_x3;
-    xTx[2][0] =   sum_x2; xTx[2][1] = sum_x3; xTx[2][2] =  sum_x4;
-    xTy[0] =    sum_y; xTy[1] = sum_yx; xTy[2] = sum_yx2;
+    // compose xTx and xTy
+    xTx[0][0] = x.size(); xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
+    xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
+    xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
+    xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
 
+    // calc coefficients
     std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
-    /* std::vector<double> coef(3,1); */
 
     for(int i=0;i<x.size();++i){
-
-
-/* ---------------------------------------------------------------------------------------------------- */
-  /* double sum_x  = 1; */
- /* double sum_x2  = 0; */
- /* double sum_x3  = 30; */
- /* double sum_x4  = 14; */
- /* double sum_y   = 0; */
- /* double sum_yx  = 60; */
- /* double sum_yx2 = 7; */
-
-      /* for(int i=0;i<x.size();++i){ */
-      /*   sum_x   += x[i]; */
-      /*   sum_x2  += x[i]*x[i]; */
-      /*   sum_x3  += x[i]*x[i]*x[i]; */
-      /*   sum_x4  += x[i]*x[i]*x[i]*x[i]; */
-      /*   sum_y   += y[i]; */
-      /*   sum_yx  += y[i]*x[i]; */
-      /*   sum_yx2 += y[i]*x[i]*x[i]; */
-      /* }; */
-
-      /* std::vector<std::vector<double>> xTx(3); */
-      /* std::vector<double> row(3); */
-      /* std::vector<std::vector<double>> xTx; */
-      /* std::vector<std::vector<double>> xTy; */
-
-      /* xTx[0][0] = x.size(); xTx[0][1] = sum_x ; xTx[0][2] =  sum_x2; */
-      /* xTx[1][0] =    sum_x; xTx[1][1] = sum_x2; xTx[1][2] =  sum_x3; */
-      /* xTx[2][0] =   sum_x2; xTx[2][1] = sum_x3; xTx[2][2] =  sum_x4; */
-
-      /* /1* xTy[0][0] =    sum_y; xTy[0][1] = sum_yx; xTy[0][2] = sum_yx2; *1/ */
-      /* xTy[0] =    sum_y; xTy[1] = sum_yx; xTy[2] = sum_yx2; */
-
-      /* std::vector<std::vector<double>> coef_mat = mat_vec_mul(inverse(xTx),xTy); */
-      /* for(int i=0;i<coef_mat.size();++i) coef[i] = coef_mat[i][0];//extract coefficients to a vector; */
-/* ---------------------------------------------------------------------------------------------------- */
-
-
-      /* std::vector<double> coef = coefficients(x,y); */
-      double EYIX = coef[0] + coef[1] * x[i] + coef[2]*pow(x[i],2);
+      double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
       // exercise value at t_m
-      double exercise = payoff(paths[m][i],E);
-      if (exercise > EYIX) {
+      double payoff_val = payoff(paths[m][i],E);
+      if (payoff_val > EYIX) {
         exercise_when[i] = m;
-        exercise_st[i] = exercise;
+        exercise_st[i] = payoff_val;
       };
     };
   };
