@@ -41,11 +41,13 @@ mc: init mc_bin
 ########################################################################################################################
 
 mc_amer_prep: include/example_amer.h include/reporting.h
+	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_amer.cpp -o obj/binom_vanilla_amer.o # test american option value
 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
 # 	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
 # 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
 
 mc_amer_bin: mc_amer_prep
+	$(CXX) $(CXXFLAGS) obj/binom_vanilla_amer.o -o bin/binom_vanilla_amer # test american option value
 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
 # 	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
 # 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
