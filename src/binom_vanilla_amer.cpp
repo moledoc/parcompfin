@@ -26,8 +26,7 @@ double binom (
     for(int i=0;i<n+1;++i){
       double sij = payoff(S0*pow(u,i)*pow(d,n-i),E);
       double jatk = (p*v_ij[i+1] + q*v_ij[i])/R;
-      if(jatk > sij) v_ij[i] = jatk;
-      else v_ij[i] = sij;
+      v_ij[i] = std::max(jatk,sij);
     };
   };
 

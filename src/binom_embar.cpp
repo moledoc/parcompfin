@@ -21,11 +21,12 @@ double binom (
   int until;
   if (N%2!=0) until = (N+1)/2;
   else until = N/2;
-  if(N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E);
+  if(N%2==0) result+=exp(comb(N,N/2) + log(pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E)));
   for(int i=0;i<until;++i){
     double tmp = comb(N,i);
-    result += tmp * pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E);
-    result += tmp * pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E);
+    /* std::cout << tmp << std::endl; */
+    result += exp(tmp + log(pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E)));
+    result += exp(tmp + log(pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E)));
   };
   /* for(int i=0;i<N;++i) */
   /*   result += comb(N,i)* pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E); */
