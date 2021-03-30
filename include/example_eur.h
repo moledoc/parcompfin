@@ -28,25 +28,39 @@ double payoff(double ST,double E){
   else return ST-E;
 }
 
-double comb(int N,int i){
-  if (i==0 || i==N) return log(1);
-  if (i==1 || i==(N-1)) return log(N);
-  double result=0;
-  /* int until; */
-  /* if (i > (N-i)) until = N-i; */
-  /* else until = i; */
-  /* for(int j=1;j<=until;++j){ */
-  /*   result += log((double)(N-j+1))-log((double)(until-j+1)); */
-  /*   /1* result *= (double)(N-j+1)/(double)j; *1/ */
-  /* }; */
 
+
+double comb(int N,int i){
+  if (i==0 || i==N) return 1;
+  if (i==1 || i==(N-1)) return N;
+  double result=0;
   for(int n=N;n>i;--n)
     result += log((double)n);
-
-  /* if (i==(N-i)) until = i+1; */
   for(int j=2;j<=(N-i);++j)
     result -= log((double)j);
 
-    /* result *= (double)(N-j+1)/(double)j; */
-  return result;
+  return exp(result);
 }
+
+/* double comb(int N,int i){ */
+/*   if (i==0 || i==N) return log(1); */
+/*   if (i==1 || i==(N-1)) return log(N); */
+/*   double result=0; */
+/*   /1* int until; *1/ */
+/*   /1* if (i > (N-i)) until = N-i; *1/ */
+/*   /1* else until = i; *1/ */
+/*   /1* for(int j=1;j<=until;++j){ *1/ */
+/*   /1*   result += log((double)(N-j+1))-log((double)(until-j+1)); *1/ */
+/*   /1*   /2* result *= (double)(N-j+1)/(double)j; *2/ *1/ */
+/*   /1* }; *1/ */
+
+/*   for(int n=N;n>i;--n) */
+/*     result += log((double)n); */
+
+/*   /1* if (i==(N-i)) until = i+1; *1/ */
+/*   for(int j=2;j<=(N-i);++j) */
+/*     result -= log((double)j); */
+
+/*     /1* result *= (double)(N-j+1)/(double)j; *1/ */
+/*   return result; */
+/* } */
