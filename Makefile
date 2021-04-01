@@ -44,24 +44,20 @@ mc: init mc_bin
 mc_amer_prep: include/example_amer.h include/reporting.h
 	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_amer.cpp -o obj/binom_vanilla_amer.o # test american option value
 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
-	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
+	# $(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
-# 	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
-# 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
 
 mc_amer_bin: mc_amer_prep
 	$(CXX) $(CXXFLAGS) obj/binom_vanilla_amer.o -o bin/binom_vanilla_amer # test american option value
 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
-	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
+	# $(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
-# 	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
-# 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
 
 mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer 1000
-	./bin/mc_amer 25000 1000
-	./bin/mc_amer_omp 25000 1000 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 5000 1000
+	./bin/mc_amer 1000 100
+	# ./bin/mc_amer_omp 25000 1000 4
+	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_mpi 10 10
 
 # mc_amer: init mc_amer_bin
 # 	./runscript_mc_amer.sh

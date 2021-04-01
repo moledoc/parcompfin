@@ -17,6 +17,7 @@
 
 double S0 = 100;
 double E = 40;
+/* double E =95; */
 double r = 0.05;
 double sigma = 0.75;
 double T = 0.5;
@@ -27,8 +28,6 @@ double payoff(double ST,double E){
   if(ST-E < 0) return 0;
   else return ST-E;
 }
-
-
 
 double comb(int N,int i){
   if (i==0 || i==N) return 1;

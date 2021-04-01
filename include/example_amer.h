@@ -16,13 +16,13 @@
 #include <reporting.h>
 
 double S0 = 100;
-double E = 40;
+/* double E = 40; */
 /* double E = 90; */
-/* double E = 95; */
+double E = 95;
 double r = 0.05;
 double sigma = 0.75;
 double T = 0.5;
-double analytical = 64.06281556455032;// TODO: //61.47789; 
+double analytical = 24.02434334;// TODO: //61.47789; 
 
 double payoff_call(double St,double E){
   /* american call */
