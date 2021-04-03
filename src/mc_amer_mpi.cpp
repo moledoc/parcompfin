@@ -140,7 +140,7 @@ double mc_amer
   double result;
   
   // calculate N/size paths in each process
-  std::vector<std::vector<double>> paths = pathsfinder(N/size,M,100,rank);
+  std::vector<std::vector<double>> paths = pathsfinder(N/size,M,S0,rank);
 
   /* // allgather the paths, so that each process has all paths. */
   /* for(int i=0;i<M+1;++i){ */
