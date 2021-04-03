@@ -141,7 +141,8 @@ double mc_amer
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
-  std::vector<double> exercise_st(N,0);
+  std::vector<double> exercise_st(N);
+  for(int n=0;n<N;++n) exercise_st.push_back(payoff(paths[M][n],E));
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -156,21 +157,23 @@ double mc_amer
     std::vector<double> x(N,-1);
     std::vector<double> y(N,-1);
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
+    double x_length=0;
 
     for(int n=0;n<N;++n){
-      if(m==M-1){
-        // Calculate timestep M payoff values for each path.
-        // Store corresponding when and st values.
-        double payoff_val = payoff(paths[M][n],E);
-        /* if(payoff_val>0){ */
-        /*   exercise_when[n] = M; */
-          exercise_st[n] = payoff_val;
-        /* }; */
-      };
+      /* if(m==M-1){ */
+      /*   // Calculate timestep M payoff values for each path. */
+      /*   // Store corresponding when and st values. */
+      /*   double payoff_val = payoff(paths[M][n],E); */
+      /*   /1* if(payoff_val>0){ *1/ */
+      /*   /1*   exercise_when[n] = M; *1/ */
+      /*     exercise_st[n] = payoff_val; */
+      /*   /1* }; *1/ */
+      /* }; */
 
       double payoff_val = payoff(paths[m][n],E);
       // keep only paths that are in the money
       if(payoff_val>0){
+        ++x_length;
         // stock price at time t_m
         double tmp_x = paths[m][n];
         /* x[n] = paths[m][n]; */
@@ -194,10 +197,33 @@ double mc_amer
     };
     
     // compose xTx and xTy
-    xTx[0][0] = N       ; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
+    xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
     xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
     xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
     xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
+
+
+
+    /* if(m==10){ */
+  /* std::cout << "==============================" << std::endl; */
+    /* matprinter(xTx); */
+  /* std::cout << "==============================" << std::endl; */
+
+    /* matprinter(inverse(xTx)); */
+  /* std::cout << "==============================" << std::endl; */
+    /* for(int i = 0;i<3;++i){ */
+    /*   for(int j = 0;j<3;++j){ */
+    /*   if (i!=2 || j!=2) std::cout << xTx[i][j] << ","; */
+    /*   else std::cout << xTx[i][j] << std::endl;; */
+    /*   }; */
+    /* }; */
+  /* std::cout << "==============================" << std::endl; */
+    /* for(int i = 0;i<3;++i){ */
+    /*   if (i!=2) std::cout << xTy[i] << ","; */
+    /*   else std::cout << xTy[i] << std::endl;; */
+    /* }; */
+  /* std::cout << "==============================" << std::endl; */
+    /* }; */
 
     // delete those elements, that are not in the money.
     /* removef(x.begin(),x.end(),-1); */
@@ -213,11 +239,14 @@ double mc_amer
     // (xT*x)^{-1} * xT*y= beta
     std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
 
-    /* if(m==M-1){ */
+    /* if(m==10){ */
     /* for(int i = 0;i<3;++i){ */
     /*   if (i!=2) std::cout << coef[i] << ","; */
     /*   else std::cout << coef[i] << std::endl;; */
     /* }; */
+  /* std::cout << "==============================" << std::endl; */
+/* }; */
+
     /* for(int i = 0;i<x.size();++i){ */
     /*   if (i!=x.size()-1) std::cout << x[i] << ","; */
     /*   else std::cout << x[i] << std::endl;; */

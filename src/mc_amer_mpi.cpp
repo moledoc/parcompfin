@@ -32,9 +32,11 @@ std::vector<std::vector<double>> transpose
 std::vector<std::vector<double>> pathsfinder
 (
  int N,int M,double S0,
- time_t cur_time, int rank=0
+ int rank
 )
 {
+  if (N%2!=0) throw std::invalid_argument("N needs to be divisible by 2");
+  double dt = T/M;
   // matrix to store paths
   std::vector<std::vector<double>> paths(N);
   for(int i=0;i<N;++i){
@@ -42,24 +44,26 @@ std::vector<std::vector<double>> pathsfinder
   };
 
   // make a generator from  N(0,sqrt(T))
-  /* time_t cur_time; */
+  time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
-  std::normal_distribution<> norm{0,sqrt(T)};
+  std::normal_distribution<> norm{0,sqrt(dt)};
     
   // generate paths
-  for(int n=0;n<N;++n){
+  for(int n=0;n<N/2;++n){
     /* // for each path use different seed */
-    gen.seed(time(&cur_time)+n*rank);
+    gen.seed(time(&cur_time)+(rank+1)*(n+1));
 
     // init new path
     /* std::vector<double> path(M+1); */
     paths[n][0] = S0;
+    paths[n+N/2][0] = S0;
 
     // fill path
     for(int m=1;m<M+1;++m){
-      paths[n][m] = paths[n][m-1]+norm(gen);
-
+      double w = norm(gen);
+      paths[n][m] = paths[n][m-1]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
+      paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);;
     };
     // add path to paths vector.
     /* paths[n] = path; */
@@ -127,27 +131,33 @@ std::vector<std::vector<double>> inverse
 
 double mc_amer
  (
- int N,int M,double S0,double E,double r, double T,double sigma,
- time_t cur_time, int rank, int size
+ int N,int M,double S0,double E,double r, double T,double sigma
+ ,int rank,int size
  )
 {
   double dt = T/M;
-  double result = 0;
-  // calculate paths
-  std::vector<std::vector<double>> paths = pathsfinder(N,M,S0,cur_time,rank);
+  double result_p = 0;
+  double result;
+  
+  // calculate N/size paths in each process
+  std::vector<std::vector<double>> paths = pathsfinder(N/size,M,100,rank);
 
+  /* // allgather the paths, so that each process has all paths. */
+  /* for(int i=0;i<M+1;++i){ */
+  /*   std::vector<double> step;step.resize(N); */
+  /*   MPI_Allgather((paths[i]).data(),N/size,MPI_DOUBLE,step.data(),N/size,MPI_DOUBLE,MPI_COMM_WORLD); */
+  /*   paths[i] = step; */
+  /* }; */
 
-
-  /* Fix N if necessary */
-  double N_fixed = N;
-  if (N % size > 0){
-    N_fixed = N + (size - (N % size));
-  };
+  // calculate length of process responsibility
+  int n_start = rank*N/size;
+  int n_p = ((rank+1)*N/size)-(rank*N/size);
 
   // store each paths timestep value when option is exercised
-  std::vector<double> exercise_when(N,0);
+  std::vector<double> exercise_when(n_p,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
-  std::vector<double> exercise_st(N,0);
+  std::vector<double> exercise_st(n_p);
+  for(int n=0;n<n_p;++n) exercise_st.push_back(payoff(paths[M][n_start+n],E));
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -159,73 +169,109 @@ double mc_amer
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
   for(int m=M-1;m>0;--m){
-    std::vector<double> x(N,-1);
-    std::vector<double> y(N,-1);
-    double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
+    std::vector<double> x_p(N/size,-1);
+    std::vector<double> y_p(N/size,-1);
+    double sum_x; double sum_x2; double sum_x3; double sum_x4; double sum_y; double sum_yx; double sum_yx2;
+    double sum_x_p = 0; double sum_x2_p = 0; double sum_x3_p = 0; double sum_x4_p = 0; double sum_y_p = 0; double sum_yx_p = 0; double sum_yx2_p = 0;
 
-    for(int n=0;n<N;++n){
-      if(m==M-1){
-        // Calculate timestep M payoff values for each path.
-        // Store corresponding when and st values.
-        double payoff_val = payoff(paths[M][n],E);
-        if(payoff_val>0){
-          exercise_when[n] = M;
-          exercise_st[n] = payoff_val;
-        };
-      };
-
+    double x_length; double x_length_p=0;
+    for(int n=0;n<n_p;++n){
+      /* int n_global = n_start+n; */
+      /* double payoff_val = payoff(paths[m][n_global],E); */
       double payoff_val = payoff(paths[m][n],E);
       // keep only paths that are in the money
       if(payoff_val>0){
+        ++x_length_p;
         // stock price at time t_m
-        double tmp_x = paths[m][n];
+        double tmp_x = paths[m][n_start+n];
         /* x[n] = paths[m][n]; */
-        x[n] = tmp_x;
+        x_p[n] = tmp_x;
         // discounted cashflow at time t_{m+1}
-        double tmp_y = exp(-r*dt)*payoff(paths[m+1][n],E);
+        /* double tmp_y = exp(-r*dt)*payoff(paths[exercise_when[n]][n_global],E); */
+        double tmp_y = exp(-r*dt)*payoff(paths[exercise_when[n]][n],E);
         /* y[n] = exp(-r*dt)*payoff(paths[m+1][n],E); */
-        y[n] = tmp_y;
+        y_p[n] = tmp_y;
 
         // calc values for xTx and xTy.
-        sum_x   += tmp_x;
-        sum_x2  += tmp_x*tmp_x;
-        sum_x3  += tmp_x*tmp_x*tmp_x;
-        sum_x4  += tmp_x*tmp_x*tmp_x*tmp_x;
-        sum_y   += tmp_y;
-        sum_yx  += tmp_y*tmp_x;
-        sum_yx2 += tmp_y*tmp_x*tmp_x;
+        sum_x_p   += tmp_x;
+        sum_x2_p  += tmp_x*tmp_x;
+        sum_x3_p  += tmp_x*tmp_x*tmp_x;
+        sum_x4_p  += tmp_x*tmp_x*tmp_x*tmp_x;
+        sum_y_p   += tmp_y;
+        sum_yx_p  += tmp_y*tmp_x;
+        sum_yx2_p += tmp_y*tmp_x*tmp_x;
       };
     };
 
-    // delete those elements, that are not in the money.
-    remove(x.begin(),x.end(),-1);
-    remove(y.begin(),y.end(),-1);
+    std::vector<double> coef(3);
+    /* std::vector<double> x;x.resize(N); */
+    /* std::vector<double> y;y.resize(N); */
+    /* MPI_Allgather(x.data(),N/size,MPI_DOUBLE,x_p.data(),N/size,MPI_DOUBLE,MPI_COMM_WORLD); */
+    /* MPI_Allgather(y.data(),N/size,MPI_DOUBLE,y_p.data(),N/size,MPI_DOUBLE,MPI_COMM_WORLD); */
 
-    // compose xTx and xTy
-    xTx[0][0] = x.size(); xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
-    xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
-    xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
-    xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
+    // TODO: sync x, y, matrix sums,  x_length
 
-    // calc coefficients
-    std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
+    /* MPI_Allreduce(&sum_x_p,  &sum_x,  1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_x2_p, &sum_x2, 1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_x3_p, &sum_x3, 1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_x4_p, &sum_x4, 1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_y_p,  &sum_y,  1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_yx_p, &sum_yx, 1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+    /* MPI_Allreduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
 
-    for(int i=0;i<x.size();++i){
-      double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
-      // exercise value at t_m
-      double payoff_val = payoff(paths[m][i],E);
-      if (payoff_val > EYIX) {
-        exercise_when[i] = m;
-        exercise_st[i] = payoff_val;
+    /* MPI_Allreduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+
+    MPI_Reduce(&sum_x_p,  &sum_x,  1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x2_p, &sum_x2, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x3_p, &sum_x3, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x4_p, &sum_x4, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_y_p,  &sum_y,  1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_yx_p, &sum_yx, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+
+    MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+
+    if(rank==0){
+      // compose xTx and xTy
+      xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
+      xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
+      xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
+      xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
+
+      // calc coefficients
+      /* std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy); */
+      coef = mat_vec_mul(inverse(xTx),xTy);
+    };
+    MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
+
+    for(int n=0;n<n_p;++n){
+      if(x_p[n]!=-1){
+        /* int n_global = n_start + n; */
+        double EYIX = coef[0] + coef[1]*x_p[n] + coef[2]*pow(x_p[n],2);
+        // exercise value at t_m
+        /* double payoff_val = payoff(paths[m][n_global],E); */
+        double payoff_val = payoff(paths[m][n],E);
+        if (payoff_val > EYIX) {
+          exercise_when[n] = m;
+          exercise_st[n] = payoff_val;
+        };
       };
     };
   };
   
-  for(int n=0;n<N;++n){
-    if(exercise_st[n]!=0) result+=exp(-r*exercise_when[n])*exercise_st[n];
+/* TODO: parallelize and then reduce */
+  for(int n=0;n<n_p;++n){
+    if(exercise_st[n]!=0) result_p+=exp(-r*exercise_when[n])*exercise_st[n];
   };
+    /* std::cout <<result_p<< std::endl; */
 
-  return result/(double)N;
+/* TODO: vb teha result ainult p=0. */
+  MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+  if(rank==0){
+    return result/(double)N;
+  } else return 0;
+  /* MPI_Allreduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD); */
+  /* return result/(double)N; */
 }
 
 int main (int argc, char *argv[]){
@@ -283,6 +329,7 @@ int main (int argc, char *argv[]){
   auto start_overall = std::chrono::system_clock::now();
   int N = getArg(argv,1);
   int M = getArg(argv,2);
+  /* if((M+1)%2!=0) throw std::invalid_argument("M+1 needs to be divisible by 2"); */
 
   time_t cur_time;
   /* Init MPI */
@@ -296,29 +343,54 @@ int main (int argc, char *argv[]){
   int rank,size;
   MPI_Comm_size(MPI_COMM_WORLD,&size);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+  MPI_Status status;
 
-  /* /1* Normalize start time *1/ */
-  /* if (rank == 0){ */
-  /*   MPI_Bcast(&cur_time,1,MPI_INT,0,MPI_COMM_WORLD); */
+
+  /* auto start = std::chrono::system_clock::now(); */
+  /* // calculate N/size paths in each process */
+  /* std::vector<std::vector<double>> mat= pathsfinder(N/size,M,100,rank); */
+
+  /* // allgather the paths, so that each process has all paths. */
+  /* for(int i=0;i<M+1;++i){ */
+  /*   std::vector<double> step;step.resize(N); */
+  /*   MPI_Allgather((mat[i]).data(),N/size,MPI_DOUBLE,step.data(),N/size,MPI_DOUBLE,MPI_COMM_WORLD); */
+  /*   mat[i] = step; */
   /* }; */
 
+
+  /* auto end = std::chrono::system_clock::now(); */
+  /* std::chrono::duration<double> elapsed_seconds = end-start; */
+
+  /* if(rank==0)std::cout << elapsed_seconds.count() << std::endl; */
+
+  /* if(rank==0){ */
+  /*   auto start = std::chrono::system_clock::now(); */
+  /*   std::vector<std::vector<double>> mat= pathsfinder(N,M,100,rank); */
+  /*   auto end = std::chrono::system_clock::now(); */
+  /*   std::chrono::duration<double> elapsed_seconds = end-start; */
+  /*   std::cout << elapsed_seconds.count() << std::endl; */
+  /* }; */
+
+
+
   auto start = std::chrono::system_clock::now();
-  double inter_result =  mc_amer(N,M,S0,E,r,T,sigma,cur_time,rank,size);
-  double result;
-  MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  result = result/size;
+  double result = mc_amer(N,M,S0,E,r,T,sigma,rank,size);
   auto end = std::chrono::system_clock::now();
 
-  std::chrono::duration<double> elapsed_seconds = end-start;
-  std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
-  reporting(
-      "MPI",
-      elapsed_seconds_overall.count(),
-      elapsed_seconds.count(),
-      result,
-      analytical,
-      N,
-      M
-      );
+  if(rank==0){
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
+    reporting(
+        "MPI",
+        elapsed_seconds_overall.count(),
+        elapsed_seconds.count(),
+        result,
+        analytical,
+        N,
+        M,
+        size
+        );
+  };
+  MPI_Finalize();
   return EXIT_SUCCESS;
 }

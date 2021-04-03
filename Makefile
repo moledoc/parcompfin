@@ -55,9 +55,9 @@ mc_amer_bin: mc_amer_prep
 
 mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer 1000
-	./bin/mc_amer 1000 100
+	./bin/mc_amer 10000 1000
 	# ./bin/mc_amer_omp 25000 1000 4
-	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_mpi 10 10
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 10000 1000
 
 # mc_amer: init mc_amer_bin
 # 	./runscript_mc_amer.sh
