@@ -142,7 +142,7 @@ double mc_amer
   std::vector<double> exercise_when(N,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   std::vector<double> exercise_st(N);
-  for(int n=0;n<N;++n) exercise_st.push_back(payoff(paths[M][n],E));
+  for(int n=0;n<N;++n) exercise_st[n] = payoff(paths[M][n],E);
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -181,7 +181,7 @@ double mc_amer
         // discounted cashflow at time t_{m+1}
         /* double tmp_y = exp(-r*dt)*payoff(paths[m+1][n],E); */
         /* std::cout << "n: " << n << " m+1: " << m+1 << " when: " << exercise_when[n] << std::endl; */
-        double tmp_y = exp(-r*dt)*payoff(paths[exercise_when[n]][n],E);
+        double tmp_y = exp(-r*exercise_when[n])*payoff(paths[exercise_when[n]][n],E);
         /* y[n] = exp(-r*dt)*payoff(paths[m+1][n],E); */
         y[n] = tmp_y;
 

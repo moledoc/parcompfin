@@ -4,8 +4,9 @@ CXX=mpic++
 CXX_MPI=mpic++
 # Set default compiler parameters
 # -Wall 	shows all warnings when compiling, always use this!
-# -std=c++11 	enables the C++11 standard mode
-CXXFLAGS = -Wall -std=c++11 -Iinclude
+# -std=c++11 	enables the C++17 standard mode
+# CXXFLAGS = -Wall -std=c++17 -Iinclude
+CXXFLAGS = -Wall -std=c++17 -Iinclude -Ofast
 
 ########################################################################################################################
 
