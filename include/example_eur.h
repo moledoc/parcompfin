@@ -16,12 +16,12 @@
 #include <reporting.h>
 
 double S0 = 100;
-double E = 40;
-/* double E =95; */
+/* double E = 40; */
+double E = 95;
 double r = 0.05;
 double sigma = 0.75;
 double T = 0.5;
-double analytical = 61.47789; 
+double analytical = 24.01963; // E=40 -> 61.47789; 
 
 double payoff(double ST,double E){
   /* european call */

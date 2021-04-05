@@ -175,24 +175,29 @@ double mc_amer
       if(payoff_val>0){
         ++x_length;
         // stock price at time t_m
-        double tmp_x = paths[m][n];
+
+        double exer = paths[m][n];
+
         /* x[n] = paths[m][n]; */
-        x[n] = tmp_x;
+        x[n] = exer;
         // discounted cashflow at time t_{m+1}
-        /* double tmp_y = exp(-r*dt)*payoff(paths[m+1][n],E); */
+        /* double cont = exp(-r*dt)*payoff(paths[m+1][n],E); */
         /* std::cout << "n: " << n << " m+1: " << m+1 << " when: " << exercise_when[n] << std::endl; */
-        double tmp_y = exp(-r*exercise_when[n])*payoff(paths[exercise_when[n]][n],E);
+
+        /* double cont = exp(-r*dt)*payoff(paths[exercise_when[n]][n],E); */
+        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E);
+
         /* y[n] = exp(-r*dt)*payoff(paths[m+1][n],E); */
-        y[n] = tmp_y;
+        y[n] = cont;
 
         // calc values for xTx and xTy.
-        sum_x   += tmp_x;
-        sum_x2  += tmp_x*tmp_x;
-        sum_x3  += tmp_x*tmp_x*tmp_x;
-        sum_x4  += tmp_x*tmp_x*tmp_x*tmp_x;
-        sum_y   += tmp_y;
-        sum_yx  += tmp_y*tmp_x;
-        sum_yx2 += tmp_y*tmp_x*tmp_x;
+        sum_x   += exer;
+        sum_x2  += exer*exer;
+        sum_x3  += exer*exer*exer;
+        sum_x4  += exer*exer*exer*exer;
+        sum_y   += cont;
+        sum_yx  += cont*exer;
+        sum_yx2 += cont*exer*exer;
       };
     };
     
@@ -286,11 +291,11 @@ double mc_amer
   /* }; */
 
   for(int n=0;n<N;++n){
-    if(exercise_when[n]!=0) result+=exp(-r*exercise_when[n])*exercise_st[n];
+    if(exercise_st[n]!=0) result+=exp(-r*exercise_when[n]*dt)*exercise_st[n];
     /* if(exercise_when[n]!=0) result+=exp(-r*dt)*exercise_st[n]; */
   };
 
-  return result/(double)N;
+  return std::max(payoff(S0,E),result/(double)N);
 }
 
 int main (int argc, char *argv[]){

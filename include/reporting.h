@@ -30,7 +30,8 @@ void reporting
     << time_overall << "," \
     << time << "," \
     << result << "," \
-    << abs(result-analytical) << "," \ 
+    /* << abs(result-analytical) << "," \ */ 
+    << result-analytical << "," \ 
     << N << "," \ 
     << M << "," \ 
     << parallel \
