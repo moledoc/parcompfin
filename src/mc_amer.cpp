@@ -92,7 +92,8 @@ std::vector<double> mat_vec_mul
   /* std::vector<std::vector<double>> yT = transpose(y); */
   for(int i=0;i<x.size();++i){
     for(int j=0;j<y.size();++j){
-        mat[i]+=x[j][i]*y[j]; // yT*xT
+        mat[i]+=x[i][j]*y[j]; // yT*xT
+        /* mat[i]+=x[j][i]*y[j]; // yT*xT */
       };
       /* mat[k][i]=tmp; */
     /* }; */
