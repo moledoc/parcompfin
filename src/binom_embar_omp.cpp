@@ -7,7 +7,7 @@ double binom
   double T, int N, double E
 )
 {
-  double result;
+  double result=0;
 #pragma omp parallel
   {
   double dt = (double)T/(double)N;
@@ -25,7 +25,7 @@ double binom
     tmp = comb(N,i);
     result += tmp * pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E);
     result += tmp * pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E);
-  if(i==0&&N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E);
+  if(i==0 && N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E);
   };
   }
   return exp(-r*T)*result;

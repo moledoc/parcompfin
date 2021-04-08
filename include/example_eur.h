@@ -21,12 +21,22 @@ double E = 95;
 double r = 0.02;
 double sigma = 0.75;
 double T = 1;
-double analytical = 24.01963; // E=40 -> 61.47789; 
+double analytical = 31.79022; //r = 0.05, T=0.5; 24.01963; // E=40 -> 61.47789; 
 
-double payoff(double ST,double E){
+double payoff_call(double ST,double E){
   /* european call */
   if(ST-E < 0) return 0;
   else return ST-E;
+}
+
+double payoff_put(double ST,double E){
+  /* european put */
+  if(E-ST < 0) return 0;
+  else return E-ST;
+}
+
+double payoff(double ST,double E){
+  return(payoff_call(ST,E));
 }
 
 double comb(int N,int i){

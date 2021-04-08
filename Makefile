@@ -69,26 +69,18 @@ mc_amer_tst: mc_amer_bin
 ########################################################################################################################
 
 binom_prep: include/example_eur.h include/reporting.h
-	# $(CXX) $(CXXFLAGS) -c src/binom_vanilla.cpp -o obj/binom_vanilla.o
-	# $(CXX) $(CXXFLAGS) -c src/binom_vanilla_omp.cpp -o obj/binom_vanilla_omp.o -fopenmp
-	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_vanilla_mpi.cpp -o obj/binom_vanilla_mpi.o
 	$(CXX) $(CXXFLAGS) -c src/binom_embar.cpp -o obj/binom_embar.o
 	$(CXX) $(CXXFLAGS) -c src/binom_embar_omp.cpp -o obj/binom_embar_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_mpi.cpp -o obj/binom_embar_mpi.o
-	$(CXX) $(CXXFLAGS) -c src/binom_embar_hybrid.cpp -o obj/binom_embar_hybrid.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_hybrid.cpp -o obj/binom_embar_hybrid.o -fopenmp
 
 binom_bin: binom_prep
-	# $(CXX) $(CXXFLAGS) obj/binom_vanilla.o -o bin/binom_vanilla 
-	# $(CXX) $(CXXFLAGS) obj/binom_vanilla_omp.o -o bin/binom_vanilla_omp -fopenmp
-	# $(CXX_MPI) $(CXXFLAGS) obj/binom_vanilla_mpi.o -o bin/binom_vanilla_mpi
 	$(CXX) $(CXXFLAGS) obj/binom_embar.o -o bin/binom_embar 
 	$(CXX) $(CXXFLAGS) obj/binom_embar_omp.o -o bin/binom_embar_omp -fopenmp 
 	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_mpi.o -o bin/binom_embar_mpi
-	$(CXX) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
+	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
 
 binom_tst: binom_bin
-	# ./bin/binom_vanilla 1000
-	# ./bin/binom_vanilla_omp 1000 2
 	./bin/binom_embar 1000
 	./bin/binom_embar_omp 1000 2
 	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi 1000

@@ -42,7 +42,7 @@ double binom
   };
 
   ni1 = std::min(ni1,until);
-#pragma omp for schedule(dynamic,100) nowait //reduction(+:V0)
+#pragma omp for schedule(dynamic,1000) nowait reduction(+:V0)
   for(int i=ni;i<ni1;++i){
     double tmp = comb(N,i);
     V0+=tmp*pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E);
