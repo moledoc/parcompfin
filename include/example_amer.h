@@ -19,10 +19,10 @@ double S0 = 100;
 /* double E = 40; */
 /* double E = 90; */
 double E = 95;
-double r = 0.05;
+double r = 0.02;
 double sigma = 0.75;
-double T = 0.5;
-double analytical = 24.02434334;// TODO: //61.47789; 
+double T = 1;
+double analytical = 31.78719471;// TODO: //61.47789; 
 
 double payoff_call(double St,double E){
   /* american call */
