@@ -81,7 +81,7 @@ std::vector<double> mat_vec_mul
   std::vector<double> mat(x.size());
   for(int i=0;i<x.size();++i){
     for(int j=0;j<y.size();++j){
-        mat[i]+=x[j][i]*y[j]; // yT*xT
+        mat[i]+=x[i][j]*y[j]; // yT*xT
       };
   };
   return mat;
@@ -193,11 +193,12 @@ double mc_amer
       xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
       xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
 
-      std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
+      coef = mat_vec_mul(inverse(xTx),xTy);
     };
 
 
     MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
+  
     for(int i=0;i<n_p;++i){
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
