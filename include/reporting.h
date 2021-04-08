@@ -12,6 +12,13 @@ int getArg(char *argv[],int idx){
   return argi;
 }
 
+double getArgD(char *argv[],int idx){
+  std::size_t pos;
+  std::string arg = argv[idx];
+  int argd = std::stod(arg,&pos);
+  return argd;
+}
+
 void reporting
 (
     std::string method,

@@ -1,10 +1,16 @@
 
-#include <example_eur.h>
+#include <common.h>
+#include <comparison.h>
 
 double binom 
 (
-  double r, double sigma, double S0,
-  double T, int N, double E
+ double S0
+ ,double E
+ ,double r
+ ,double sigma
+ ,double T
+ ,int N
+ ,std::string payoff_fun
 )
 {
   double result=0;
@@ -23,9 +29,9 @@ double binom
 #pragma omp for schedule(dynamic,1000) nowait reduction(+:result)
   for(int i=0;i<until;++i){
     tmp = comb(N,i);
-    result += tmp * pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E);
-    result += tmp * pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E);
-  if(i==0 && N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E);
+    result += tmp * pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
+    result += tmp * pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
+  if(i==0 && N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
   };
   }
   return exp(-r*T)*result;
@@ -34,25 +40,37 @@ double binom
 
 int main (int argc, char *argv[]){
   auto start_overall = std::chrono::system_clock::now();
-  int N = getArg(argv,1);
-  int threads = getArg(argv,2);
+  std::string payoff_fun =  argv[1];
+  double S0 =               getArgD(argv,2);
+  double E =                getArgD(argv,3);
+  double r =                getArgD(argv,4);
+  double sigma =            getArgD(argv,5);
+  double T =                getArgD(argv,6);
+  int N =                   getArg(argv,7);
+  int threads =             getArg(argv,8);
   omp_set_num_threads(threads);
   /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 
   auto start = std::chrono::system_clock::now();
-  double result = binom(r,sigma,S0,T,N,E);
+  double result = binom(S0,E,r,sigma,T,N,payoff_fun);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
-      "OMP",
-      elapsed_seconds_overall.count(),
-      elapsed_seconds.count(),
-      result,
-      analytical,
-      N,
-      threads
+      "OMP"
+      ,payoff_fun
+      ,S0
+      ,E
+      ,r
+      ,sigma
+      ,T
+      ,elapsed_seconds_overall.count()
+      ,elapsed_seconds.count()
+      ,result
+      ,comparison
+      ,N
+      ,threads
       );
   return EXIT_SUCCESS;
 }
