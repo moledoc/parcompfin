@@ -129,28 +129,16 @@ double mc_amer
 {
   double dt = T/M;
   double result = 0;
-std::vector<std::vector<double>> paths;
-#pragma omp parallel
-{
-#pragma omp sections nowait
-  {
   // calculate paths
-#pragma omp section
-  paths = pathsfinder(N,M,S0);
-  }
-}
+std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   std::vector<double> exercise_st(N);
 
-#pragma omp parallel for
   for(int n=0;n<N;++n) exercise_st[n] = payoff(paths[M][n],E);
-
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
-  /* std::vector<std::vector<double>> xTy(1); */
-  /* xTy[0].resize(3); */
   std::vector<double> xTy(3);
 
   // Find timesteps at each path when the option is exercised.
@@ -194,10 +182,7 @@ std::vector<std::vector<double>> paths;
     xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
     xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
 
-/* #pragma omp parallel */
-/*     { */
     std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
-/* #pragma omp for schedule(dynamic,1000) nowait */ 
     for(int i=0;i<N;++i){
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
@@ -210,7 +195,6 @@ std::vector<std::vector<double>> paths;
       };
     };
   };
-  /* } */
 
 #pragma omp parallel
   {
@@ -231,46 +215,8 @@ int main (int argc, char *argv[]){
   int threads = getArg(argv,3);
   omp_set_num_threads(threads);
 
-  
-
-  /* matprinter(pathsfinder(10,10,100)); */
-  /* std::vector<std::vector<double>> mat;//= pathsfinder(10,10,100); */
-  /* int k=1; */
-  /* for(int i=0;i<3;++i){ */
-  /*   std::vector<double> tmp; */
-  /*   for(int j=0;j<3;++j){ */
-  /*     if(k==5) tmp.push_back(0); */
-  /*     /1* else if(k==8) tmp.push_back(0); *1/ */
-  /*     else tmp.push_back(k); */
-  /*     ++k; */
-  /*   }; */
-  /*   mat.push_back(tmp); */
-  /* }; */
-
-  /* matprinter(mat); */
-  /* std::cout << "==============================" << std::endl; */
-  /* /1* matprinter(transpose(mat)); *1/ */
-  /* vecprinter(transpose(mat)[0]); */
-  /* std::cout << "==============================" << std::endl; */
-
-  /* /1* std::vector<std::vector<double>> tst; *1/ */
-  /* /1* std::vector<double> tst2 = mat_vec_mul(mat,transpose(mat)[0]); *1/ */
-  /* /1* tst.push_back(tst2); *1/ */
-  /* /1* matprinter(tst); *1/ */
-  /* vecprinter(mat_vec_mul(mat,transpose(mat)[0])); */
-  /* std::cout << "==============================" << std::endl; */
-
-
   auto start = std::chrono::system_clock::now();
-  double result;
-#pragma omp parallel
-  {
-#pragma omp sections
-  {
-#pragma omp section
-  result = mc_amer(N,M,S0,E,r,T,sigma);
-  }
-  }
+  double result = mc_amer(N,M,S0,E,r,T,sigma);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
