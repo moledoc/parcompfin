@@ -1,25 +1,47 @@
 
-#include <example_eur.h>
+#include <common.h>
+#include <comparison.h>
 
-double mc_eur(
-    int N,double S0,double E,double r, double T,double sigma,
-    time_t cur_time, int rank=0
-    ){
-    std::random_device rd{};
-    std::mt19937 gen{rd()};
-    gen.seed(time(&cur_time)+rank);
-    std::normal_distribution<> norm{0,sqrt(T)};
+double mc_eur
+(
+  double S0
+  ,double E
+  ,double r
+  ,double sigma
+  ,double T
+  ,int N
+  ,std::string payoff_fun
+  ,time_t cur_time
+  ,int size
+  ,int rank
+)
+{
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  gen.seed(time(&cur_time)*(rank+1));
+  std::normal_distribution<> norm{0,sqrt(T)};
 
-    double result=0;
-    for(int n=0;n<N;++n){
-      result += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E);
-    };
-    return (exp(-r*T)*result)/(double)N;
+  double result;
+  double result_inter=0;
+
+  for(int n=0;n<N;++n){
+    result_inter += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E,payoff_fun);
+  };
+
+  MPI_Reduce(&result_inter,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+  if(rank==0) return (exp(-r*T)*result)/(double)N/(double)size;
+  else return 0;
 }
 
 int main (int argc, char *argv[]){
   auto start_overall = std::chrono::system_clock::now();
-  int N = getArg(argv,1);
+  std::string payoff_fun =  argv[1];
+  double S0 =               getArgD(argv,2);
+  double E =                getArgD(argv,3);
+  double r =                getArgD(argv,4);
+  double sigma =            getArgD(argv,5);
+  double T =                getArgD(argv,6);
+  int N =                   getArg(argv,7);
   time_t cur_time;
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
@@ -33,11 +55,6 @@ int main (int argc, char *argv[]){
   MPI_Comm_size(MPI_COMM_WORLD,&size);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  /* /1* Normalize start time *1/ */
-  /* if (rank == 0){ */
-  /*   MPI_Bcast(&cur_time,1,MPI_INT,0,MPI_COMM_WORLD); */
-  /* }; */
-
   /* Fix N if necessary */
   double N_fixed = N;
   if (N % size > 0){
@@ -45,22 +62,29 @@ int main (int argc, char *argv[]){
   };
 
   auto start = std::chrono::system_clock::now();
-  double inter_result = mc_eur(N_fixed/size,S0,E,r,T,sigma,cur_time,rank);
-  double result;
-  MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  result = result/size;
+  double result = mc_eur(S0,E,r,sigma,T,N_fixed/size,payoff_fun,cur_time,size,rank);
+  /* double inter_result = mc_eur(N_fixed/size,S0,E,r,T,sigma,cur_time,rank); */
+  /* double result; */
+  /* MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
+  /* result = result/size; */
   auto end = std::chrono::system_clock::now();
   if (rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
     reporting(
-        "MPI",
-        elapsed_seconds_overall.count(),
-        elapsed_seconds.count(),
-        result,
-        analytical,
-        N,
-        size
+        "MPI"
+        ,payoff_fun
+        ,S0
+        ,E
+        ,r
+        ,sigma
+        ,T
+        ,elapsed_seconds_overall.count()
+        ,elapsed_seconds.count()
+        ,result
+        ,comparison
+        ,N
+        ,size
         );
   };
   MPI_Finalize();

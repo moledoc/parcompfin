@@ -1,15 +1,16 @@
 #!/bin/sh
 
-echo "#pragma once
-double comparison = 0;" > include/comparison.h
+results=results/results_binom_embar.csv
 
 S0=100
 r=0.02
 sigma=0.75
 T=1
 
+echo "#pragma once
+double comparison = 0;" > include/comparison.h
+
 echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,Error" > ${results}
-results=results/results_binom_embar.csv
 
 # payoff_fun="call"
 # E=40
