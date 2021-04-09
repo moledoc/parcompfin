@@ -1,16 +1,16 @@
 
-#include <example_amer.h>
+#include <common.h>
+#include <comparison.h>
 
-void matprinter(std::vector<std::vector<double>> mat)
-{
-  for(int i = 0;i<mat.size();++i){
-    for(int j = 0;j<mat[i].size();++j){
-      std::cout<<mat[i][j] << " " ;
-    };
-    std::cout<<std::endl;
-  };
-}
-
+/* void matprinter(std::vector<std::vector<double>> mat) */
+/* { */
+/*   for(int i = 0;i<mat.size();++i){ */
+/*     for(int j = 0;j<mat[i].size();++j){ */
+/*       std::cout<<mat[i][j] << " " ; */
+/*     }; */
+/*     std::cout<<std::endl; */
+/*   }; */
+/* } */
 
 std::vector<std::vector<double>> transpose
 (
@@ -35,7 +35,13 @@ std::vector<std::vector<double>> transpose
 
 std::vector<std::vector<double>> pathsfinder
 (
- int N,int M,double S0
+ double S0
+ ,double E
+ ,double r
+ ,double sigma
+ ,double T
+ ,int N
+ ,int M
  ,int rank
 )
 {
@@ -52,8 +58,6 @@ std::vector<std::vector<double>> pathsfinder
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
 
-  /* gen.seed(time(&cur_time)); */
-    
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
@@ -68,24 +72,22 @@ std::vector<std::vector<double>> pathsfinder
       double w = norm(gen);
       paths[n][m] = paths[n][m-1]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
       paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-
     };
   };
-
   return transpose(paths);
 
 }
 
 std::vector<double> mat_vec_mul
 (
-  std::vector<std::vector<double>> x,
-  std::vector<double> y
+  std::vector<std::vector<double>> x
+  ,std::vector<double> y
 )
 {
   std::vector<double> mat(x.size());
   for(int i=0;i<x.size();++i){
     for(int j=0;j<y.size();++j){
-        mat[i]+=x[i][j]*y[j]; // yT*xT
+        mat[i]+=x[i][j]*y[j]; 
       };
   };
   return mat;
@@ -120,8 +122,16 @@ std::vector<std::vector<double>> inverse
 
 double mc_amer
  (
- int N,int M,double S0,double E,double r, double T,double sigma
- ,int rank,int size
+  double S0
+  ,double E
+  ,double r
+  ,double sigma
+  ,double T
+  ,int N
+  ,int M
+  ,std::string payoff_fun
+  ,int size
+  ,int rank
  )
 {
   double dt = T/M;
@@ -134,20 +144,18 @@ double mc_amer
 #pragma omp sections
     {
 #pragma omp section
-  paths = pathsfinder(N/size,M,S0,rank);
+  paths = pathsfinder(S0,E,r,sigma,T,N/size,M,rank);
     }
   }
 
-  // calculate length of process responsibility
-  /* int n_start = rank*N/size; */
-  /* int n_p = ((rank+1)*N/size)-(rank*N/size); */
+  // calculate the number of paths process is responsible for
   int n_p = N/size;
 
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(n_p,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   std::vector<double> exercise_st(n_p);
-  for(int n=0;n<n_p;++n) exercise_st[n] = payoff(paths[M][n],E);
+  for(int n=0;n<n_p;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -168,14 +176,14 @@ double mc_amer
 /*   { */
 /* #pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x_p,sum_x2_p,sum_x3_p,sum_x4_p,sum_y_p,sum_yx_p,sum_yx2_p,x_length_p) */
     for(int n=0;n<n_p;++n){
-      double payoff_val = payoff(paths[m][n],E);
+      double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
         ++x_length_p;
         // stock price at time t_m
         double exer = paths[m][n];
         x[n] = exer;
-        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E);
+        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
         y[n] = cont;
 
         // calc values for xTx and xTy.
@@ -219,7 +227,7 @@ double mc_amer
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
         // exercise value at t_m
-        double payoff_val = payoff(x[i],E);
+        double payoff_val = payoff(x[i],E,payoff_fun);
         if (payoff_val > EYIX) {
           exercise_when[i] = m;
           exercise_st[i] = payoff_val;
@@ -233,20 +241,25 @@ double mc_amer
 #pragma omp for schedule(dynamic,100) nowait reduction(+:result_p)
   for(int n=0;n<n_p;++n){
     if(exercise_st[n]!=0) result_p+=exp(-r*exercise_when[n]*dt)*exercise_st[n];
-    /* if(exercise_when[n]!=0) result+=exp(-r*dt)*exercise_st[n]; */
   };
   }
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return std::max(payoff(S0,E),result/(double)N);
+  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N);
   else return 0;
 }
 
 int main (int argc, char *argv[]){
   auto start_overall = std::chrono::system_clock::now();
-  int N = getArg(argv,1);
-  int M = getArg(argv,2);
-  int threads = getArg(argv,3);
+  std::string payoff_fun =  argv[1];
+  double S0 =               getArgD(argv,2);
+  double E =                getArgD(argv,3);
+  double r =                getArgD(argv,4);
+  double sigma =            getArgD(argv,5);
+  double T =                getArgD(argv,6);
+  int N =                   getArg(argv,7);
+  int M =                   getArg(argv,8);
+  int threads =             getArg(argv,9);
   omp_set_num_threads(threads);
 
   /* Init MPI */
@@ -262,21 +275,27 @@ int main (int argc, char *argv[]){
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(N,M,S0,E,r,T,sigma,rank,size);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun,size,rank);
   auto end = std::chrono::system_clock::now();
 
   if (rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
     reporting(
-        "Hybrid",
-        elapsed_seconds_overall.count(),
-        elapsed_seconds.count(),
-        result,
-        analytical,
-        N,
-        M,
-        size*1000+threads
+        "Hybrid"
+        ,payoff_fun
+        ,S0
+        ,E
+        ,r
+        ,sigma
+        ,T
+        ,elapsed_seconds_overall.count()
+        ,elapsed_seconds.count()
+        ,result
+        ,comparison
+        ,N
+        ,size*1000+threads
+        ,M
         );
   };
   MPI_Finalize();

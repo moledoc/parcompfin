@@ -20,7 +20,7 @@ double binom
   double p = (R-d)/(u-d);
   double q = 1-p;
 
-  std::vector<double> v_ij;//(N+1,0);
+  std::vector<double> v_ij;
 
   for(int i=0;i<N;++i)
     v_ij.push_back(payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun));

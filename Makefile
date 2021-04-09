@@ -48,7 +48,7 @@ binom: init binom_bin
 ########################################################################################################################
 
 mc_eur_prep: include/example_eur.h include/reporting.h
-	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_eur.cpp -o obj/binom_vanilla_eur.o
+	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_eur.cpp -o obj/binom_vanilla_eur.o #test eur option value with binom vanilla eur
 	$(CXX) $(CXXFLAGS) -c src/mc_eur.cpp -o obj/mc_eur.o
 	$(CXX) $(CXXFLAGS) -c src/mc_eur_omp.cpp -o obj/mc_eur_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/mc_eur_mpi.cpp -o obj/mc_eur_mpi.o
@@ -88,11 +88,11 @@ mc_amer_bin: mc_amer_prep
 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
 
 mc_amer_tst: mc_amer_bin
-	./bin/binom_vanilla_amer 1000
-	./bin/mc_amer 10000 10000
-	./bin/mc_amer_omp 10000 10000 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi 10000 10000
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid 10000 10000 4
+	./bin/binom_vanilla_amer call 100 95 0.02 0.75 1 1000
+	./bin/mc_amer call 100 95 0.02 0.75 1 10000 1000
+	./bin/mc_amer_omp call 100 95 0.02 0.75 1 10000 1000 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 95 0.02 0.75 1 10000 1000
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 95 0.02 0.75 1 10000 1000 4
 
 mc_amer: init mc_amer_bin
 	dash runscript_mc_amer.sh

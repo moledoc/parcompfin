@@ -34,7 +34,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
           mpirun -n $p --hostfile hostfile ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N}000000 $thread >> ${results}
         done
       done
-      echo "MC eur ${payoff_fun} w/ ${E} DONE -- $N"
+      echo "MC eur ${payoff_fun} w/ ${E}: DONE -- $N"
     done
   done
 done

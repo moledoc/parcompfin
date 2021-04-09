@@ -1,23 +1,24 @@
 
-#include <example_amer.h>
+#include <common.h>
+#include <comparison.h>
 
-void vecprinter(std::vector<double> vec)
-{
-  for(int i = 0;i<vec.size();++i){
-    std::cout<<vec[i]<< " " ;
-  };
-  std::cout<<std::endl;
-}
+/* void vecprinter(std::vector<double> vec) */
+/* { */
+/*   for(int i = 0;i<vec.size();++i){ */
+/*     std::cout<<vec[i]<< " " ; */
+/*   }; */
+/*   std::cout<<std::endl; */
+/* } */
 
-void matprinter(std::vector<std::vector<double>> mat)
-{
-  for(int i = 0;i<mat.size();++i){
-    for(int j = 0;j<mat[i].size();++j){
-      std::cout<<mat[i][j] << " " ;
-    };
-    std::cout<<std::endl;
-  };
-}
+/* void matprinter(std::vector<std::vector<double>> mat) */
+/* { */
+/*   for(int i = 0;i<mat.size();++i){ */
+/*     for(int j = 0;j<mat[i].size();++j){ */
+/*       std::cout<<mat[i][j] << " " ; */
+/*     }; */
+/*     std::cout<<std::endl; */
+/*   }; */
+/* } */
 
 
 std::vector<std::vector<double>> transpose
@@ -43,7 +44,13 @@ std::vector<std::vector<double>> transpose
 
 std::vector<std::vector<double>> pathsfinder
 (
- int N,int M,double S0
+ double S0
+ ,double E
+ ,double r
+ ,double sigma
+ ,double T
+ ,int N
+ ,int M
 )
 {
   double dt = T/M;
@@ -75,15 +82,13 @@ std::vector<std::vector<double>> pathsfinder
       paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
     };
   };
-
   return transpose(paths);
-
 }
 
 std::vector<double> mat_vec_mul
 (
-  std::vector<std::vector<double>> x,
-  std::vector<double> y
+  std::vector<std::vector<double>> x
+  ,std::vector<double> y
 )
 {
   std::vector<double> mat(x.size());
@@ -124,19 +129,26 @@ std::vector<std::vector<double>> inverse
 
 double mc_amer
  (
- int N,int M,double S0,double E,double r, double T,double sigma
+  double S0
+  ,double E
+  ,double r
+  ,double sigma
+  ,double T
+  ,int N
+  ,int M
+  ,std::string payoff_fun
  )
 {
   double dt = T/M;
   double result = 0;
   // calculate paths
-std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
+std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M);
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   std::vector<double> exercise_st(N);
 
-  for(int n=0;n<N;++n) exercise_st[n] = payoff(paths[M][n],E);
+  for(int n=0;n<N;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
   std::vector<double> xTy(3);
@@ -153,7 +165,7 @@ std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
   {
 #pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x,sum_x2,sum_x3,sum_x4,sum_y,sum_yx,sum_yx2,x_length)
     for(int n=0;n<N;++n){
-      double payoff_val = payoff(paths[m][n],E);
+      double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
         ++x_length;
@@ -161,7 +173,7 @@ std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
         double exer = paths[m][n];
         x[n] = exer;
         // discounted cashflow at time t_{m+1}
-        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E);
+        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
         y[n] = cont;
 
         // calc values for xTx and xTy.
@@ -187,7 +199,7 @@ std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
         // exercise value at t_m
-        double payoff_val = payoff(x[i],E);
+        double payoff_val = payoff(x[i],E,payoff_fun);
         if (payoff_val > EYIX) {
           exercise_when[i] = m;
           exercise_st[i] = payoff_val;
@@ -204,32 +216,44 @@ std::vector<std::vector<double>> paths = pathsfinder(N,M,S0);
   };
   }  
 
-  return std::max(payoff(S0,E),result/(double)N);
+  return std::max(payoff(S0,E,payoff_fun),result/(double)N);
 }
 
 int main (int argc, char *argv[]){
 
   auto start_overall = std::chrono::system_clock::now();
-  int N = getArg(argv,1);
-  int M = getArg(argv,2);
-  int threads = getArg(argv,3);
+  std::string payoff_fun =  argv[1];
+  double S0 =               getArgD(argv,2);
+  double E =                getArgD(argv,3);
+  double r =                getArgD(argv,4);
+  double sigma =            getArgD(argv,5);
+  double T =                getArgD(argv,6);
+  int N =                   getArg(argv,7);
+  int M =                   getArg(argv,8);
+  int threads =             getArg(argv,9);
   omp_set_num_threads(threads);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(N,M,S0,E,r,T,sigma);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
-      "OMP",
-      elapsed_seconds_overall.count(),
-      elapsed_seconds.count(),
-      result,
-      analytical,
-      N,
-      M,
-      threads
+      "OMP"
+      ,payoff_fun
+      ,S0
+      ,E
+      ,r
+      ,sigma
+      ,T
+      ,elapsed_seconds_overall.count()
+      ,elapsed_seconds.count()
+      ,result
+      ,comparison
+      ,N
+      ,threads
+      ,M
       );
   return EXIT_SUCCESS;
 }
