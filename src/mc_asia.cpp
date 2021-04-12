@@ -29,52 +29,26 @@ double mc_asia
   std::mt19937 gen2{rd2()};
   gen.seed(time(&cur_time2));
   std::normal_distribution<> norm{0,sqrt(dt)};
-  /* std::vector<double> init(N,S0); */
-  /* std::vector<std::vector<double>> Si(M); */
-  /* for(int i=0;i<M;++i) Si[i] = init; */
-  std::vector<double> norms(M);
-  std::vector<double> Si(M);
+
   double result=0;  
 
   for (int n=0;n<N;++n){
-    Si[0] = S0;
-    /* double prev=norm(gen2); */
-    /* double next=norm(gen2); */
     double St = S0;
     double I = 0;
-    /* double I = S0*(1+r*dt/2+sigma*norm(gen2)/2); */
+
     for (int m=0;m<M;++m){
       double x = (double)unif(gen)/(double)unif_prec;
       double y = (double)unif(gen)/(double)unif_prec;
       double v = sqrt(-2*log(x))*sin(2*M_PI*y);
-      /* if (std::isinf(v)) std::cout << x << ", " << y << std::endl; */
-      /* if (v==0) std::cout << v << std::endl; */
-      /* norms[m+1] = norm(gen2); */
-      /* if (std::isinf(norms[m+1])) std::cout << norms[m+1] << std::endl; */
-
-      /* Si[m+1] = Si[m]*exp((r-pow(sigma,2)/2)*dt+sigma*v); */
-      /* I += Si[m]*(1+r*dt/2+sigma*(norms[m+1]-norms[m])/2); */
 
       I += St*(1+r*dt/2+sigma*norm(gen2)/2);
       St *= exp((r-pow(sigma,2)/2)*dt+sigma*v);
 
-      /* I += St*(1+r*dt/2+sigma*(norms[m+1]-norms[m])/2); */
-      /* I += St*(1+r*dt/2+sigma*norm(gen2)/2); */
-
     };
-     /* std::cout << I << std::endl; */
-
-    /* I *= 1.0/(double)M; */
-
-    /* I *= (dt/(double)T); */
-     /* std::cout << I << std::endl; */
-    /* result += payoff(I,E,payoff_fun); */
-    /* I += (1/M)*St*(1+r*dt/2+sigma*(norms[M]-norms[M-1])/2); */
     result += payoff(I/(double)M,E,payoff_fun);
   };
-  /* result *= exp(-r*T)/N; */
 
-  return (exp(-r*T)*result)/(double)N;//(double)M;
+  return (exp(-r*T)*result)/(double)N;
 }
 
 int main (int argc, char *argv[]){
