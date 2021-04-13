@@ -1,0 +1,163 @@
+---
+title: "Esialgsed tulemused"
+output: html_document
+---
+
+```{r setup, include=FALSE,echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(DT)
+library(data.table)
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r prep_data,echo=F,warning=F}
+prep_data <- function(what){
+	data <- read.csv(paste0("C:/Users/Meelis/Documents/parcompfin/results/results_",what,".csv"),stringsAsFactors = F) %>% data.table()
+	# prepare data table
+	serial <- data[Method == "Serial",.(N,M,T_overall_ser=T_overall,T_calculation_ser=T_calculation),by = list(Payoff,E)]
+	# each_rows <- nrow(data)/(data %>%distinct(N) %>% nrow)
+	setkey(serial,N,M,Payoff,E)
+	setkey(data,N,M,Payoff,E)
+	data = data[serial]
+	# data$T_calculation_ser <- data[Parallel==0,T_calculation] %>% rep(each=each_rows)
+	# data$T_overall_ser <- data[Parallel==0,T_overall] %>% rep(each=each_rows)
+	
+	## calculate statistics
+	data[,RSpeedup_overall:=T_overall_ser/T_overall]
+	data[,RSpeedup_calculation:=T_calculation_ser/T_calculation]
+	data[Parallel!=0,Efficiency_overall:=RSpeedup_overall/Parallel]
+	data[Parallel!=0,Efficiency_calculation:=RSpeedup_calculation/Parallel]
+	data <- dplyr::left_join(data,data %>% distinct(Method,Parallel) %>% mutate(Strong_scaling = 1:n()),by=c("Method","Parallel"))
+	
+	data[
+		,N:=as.factor(N)
+		][
+			,Parallel := as.character(Parallel)
+			][
+				Parallel=="0",Parallel:="1"
+				][
+					Method=="Hybrid",Parallel:=paste0(as.integer(as.integer(Parallel)/1000),",",as.integer(Parallel)%%1000)
+					][
+						,Parallel:=as.factor(Parallel)
+						][
+							Method == "Serial",Method:="Jadamisi"
+						][
+							Method == "Hybrid",Method:="Hübriidne"
+						][
+							,Method :=factor(Method, levels=Method, labels=Method)
+						]
+	
+	# data[Method == "MPI",MPI:=Parallel]
+	# data[Method == "OMP",OMP:=Parallel]
+	# data[Method == "Hybrid",list(MPI= as.integer(Parallel/1000),OMP=Parallel%%1000)]
+	return(data)
+}
+```
+
+
+```{r line_graph,echo=F,warning=F}
+# data <- mc_eur %>% filter(E==95 & M==0)
+# which <- "T_calculation"
+# y_lab <- "Aeg (sek)"
+# title <- "Parallelarvutuse tööaeg"
+# subtitle<-"MC simulatsioon Euroopa optsioonil"
+# include_ser=T 
+
+S0 <- 100
+r <- 0.02
+t <- 1
+sigma <- 0.75
+
+# TODO: muuta m ja e ilma default väärtusteta
+line_graph <- function(data,which,y_lab,title,subtitle,include_ser=F,m,e,payoff){
+	loc_data <- data %>%filter(M == m & E == e & Payoff == payoff)
+	loc_subtitle <- paste0(subtitle,"\npayoff=",payoff,", S0=",S0,", E=",e,", r=",r,", sigma=",sigma,", T=",t) # TeX("$\\sigma$="),
+	loc_subtitle <- ifelse(grepl("Euroopa",subtitle), loc_subtitle, paste0(loc_subtitle,", M=",m))
+	if(include_ser){
+		gplot <- ggplot(data=loc_data,aes(x=N,y=eval(parse(text = which)),group=Strong_scaling,color=Parallel))
+	} else {
+		gplot <- ggplot(data=loc_data[Method!="Jadamisi"],aes(x=N,y=eval(parse(text = which)),group=Strong_scaling,color=Parallel))
+	}
+	return(
+		gplot +
+			geom_line() +
+			geom_point() + 
+			facet_wrap(.~ Method,nrow=3) +
+			theme_bw() +
+			labs(
+				y=y_lab
+				# ,title = paste0(time_type," aja ",title)
+				,title=title
+				,subtitle = loc_subtitle
+			) +
+			scale_color_discrete(name = "Paralleelsus") +
+			# theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+			# coord_flip() +
+			theme(
+				plot.title = element_text(hjust = 0.5)
+				,plot.subtitle = element_text(hjust = 0.5)
+				,axis.text.x = element_text(angle = -90)
+				)
+	)
+}
+```
+
+
+## Binoom Euroopa
+
+```{r binom_eur,echo=F,warning=F}
+binom_embar <- prep_data("binom_embar")
+DT::datatable(binom_embar)
+line_graph(binom_embar,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(binom_embar,"T_overall","Aeg (sek)","Programmi tööaeg","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(binom_embar,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(binom_embar,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(binom_embar,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(binom_embar,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","Binoom meetodi simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+```
+
+
+## MC Euroopa
+
+```{r mc_eur,echo=F,warning=F}
+mc_eur <- prep_data("mc_eur")
+DT::datatable(mc_eur)
+line_graph(mc_eur,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(mc_eur,"T_overall","Aeg (sek)","Programmi tööaeg","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(mc_eur,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(mc_eur,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(mc_eur,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+line_graph(mc_eur,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Euroopa optsioonil",T,m=0,e=95,"call")
+```
+
+
+
+## MC Ameerika
+
+```{r mc_amer,echo=F,warning=F}
+mc_amer <- prep_data("mc_amer")
+DT::datatable(mc_amer)
+line_graph(mc_amer,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+line_graph(mc_amer,"T_overall","Aeg (sek)","Programmi tööaeg","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+line_graph(mc_amer,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+line_graph(mc_amer,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+line_graph(mc_amer,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+line_graph(mc_amer,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Ameerika optsioonil",T,m=100,e=95,"call")
+```
+
+
+## MC Aasia
+
+```{r mc_asia,echo=F,warning=F}
+mc_asia <- prep_data("mc_asia")
+DT::datatable(mc_asia)
+line_graph(mc_asia,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"T_overall","Aeg (sek)","Programmi tööaeg","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+```
+

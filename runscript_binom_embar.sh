@@ -24,7 +24,7 @@ do
     echo "#pragma once
 double comparison = $(./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
     make binom_bin
-    for N in 100 250 500 750 1000 1500
+    for N in 100 250 500 750 1000 1500 50000
     do
       ./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
       echo "Serial N=${N} -- DONE"

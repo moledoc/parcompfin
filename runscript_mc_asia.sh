@@ -19,9 +19,9 @@ do
     # echo "#pragma once
 # double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
     make mc_asia_bin
-    for N in 1000 10000 #50000 #100000 #1000000 # paths
+    for N in 750 1000 5000 10000 50000 #100000 #1000000 # paths
     do
-      for M in 100 1000 10000 # steps in paths
+      for M in 100 #1000 #10000 # steps in paths
       do
         ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
         echo "Serial N=${N}, M=${M} -- DONE"
