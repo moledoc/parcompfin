@@ -10,7 +10,7 @@ CXXFLAGS = -Wall -std=c++17 -Iinclude -Ofast
 
 ########################################################################################################################
 
-all: init binom mc_eur mc_amer #mc_asia
+all: init binom mc_eur mc_amer mc_asia
 all_bin: init binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin
 
 init:

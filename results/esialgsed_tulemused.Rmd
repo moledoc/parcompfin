@@ -14,7 +14,7 @@ library(ggplot2)
 
 ```{r prep_data,echo=F,warning=F}
 prep_data <- function(what){
-	data <- read.csv(paste0("C:/Users/Meelis/Documents/parcompfin/results/results_",what,".csv"),stringsAsFactors = F) %>% data.table()
+	data <- read.csv(paste0("/home/utt/Documents/parcompfin/results/results_",what,".csv"),stringsAsFactors = F) %>% data.table()
 	# prepare data table
 	serial <- data[Method == "Serial",.(N,M,T_overall_ser=T_overall,T_calculation_ser=T_calculation),by = list(Payoff,E)]
 	# each_rows <- nrow(data)/(data %>%distinct(N) %>% nrow)
@@ -27,6 +27,7 @@ prep_data <- function(what){
 	## calculate statistics
 	data[,RSpeedup_overall:=T_overall_ser/T_overall]
 	data[,RSpeedup_calculation:=T_calculation_ser/T_calculation]
+	# TODO: hybrid efficiency calc is incorrect atm
 	data[Parallel!=0,Efficiency_overall:=RSpeedup_overall/Parallel]
 	data[Parallel!=0,Efficiency_calculation:=RSpeedup_calculation/Parallel]
 	data <- dplyr::left_join(data,data %>% distinct(Method,Parallel) %>% mutate(Strong_scaling = 1:n()),by=c("Method","Parallel"))
@@ -153,11 +154,11 @@ line_graph(mc_amer,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","
 ```{r mc_asia,echo=F,warning=F}
 mc_asia <- prep_data("mc_asia")
 DT::datatable(mc_asia)
-line_graph(mc_asia,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
-line_graph(mc_asia,"T_overall","Aeg (sek)","Programmi tööaeg","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
-line_graph(mc_asia,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
-line_graph(mc_asia,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
-line_graph(mc_asia,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
-line_graph(mc_asia,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Aasia optsioonil",T,m=1000,e=95,"call")
+line_graph(mc_asia,"T_calculation","Aeg (sek)","Parallelarvutuse tööaeg","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+line_graph(mc_asia,"T_overall","Aeg (sek)","Programmi tööaeg","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+line_graph(mc_asia,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kiirendus arvutusel","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+line_graph(mc_asia,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+line_graph(mc_asia,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+line_graph(mc_asia,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
 ```
 
