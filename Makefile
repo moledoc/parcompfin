@@ -101,21 +101,24 @@ mc_amer: init mc_amer_bin
 
 mc_asia_prep: include/common.h include/comparison.h
 	$(CXX) $(CXXFLAGS) -c src/mc_asia.cpp -o obj/mc_asia.o
-	# $(CXX) $(CXXFLAGS) -c src/mc_asia_omp.cpp -o obj/mc_asia_omp.o -fopenmp
-	# $(CXX_MPI) $(CXXFLAGS) -c src/mc_asia_mpi.cpp -o obj/mc_asia_mpi.o
-	# $(CXX_MPI) $(CXXFLAGS) -c src/mc_asia_hybrid.cpp -o obj/mc_asia_hybrid.o -fopenmp
+	$(CXX) $(CXXFLAGS) -c src/mc_asia_omp.cpp -o obj/mc_asia_omp.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) -c src/mc_asia_mpi.cpp -o obj/mc_asia_mpi.o
+	$(CXX_MPI) $(CXXFLAGS) -c src/mc_asia_hybrid.cpp -o obj/mc_asia_hybrid.o -fopenmp
 
 mc_asia_bin: mc_asia_prep
 	$(CXX) $(CXXFLAGS) obj/mc_asia.o -o bin/mc_asia 
-	# $(CXX) $(CXXFLAGS) obj/mc_asia_omp.o -o bin/mc_asia_omp -fopenmp
-	# $(CXX_MPI) $(CXXFLAGS) obj/mc_asia_mpi.o -o bin/mc_asia_mpi
-	# $(CXX_MPI) $(CXXFLAGS) obj/mc_asia_hybrid.o -o bin/mc_asia_hybrid -fopenmp
+	$(CXX) $(CXXFLAGS) obj/mc_asia_omp.o -o bin/mc_asia_omp -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) obj/mc_asia_mpi.o -o bin/mc_asia_mpi
+	$(CXX_MPI) $(CXXFLAGS) obj/mc_asia_hybrid.o -o bin/mc_asia_hybrid -fopenmp
 
 mc_asia_tst: mc_asia_bin
 	# ./bin/mc_asia call 100 95 0.02 0.75 1 10000 1000
 	./bin/mc_asia call 100 95 0.05 0.05 1 1000 100
+	./bin/mc_asia_omp call 100 95 0.05 0.05 1 1000 100 4
 	# ./bin/mc_asia_omp call 100 95 0.02 0.75 1 10000 1000 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.05 0.05 1 1000 100
 	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.02 0.75 1 10000 1000
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.05 0.05 1 1000 100 4
 	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.02 0.75 1 10000 1000 4
 
 mc_asia: init mc_asia_bin

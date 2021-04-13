@@ -27,16 +27,20 @@ double comparison = $(./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} $
     for N in 100 250 500 750 1000 1500
     do
       ./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
+      echo "Serial N=${N} -- DONE"
       for thread in 1 2 4 8 #16 32 64 #128
       do
         ./bin/binom_embar_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
+        echo "OMP N=${N}, thread=${thread} -- DONE"
       done
       for p in 1 2 4 8 #16 32 64 #128
       do
         mpirun -n $p --hostfile hostfile ./bin/binom_embar_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
+        echo "MPI N=${N}, processes=${p} -- DONE"
         for thread in 1 2 4 8 #16 32 64 #128
         do
           mpirun -n $p --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
+          echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
         done
       done
       echo "Binom embar ${payoff_fun} w/ E=${E}: DONE -- $N"
