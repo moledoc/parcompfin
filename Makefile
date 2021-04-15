@@ -114,12 +114,12 @@ mc_asia_bin: mc_asia_prep
 mc_asia_tst: mc_asia_bin
 	# ./bin/mc_asia call 100 95 0.02 0.75 1 10000 1000
 	./bin/mc_asia call 100 95 0.05 0.05 1 1000 100
-	# ./bin/mc_asia_omp call 100 95 0.05 0.05 1 1000 100 4
-	# # ./bin/mc_asia_omp call 100 95 0.02 0.75 1 10000 1000 4
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.05 0.05 1 1000 100
-	# # mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.02 0.75 1 10000 1000
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.05 0.05 1 1000 100 4
-	# # mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.02 0.75 1 10000 1000 4
+	./bin/mc_asia_omp call 100 95 0.05 0.05 1 1000 100 4
+	# ./bin/mc_asia_omp call 100 95 0.02 0.75 1 10000 1000 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.05 0.05 1 1000 100
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.02 0.75 1 10000 1000
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.05 0.05 1 1000 100 4
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.02 0.75 1 10000 1000 4
 
 mc_asia: init mc_asia_bin
 	dash runscript_mc_asia.sh
