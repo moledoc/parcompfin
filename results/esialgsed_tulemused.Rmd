@@ -28,8 +28,8 @@ prep_data <- function(what){
 	data[,RSpeedup_overall:=T_overall_ser/T_overall]
 	data[,RSpeedup_calculation:=T_calculation_ser/T_calculation]
 	# TODO: hybrid efficiency calc is incorrect atm
-	data[Parallel!=0,Efficiency_overall:=RSpeedup_overall/Parallel]
-	data[Parallel!=0,Efficiency_calculation:=RSpeedup_calculation/Parallel]
+	data[Parallel!=0,Efficiency_overall:=RSpeedup_overall/(as.integer(Parallel/1000)+Parallel%%1000)]
+	data[Parallel!=0,Efficiency_calculation:=RSpeedup_calculation/(as.integer(Parallel/1000)+Parallel%%1000)]
 	data <- dplyr::left_join(data,data %>% distinct(Method,Parallel) %>% mutate(Strong_scaling = 1:n()),by=c("Method","Parallel"))
 	
 	data[
@@ -160,5 +160,11 @@ line_graph(mc_asia,"RSpeedup_calculation","Relatiivne kiirendus","Relatiivne kii
 line_graph(mc_asia,"RSpeedup_overall","Relatiivne kiirendus","Relatiivne kiirendus programmil","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
 line_graph(mc_asia,"Efficiency_calculation","Efektiivsus","Efektiivsus arvutusel","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
 line_graph(mc_asia,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Aasia optsioonil",T,m=100,e=95,"call")
+```
+
+
+```{r}
+	
+line_graph(mc_amer,"Efficiency_overall","Efektiivsus","Efektiivsus programmil","MC simulatsioon Ameerika optsioonil",T,m=100,e=75,"call")
 ```
 

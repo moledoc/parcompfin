@@ -39,7 +39,7 @@ double mc_asia
     for (int m=0;m<M;++m){
       double x = (double)unif(gen)/(double)unif_prec;
       double y = (double)unif(gen)/(double)unif_prec;
-      double v = sqrt(-2*log(x))*sin(2*M_PI*y);
+      double v = sqrt(-2*log(x))*sin(2*M_PI*y)*sqrt(dt);
 
       I += St*(1+r*dt/2+sigma*norm(gen2)/2);
       St *= exp((r-pow(sigma,2)/2)*dt+sigma*v);
@@ -48,7 +48,7 @@ double mc_asia
     result += payoff(I/(double)M,E,payoff_fun);
   };
 
-  return (exp(-r*T)*result)/(double)N;
+  return exp(-r*T)*result/(double)N;
 }
 
 int main (int argc, char *argv[]){
