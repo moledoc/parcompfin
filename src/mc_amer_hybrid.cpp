@@ -197,6 +197,10 @@ double mc_amer
       };
     };
   /* } */
+    
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    if (x_length==0) continue;
 
     std::vector<double> coef(3);
 

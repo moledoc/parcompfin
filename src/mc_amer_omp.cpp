@@ -188,6 +188,10 @@ std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M);
     };
   }
     
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    if (x_length==0) continue;
+    
     // compose xTx and xTy
     xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
     xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;

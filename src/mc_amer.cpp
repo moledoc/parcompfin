@@ -140,9 +140,9 @@ double mc_amer
   for(int i=0;i<3;++i) xTx[i].resize(3);
   std::vector<double> xTy(3);
 
-
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
+  /* for(int m=M-1;m>0;--m){ */
   for(int m=M-1;m>0;--m){
     std::vector<double> x(N,-1);
     std::vector<double> y(N,-1);
@@ -170,6 +170,10 @@ double mc_amer
         sum_yx2 += cont*exer*exer;
       };
     };
+    
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    if (x_length==0) continue;
     
     // compose xTx and xTy
     xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;

@@ -194,6 +194,10 @@ double mc_amer
 
     MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    if (x_length==0) continue;
+    
     if(rank==0){
       // compose xTx and xTy
       xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
