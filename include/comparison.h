@@ -1,2 +1,2 @@
 #pragma once
-double comparison=0;
+double comparison = 33.77010128;
