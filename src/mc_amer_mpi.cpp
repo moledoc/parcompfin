@@ -2,6 +2,14 @@
 #include <common.h>
 #include <comparison.h>
 
+/* void vecprinter(std::vector<double> vec) */
+/* { */
+/*   for(int i = 0;i<vec.size();++i){ */
+/*     std::cout<<vec[i]<< " " ; */
+/*   }; */
+/*   std::cout<<std::endl; */
+/* } */
+
 /* void matprinter(std::vector<std::vector<double>> mat) */
 /* { */
 /*   for(int i = 0;i<mat.size();++i){ */
@@ -58,7 +66,7 @@ std::vector<std::vector<double>> pathsfinder
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+(rank+1)*(n+1));
+    gen.seed(time(&cur_time)*(rank+1)+(n+1));
 
     // init new path
     paths[n][0] = S0;
@@ -134,17 +142,16 @@ double mc_amer
   double dt = T/M;
   double result_p = 0;
   double result;
-  // calculate paths
-  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N/size,M,rank);
-
   // calculate the number of paths process is responsible for
-  int n_p = N/size;
+  int N_p = N/size;
+  // calculate paths
+  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
 
   // store each paths timestep value when option is exercised
-  std::vector<double> exercise_when(n_p,M);
+  std::vector<double> exercise_when(N_p,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
-  std::vector<double> exercise_st(n_p);
-  for(int n=0;n<n_p;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
+  std::vector<double> exercise_st(N_p);
+  for(int n=0;n<N_p;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -153,14 +160,14 @@ double mc_amer
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
   for(int m=M-1;m>0;--m){
-    std::vector<double> x(n_p,-1);
-    std::vector<double> y(n_p,-1);
+    std::vector<double> x(N_p,-1);
+    std::vector<double> y(N_p,-1);
     double sum_x; double sum_x2; double sum_x3; double sum_x4; double sum_y; double sum_yx; double sum_yx2;
     double sum_x_p = 0; double sum_x2_p = 0; double sum_x3_p = 0; double sum_x4_p = 0; double sum_y_p = 0; double sum_yx_p = 0; double sum_yx2_p = 0;
 
     double x_length; double x_length_p=0;
 
-    for(int n=0;n<n_p;++n){
+    for(int n=0;n<N_p;++n){
       double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
@@ -184,12 +191,12 @@ double mc_amer
 
     std::vector<double> coef(3);
 
-    MPI_Reduce(&sum_x_p,  &sum_x,  1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x2_p, &sum_x2, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x3_p, &sum_x3, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x4_p, &sum_x4, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_y_p,  &sum_y,  1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_yx_p, &sum_yx, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x_p  ,&sum_x  ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x2_p ,&sum_x2 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x3_p ,&sum_x3 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_x4_p ,&sum_x4 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_y_p  ,&sum_y  ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&sum_yx_p ,&sum_yx ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
     MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
@@ -211,7 +218,7 @@ double mc_amer
 
     MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
   
-    for(int i=0;i<n_p;++i){
+    for(int i=0;i<N_p;++i){
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
         // exercise value at t_m
@@ -224,7 +231,7 @@ double mc_amer
     };
   };
 
-  for(int n=0;n<n_p;++n){
+  for(int n=0;n<N_p;++n){
     if(exercise_st[n]!=0) result_p+=exp(-r*exercise_when[n]*dt)*exercise_st[n];
   };
 
@@ -257,7 +264,7 @@ int main (int argc, char *argv[]){
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,T,sigma,N,M,payoff_fun,size,rank);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun,size,rank);
   auto end = std::chrono::system_clock::now();
 
   if (rank==0){
