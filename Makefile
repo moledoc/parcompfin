@@ -138,7 +138,7 @@ mc_asia_tst: mc_asia_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 110 0.02 0.75 1 10000 100
 	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 110 0.02 0.75 1 10000 100 4
 	#################
-	./bin/mc_asia put 100 90 0.05 0.75 1 1000 100
+	./bin/mc_asia put 100 90 0.02 0.75 1 1000 100
 	./bin/mc_asia_omp put 100 90 0.02 0.75 1 10000 100 4
 	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi put 100 90 0.02 0.75 1 10000 100
 	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid put 100 90 0.02 0.75 1 10000 100 4
