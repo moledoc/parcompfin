@@ -2,6 +2,15 @@
 #include <common.h>
 #include <comparison.h>
 
+/* void vecprinter(std::vector<double> vec) */
+/* { */
+/*   for(int i = 0;i<vec.size();++i){ */
+/*     std::cout<<vec[i]<< " " ; */
+/*   }; */
+/*   std::cout<<std::endl; */
+/* } */
+
+
 /* void matprinter(std::vector<std::vector<double>> mat) */
 /* { */
 /*   for(int i = 0;i<mat.size();++i){ */
@@ -55,7 +64,7 @@ std::vector<std::vector<double>> pathsfinder
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+n);
+    gen.seed(time(&cur_time)+n+1);
     // init new path
     paths[n][0] = S0;
     paths[n+N/2][0] = S0;
@@ -142,7 +151,6 @@ double mc_amer
 
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
-  /* for(int m=M-1;m>0;--m){ */
   for(int m=M-1;m>0;--m){
     std::vector<double> x(N,-1);
     std::vector<double> y(N,-1);
