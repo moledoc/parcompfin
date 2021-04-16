@@ -27,15 +27,21 @@ double comparison = $(./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} $
       ./bin/binom_embar_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
       echo "OMP N=${N}, thread=${thread} -- DONE"
     done
-    for p in 1 2 4 8 #16 32 64 #128
+    for p in 1 2 4 8 16 32 64 #128
     do
       mpirun -n $p --hostfile hostfile ./bin/binom_embar_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
       echo "MPI N=${N}, processes=${p} -- DONE"
-      for thread in 1 2 4 8 #16 32 64 #128
-      do
-        mpirun -n $p --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
-        echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
-      done
+      if [ ${p} == 1 ];
+      then 
+        mpirun -n ${p} --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} 1 >> ${results}
+      elif [ ${p} -le 8 ];
+      then
+        for thread in 2 4 8 #16 32 64 #128
+        do
+          mpirun -n $p --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
+          echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
+        done
+      fi
     done
     echo "Binom embar ${payoff_fun} w/ E=${E}: DONE -- $N"
   done

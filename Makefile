@@ -23,19 +23,21 @@ init:
 ########################################################################################################################
 
 binom_prep: include/common.h include/comparison.h	
+	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_eur.cpp -o obj/binom_vanilla_eur.o #test eur option value with binom vanilla eur
 	$(CXX) $(CXXFLAGS) -c src/binom_embar.cpp -o obj/binom_embar.o
 	$(CXX) $(CXXFLAGS) -c src/binom_embar_omp.cpp -o obj/binom_embar_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_mpi.cpp -o obj/binom_embar_mpi.o
 	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_hybrid.cpp -o obj/binom_embar_hybrid.o -fopenmp
 
 binom_bin: binom_prep
+	$(CXX) $(CXXFLAGS) obj/binom_vanilla_eur.o -o bin/binom_vanilla_eur 
 	$(CXX) $(CXXFLAGS) obj/binom_embar.o -o bin/binom_embar 
 	$(CXX) $(CXXFLAGS) obj/binom_embar_omp.o -o bin/binom_embar_omp -fopenmp 
 	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_mpi.o -o bin/binom_embar_mpi
 	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
 
 binom_tst: binom_bin
-	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
+	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 1000
 	./bin/binom_embar call 100 110 0.02 0.75 1 1000
 	./bin/binom_embar_omp call 100 110 0.02 0.75 1 1000 2
 	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 1000
@@ -101,17 +103,17 @@ mc_amer_bin: mc_amer_prep
 	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
 
 mc_amer_tst: mc_amer_bin
-	./bin/binom_vanilla_amer call 100 120 0.02 0.75 1 1000
-	./bin/mc_amer call 100 120 0.02 0.75 1 100000 100
-	./bin/mc_amer_omp call 100 120 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 120 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 120 0.02 0.75 1 100000 100 4
+	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
+	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
+	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
 	################
-	./bin/binom_vanilla_amer put 100 80 0.02 0.75 1 1000
-	./bin/mc_amer put 100 80 0.02 0.75 1 100000 100
-	./bin/mc_amer_omp put 100 80 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 80 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 80 0.02 0.75 1 100000 100 4
+	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
+	./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
+	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
 
 mc_amer: init mc_amer_bin
 	dash runscript_mc_amer.sh
@@ -131,14 +133,22 @@ mc_asia_bin: mc_asia_prep
 	$(CXX_MPI) $(CXXFLAGS) obj/mc_asia_hybrid.o -o bin/mc_asia_hybrid -fopenmp
 
 mc_asia_tst: mc_asia_bin
-	# ./bin/mc_asia call 100 95 0.02 0.75 1 10000 1000
-	./bin/mc_asia call 100 95 0.05 0.05 1 1000 100
-	./bin/mc_asia_omp call 100 95 0.05 0.05 1 1000 100 4
-	# ./bin/mc_asia_omp call 100 95 0.02 0.75 1 10000 1000 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.05 0.05 1 1000 100
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 95 0.02 0.75 1 10000 1000
-	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.05 0.05 1 1000 100 4
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 95 0.02 0.75 1 10000 1000 4
+	./bin/mc_asia call 100 110 0.02 0.75 1 10000 100
+	# ./bin/mc_asia call 100 110 0.05 0.05 1 1000 100
+	# ./bin/mc_asia_omp call 100 110 0.05 0.05 1 1000 100 4
+	./bin/mc_asia_omp call 100 110 0.02 0.75 1 10000 100 4
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 110 0.05 0.05 1 1000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi call 100 110 0.02 0.75 1 10000 100
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 110 0.05 0.05 1 1000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid call 100 110 0.02 0.75 1 10000 100 4
+	#################
+	./bin/mc_asia put 100 90 0.05 0.75 1 1000 100
+	# ./bin/mc_asia_omp put 100 90 0.05 0.05 1 1000 100 4
+	./bin/mc_asia_omp put 100 90 0.02 0.75 1 10000 100 4
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi put 100 90 0.05 0.05 1 1000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_mpi put 100 90 0.02 0.75 1 10000 100
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid put 100 90 0.05 0.05 1 1000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid put 100 90 0.02 0.75 1 10000 100 4
 
 mc_asia: init mc_asia_bin
 	dash runscript_mc_asia.sh

@@ -25,11 +25,13 @@ prep_data <- function(what){
 	# data$T_overall_ser <- data[Parallel==0,T_overall] %>% rep(each=each_rows)
 	
 	## calculate statistics
+	data[,Parallel_cor:=if_else(as.integer(Parallel/1000)==1 | Parallel%%1000==1,as.integer(Parallel/1000)*Parallel%%1000,as.integer(Parallel/1000)+Parallel%%1000)]
+	data[,Parallel_cor:=max(1,Parallel_cor)]
 	data[,RSpeedup_overall:=T_overall_ser/T_overall]
 	data[,RSpeedup_calculation:=T_calculation_ser/T_calculation]
 	# TODO: hybrid efficiency calc is incorrect atm
-	data[Parallel!=0,Efficiency_overall:=RSpeedup_overall/(as.integer(Parallel/1000)+Parallel%%1000)]
-	data[Parallel!=0,Efficiency_calculation:=RSpeedup_calculation/(as.integer(Parallel/1000)+Parallel%%1000)]
+	data[,Efficiency_overall:=RSpeedup_overall/Parallel_cor]
+	data[,Efficiency_calculation:=RSpeedup_calculation/Parallel_cor]
 	data <- dplyr::left_join(data,data %>% distinct(Method,Parallel) %>% mutate(Strong_scaling = 1:n()),by=c("Method","Parallel"))
 	
 	data[
