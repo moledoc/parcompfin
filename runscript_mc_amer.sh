@@ -24,7 +24,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     do
       ./bin/mc_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
       echo "Serial N=${N} M=${M} -- DONE"
-      for thread in 1 2 4 #8 #16 32 64 #128
+      for thread in 1 2 4 8 16 32 64 #128
       do
         ./bin/mc_amer_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
         echo "OMP N=${N}, M=${M}, thread=${thread} -- DONE"
@@ -40,7 +40,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
         then
           for thread in 2 4 8 #16 32 64 #128
           do
-            mpirun -n $p --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} $thread >> ${results}
+            mpirun -n $p --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
             ecHo "hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
           done
         fi

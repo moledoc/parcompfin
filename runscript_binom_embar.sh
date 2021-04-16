@@ -16,15 +16,15 @@ common_cycle(){
   payoff_fun=$1
   E=$2
   echo "#pragma once
-double comparison = $(./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
+double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
   make binom_bin
   for N in 100 250 500 750 1000 1500 50000
   do
     ./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
     echo "Serial N=${N} -- DONE"
-    for thread in 1 2 4 8 #16 32 64 #128
+    for thread in 1 2 4 8 16 32 64 #128
     do
-      ./bin/binom_embar_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
+      ./bin/binom_embar_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
       echo "OMP N=${N}, thread=${thread} -- DONE"
     done
     for p in 1 2 4 8 16 32 64 #128
@@ -38,7 +38,7 @@ double comparison = $(./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} $
       then
         for thread in 2 4 8 #16 32 64 #128
         do
-          mpirun -n $p --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} $thread >> ${results}
+          mpirun -n $p --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
           echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
         done
       fi
