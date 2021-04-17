@@ -45,7 +45,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
   for N in 100 250 500 750 1000 1500 50000
   do
     mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} 1 >> ${results}
-    echo "hybrid N=${N}, M=${M}, processes=1, thread=1 -- DONE"
+    echo "hybrid N=${N}, processes=1, thread=1 -- DONE"
   done
 
   for N in 100 250 500 750 1000 1500 50000
@@ -55,7 +55,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
       for thread in 2 4 8 #16 32 64 #128
       do
         mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
-        echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
+        echo "Hybrid N=${N}, processes=${p}, thread=${thread} -- DONE"
       done
     done
   done
