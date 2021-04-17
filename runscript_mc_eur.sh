@@ -22,29 +22,44 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
   do
     ./bin/mc_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
     echo "Serial N=${N} -- DONE"
+  done
+
+  for N in 1000000 2000000 5000000 10000000 25000000 50000000 100000000
+  do
     for thread in 1 2 4 8 16 32 64 #128
     do
       ./bin/mc_eur_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
         echo "OMP N=${N}, thread=${thread} -- DONE"
     done
+  done
+
+  for N in 1000000 2000000 5000000 10000000 25000000 50000000 100000000
+  do
     for p in 1 2 4 8 16 32 64 #128
     do
-      mpirun -n $p --hostfile hostfile ./bin/mc_eur_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
+      mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
       echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
-      if [ ${p} == 1 ];
-      then
-        mpirun -n $p --hostfile hostfile ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} 1 >> ${results}
-      elif [ ${p} -le 8 ];
-      then
-        for thread in 2 4 8 #16 32 64 #128
-        do
-          mpirun -n $p --hostfile hostfile ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
-          echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
-        done
-      fi
     done
-    echo "MC eur ${payoff_fun} w/ ${E}: DONE -- $N"
   done
+
+  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  do
+    mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} 1 >> ${results}
+    echo "Hybrid N=${N},processes=1, thread=1 -- DONE"
+  done
+
+  for N in 1000000 2000000 5000000 10000000 25000000 50000000 100000000
+  do
+    for p in 2 4 8 #16 32 64 #128
+    do
+      for thread in 2 4 8 #16 32 64 #128
+      do
+        mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
+        echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
+      done
+    done
+  done
+  echo "MC eur ${payoff_fun} w/ ${E}: DONE -- $N"
 }
 
 for E in 90 95 100 105 110 120 130 140
