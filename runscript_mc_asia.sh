@@ -15,10 +15,11 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,E
 common_cycle(){
   payoff_fun=$1
   E=$2
-  # echo "#pragma once
-# double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
+  compare=$3
+  echo "#pragma once
+double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in  1000 5000 10000 50000 100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
     for M in 50 100 250 500 750 1000 10000 # steps in paths
     do
@@ -51,13 +52,35 @@ common_cycle(){
   done
 }
 
+# https://www.coggit.com/freetools aritmhetic asian option price
+
+C90=21.88
+C95=19.53
+C100=17.43
+C105=15.54
+C110=13.86
+C120=11.02
+C130=8.77
+
+
 for E in 90 95 100 105 110 120 130 140
 do
-  common_cycle "call" ${E}
+  common_cycle "call" ${E} $(eval "echo \"\$C${E}\"")
 done
+
+exit
+
+P60=1.49
+P70=3.55
+P80=6.75
+P90=11.08
+P95=13.64
+P100=16.43
+P105=19.45
+P110=22.66
 
 for E in 110 105 100 95 90 80 70 60
 do
-  common_cycle "put" ${E}
+  common_cycle "put" ${E} $(eval "echo \"\$P${E}\"")
 done
 

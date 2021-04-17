@@ -51,7 +51,7 @@ binom_tst: binom_bin
 
 binom: init binom_bin
 	#./runscript_binom_embar.sh
-	dash runscript_binom_embar.sh
+	sh runscript_binom_embar.sh
 
 
 ########################################################################################################################
@@ -84,7 +84,7 @@ mc_eur_tst: mc_eur_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid put 100 90 0.02 0.75 1 10000000 4
 
 mc_eur: init mc_eur_bin
-	dash runscript_mc_eur.sh
+	sh runscript_mc_eur.sh
 
 ########################################################################################################################
 
@@ -116,7 +116,7 @@ mc_amer_tst: mc_amer_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
 
 mc_amer: init mc_amer_bin
-	dash runscript_mc_amer.sh
+	sh runscript_mc_amer.sh
 
 ########################################################################################################################
 
@@ -144,7 +144,7 @@ mc_asia_tst: mc_asia_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_asia_hybrid put 100 90 0.02 0.75 1 10000 100 4
 
 mc_asia: init mc_asia_bin
-	dash runscript_mc_asia.sh
+	sh runscript_mc_asia.sh
 
 ########################################################################################################################
 
