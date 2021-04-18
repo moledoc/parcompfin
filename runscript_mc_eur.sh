@@ -38,7 +38,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
     for p in 1 2 4 8 16 32 64 #128
     do
       mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
-      echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
+      echo "MPI N=${N}, processes=${p} -- DONE"
     done
   done
 
@@ -55,7 +55,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
       for thread in 2 4 8 #16 32 64 #128
       do
         mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
-        echo "Hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
+        echo "Hybrid N=${N}, processes=${p}, thread=${thread} -- DONE"
       done
     done
   done
