@@ -42,7 +42,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in 1000000 2000000 5000000 10000000 25000000 50000000 100000000
   do
     mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} 1 >> ${results}
     echo "Hybrid N=${N},processes=1, thread=1 -- DONE"
