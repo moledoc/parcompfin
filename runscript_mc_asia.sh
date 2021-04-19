@@ -19,18 +19,18 @@ common_cycle(){
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
-    for M in 50 100 250 500 750 1000 10000 # steps in paths
+    for M in 50 100 250 500 750 1000 #10000 # steps in paths
     do
       ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
       echo "Serial N=${N}, M=${M} -- DONE"
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
-    for M in 50 100 250 500 750 1000 10000 # steps in paths
+    for M in 50 100 250 500 750 1000 #10000 # steps in paths
     do
       for thread in 1 2 4 8 16 32 64 #128
       do
@@ -40,9 +40,9 @@ double comparison = ${compare};" > include/comparison.h
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
-    for M in 50 100 250 500 750 1000 10000 # steps in paths
+    for M in 50 100 250 500 750 1000 #10000 # steps in paths
     do
       for p in 1 2 4 8 16 32 64 #128
       do
@@ -52,18 +52,18 @@ double comparison = ${compare};" > include/comparison.h
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
-    for M in 50 100 250 500 750 1000 10000 # steps in paths
+    for M in 50 100 250 500 750 1000 #10000 # steps in paths
     do
       mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} 1 >> ${results}
       echo "Hybrid N=${N}, M=${M}, processes=1, thread=1 -- DONE"
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
   do
-    for M in 50 100 250 500 750 1000 10000 # steps in paths
+    for M in 50 100 250 500 750 1000 #10000 # steps in paths
     do
       for p in 2 4 8 #16 32 64 #128
       do
