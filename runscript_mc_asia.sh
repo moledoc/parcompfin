@@ -75,7 +75,7 @@ double comparison = ${compare};" > include/comparison.h
       done
     done
   done
-  echo "MC amer ${payoff_fun} w/ E=${E}: DONE -- N=$N"
+  echo "MC asia ${payoff_fun} w/ E=${E}: DONE -- N=$N"
 }
 
 # https://www.coggit.com/freetools aritmhetic asian option price
@@ -89,12 +89,10 @@ C120=11.02
 C130=8.77
 
 
-for E in 90 95 100 105 110 120 130 140
-do
-  common_cycle "call" ${E} $(eval "echo \"\$C${E}\"")
-done
-
-exit
+#for E in 90 95 100 105 110 120 130 140
+#do
+#  common_cycle "call" ${E} $(eval "echo \"\$C${E}\"")
+#done
 
 P60=1.49
 P70=3.55
