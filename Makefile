@@ -38,16 +38,16 @@ binom_bin: binom_prep
 
 binom_tst: binom_bin
 	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 1000
-	./bin/binom_embar call 100 110 0.02 0.75 1 1000
-	./bin/binom_embar_omp call 100 110 0.02 0.75 1 1000 2
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 1000
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 1000 2
+	./bin/binom_embar call 100 110 0.02 0.75 1 50000
+	./bin/binom_embar_omp call 100 110 0.02 0.75 1 50000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 50000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 50000 2
 	#####
 	./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 1000
-	./bin/binom_embar put 100 90 0.02 0.75 1 1000
-	./bin/binom_embar_omp put 100 90 0.02 0.75 1 1000 2
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 1000
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 1000 2
+	./bin/binom_embar put 100 90 0.02 0.75 1 50000
+	./bin/binom_embar_omp put 100 90 0.02 0.75 1 50000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 50000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 50000 2
 
 binom: init binom_bin
 	#./runscript_binom_embar.sh

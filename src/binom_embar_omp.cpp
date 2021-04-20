@@ -28,10 +28,16 @@ double binom
   else until = N/2;
 #pragma omp for schedule(dynamic,1000) nowait reduction(+:result)
   for(int i=0;i<until;++i){
-    tmp = comb(N,i);
-    result += tmp * pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
-    result += tmp * pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
-  if(i==0 && N%2==0) result+=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
+    double comb_val = comb(N,i);
+    double binom1 = comb_val + i*log(p) + (N-i)*log(q);
+    double binom2 = comb_val + (N-i)*log(p) + i*log(q);
+    result +=  exp(binom1) * payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
+    result +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
+
+    if(i==0 && N%2==0) {
+      double binom_mid = comb(N,N/2) + N/2*log(p) + N/2*log(q);
+      result+= exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
+    };
   };
   }
   return exp(-r*T)*result;

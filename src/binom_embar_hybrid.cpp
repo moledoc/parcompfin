@@ -34,7 +34,10 @@ double binom
   if (N%2==0){
     ni = rank * (N/2)/size;
     ni1 = (rank+1) * (N/2)/size;
-    if (rank == 0) V0=comb(N,N/2)*pow(p,N/2)*pow(q,N/2)*payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
+    if (rank == 0) {
+      double binom_mid = comb(N,N/2) + N/2*log(p) + N/2*log(q);
+      V0 = exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
+    };
   } else {
     ni = rank * (N/2)/size;
     ni1 = (rank+1) * (N/2)/size;
@@ -44,8 +47,10 @@ double binom
 #pragma omp for schedule(dynamic,1000) nowait reduction(+:V0)
   for(int i=ni;i<ni1;++i){
     double comb_val = comb(N,i);
-    V0+=comb_val*pow(p,i)*pow(q,N-i)*payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
-    V0+=comb_val*pow(p,N-i)*pow(q,i)*payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
+    double binom1 = comb_val + i*log(p) + (N-i)*log(q);
+    double binom2 = comb_val + (N-i)*log(p) + i*log(q);
+    V0 +=  exp(binom1) * payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
+    V0 +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
   };
   }
     

@@ -20,10 +20,6 @@
 
 #include <comparison.h>
 
-/* double S0 = 100; */
-/* double r = 0.02; */
-/* double sigma = 0.75; */
-/* double T = 1; */
 
 int getArg(char *argv[],int idx){
   std::size_t pos;
@@ -40,13 +36,11 @@ double getArgD(char *argv[],int idx){
 }
 
 double payoff_call(double St,double E){
-  /* call */
   if(St-E < 0) return 0;
   else return St-E;
 }
 
 double payoff_put(double St,double E){
-  /* put */
   if(E-St < 0) return 0;
   else return E-St;
 }
@@ -58,15 +52,14 @@ double payoff(double St,double E,std::string payoff_fun){
 }
 
 double comb(int N,int i){
-  if (i==0 || i==N) return 1;
-  if (i==1 || i==(N-1)) return N;
+  if (i==0 || i==N) return 0;
+  if (i==1 || i==(N-1)) return log(N);
   double result=0;
   for(int n=N;n>i;--n)
     result += log((double)n);
   for(int j=2;j<=(N-i);++j)
     result -= log((double)j);
-
-  return exp(result);
+  return result;
 }
 
 void reporting
