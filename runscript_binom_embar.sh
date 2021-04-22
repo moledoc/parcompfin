@@ -22,7 +22,7 @@ common_cycle(){
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
   make binom_bin
-  for N in ${Ns}
+  for N in ${Ns[@]}
   do
     ./bin/binom_embar ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
     ./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
