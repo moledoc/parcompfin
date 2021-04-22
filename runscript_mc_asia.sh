@@ -18,9 +18,9 @@ common_cycle(){
   compare=$3
   Ns=(1000 10000 25000 50000 75000 100000)  # paths
   Ms=(200 1000) # steps in paths
-  thr=(1 5 10 20 40 60 80 100)
-  proc=(1 5 10 20 40 60 80 100)
-  hybr=(1 10 20 30 40 50)
+  thr=(1 5 10 25 50 75 100)
+  proc=(1 5 10 25 50 750)
+  hybr=(1 10 25 50)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
