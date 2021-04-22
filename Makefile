@@ -24,30 +24,30 @@ init:
 
 binom_prep: include/common.h include/comparison.h	
 	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_eur.cpp -o obj/binom_vanilla_eur.o #test eur option value with binom vanilla eur
-	# $(CXX) $(CXXFLAGS) -c src/binom_embar.cpp -o obj/binom_embar.o
-	# $(CXX) $(CXXFLAGS) -c src/binom_embar_omp.cpp -o obj/binom_embar_omp.o -fopenmp
-	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_mpi.cpp -o obj/binom_embar_mpi.o
-	# $(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_hybrid.cpp -o obj/binom_embar_hybrid.o -fopenmp
+	$(CXX) $(CXXFLAGS) -c src/binom_embar.cpp -o obj/binom_embar.o
+	$(CXX) $(CXXFLAGS) -c src/binom_embar_omp.cpp -o obj/binom_embar_omp.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_mpi.cpp -o obj/binom_embar_mpi.o
+	$(CXX_MPI) $(CXXFLAGS) -c src/binom_embar_hybrid.cpp -o obj/binom_embar_hybrid.o -fopenmp
 
 binom_bin: binom_prep
 	$(CXX) $(CXXFLAGS) obj/binom_vanilla_eur.o -o bin/binom_vanilla_eur 
-	# $(CXX) $(CXXFLAGS) obj/binom_embar.o -o bin/binom_embar 
-	# $(CXX) $(CXXFLAGS) obj/binom_embar_omp.o -o bin/binom_embar_omp -fopenmp 
-	# $(CXX_MPI) $(CXXFLAGS) obj/binom_embar_mpi.o -o bin/binom_embar_mpi
-	# $(CXX_MPI) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
+	$(CXX) $(CXXFLAGS) obj/binom_embar.o -o bin/binom_embar 
+	$(CXX) $(CXXFLAGS) obj/binom_embar_omp.o -o bin/binom_embar_omp -fopenmp 
+	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_mpi.o -o bin/binom_embar_mpi
+	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
 
 binom_tst: binom_bin
 	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 1000
-	#./bin/binom_embar call 100 110 0.02 0.75 1 50000
-	#./bin/binom_embar_omp call 100 110 0.02 0.75 1 50000 2
-	#mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 50000
-	#mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 50000 2
-	######
-	#./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 1000
-	#./bin/binom_embar put 100 90 0.02 0.75 1 50000
-	#./bin/binom_embar_omp put 100 90 0.02 0.75 1 50000 2
-	#mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 50000
-	#mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 50000 2
+	./bin/binom_embar call 100 110 0.02 0.75 1 50000
+	./bin/binom_embar_omp call 100 110 0.02 0.75 1 50000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 50000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 50000 2
+	#####
+	./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 1000
+	./bin/binom_embar put 100 90 0.02 0.75 1 50000
+	./bin/binom_embar_omp put 100 90 0.02 0.75 1 50000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 50000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 50000 2
 
 binom: init binom_bin
 	#./runscript_binom_embar.sh
