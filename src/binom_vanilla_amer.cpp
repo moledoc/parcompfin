@@ -55,7 +55,7 @@ int main (int argc, char *argv[]){
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
-      "Serial"
+      "Serial_vanilla"
       ,payoff_fun
       ,S0
       ,E

@@ -16,23 +16,28 @@ common_cycle(){
   payoff_fun=$1
   E=$2
   compare=$3
+  Ns=(1024 8192 16384 65536 131072)  # paths
+  Ms=(200 1000) # steps in paths
+  thr=(1 2 4 8 16 32 64 128)
+  proc=(1 2 4 8 16 32 64 128) 
+  hybr=(1 2 4 8 16 32 64 128)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns}
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms}
     do
       ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
       echo "Serial N=${N}, M=${M} -- DONE"
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns} 
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms} 
     do
-      for thread in 1 2 4 8 16 32 64 #128
+      for thread in ${thr}
       do
         ./bin/mc_asia_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
         echo "OMP N=${N}, M=${M}, thread=${thread} -- DONE"
@@ -40,38 +45,26 @@ double comparison = ${compare};" > include/comparison.h
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns}
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms}
     do
-      for p in 1 2 4 8 16 32 64 #128
+      for p in ${proc} 
       do
-        mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
+        mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
         echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
       done
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns} 
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms} 
     do
-      mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} 1 >> ${results}
-      echo "Hybrid N=${N}, M=${M}, processes=1, thread=1 -- DONE"
-    done
-  done
-
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
-  do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
-    do
-      for p in 2 4 8 #16 32 64 #128
+      for hybrid in ${hybr}
       do
-        for thread in 2 4 8 #16 32 64 #128
-        do
-          mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
-          echo "Hybrid N=${N}, M=${M}, P=${p}, thread=${thread} -- DONE"
-        done
+        mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
+        echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
       done
     done
   done
@@ -89,10 +82,10 @@ C120=11.02
 C130=8.77
 
 
-#for E in 90 95 100 105 110 120 130 140
-#do
-#  common_cycle "call" ${E} $(eval "echo \"\$C${E}\"")
-#done
+for E in 110 #90 95 100 105 110 120 130 140
+do
+  common_cycle "call" ${E} $(eval "echo \"\$C${E}\"")
+done
 
 P60=1.49
 P70=3.55
@@ -103,7 +96,7 @@ P100=16.43
 P105=19.45
 P110=22.66
 
-for E in 110 105 100 95 90 80 70 60
+for E in 90 #110 105 100 95 90 80 70 60
 do
   common_cycle "put" ${E} $(eval "echo \"\$P${E}\"")
 done

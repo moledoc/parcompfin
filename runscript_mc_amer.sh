@@ -15,24 +15,28 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,E
 common_cycle(){
   payoff_fun=$1
   E=$2
+  Ns=(1024 8192 16384 65536 131072) # paths
+  Ms=(200 1000) # steps in path
+  thr=(1 2 4 8 16 32 64 128)
+  proc=(1 2 4 8 16 32 64 128) 
+  hybr=(1 2 4 8 16 32 64 128)
   echo "#pragma once
-double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 1000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
+double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 10000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
   make mc_amer_bin
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns} 
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms} 
     do
       ./bin/mc_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
       echo "Serial N=${N} M=${M} -- DONE"
     done
   done
 
-
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in  ${Ns}
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms} 
     do
-      for thread in 1 2 4 8 16 32 64 #128
+      for thread in ${thr} 
       do
         ./bin/mc_amer_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
         echo "OMP N=${N}, M=${M}, thread=${thread} -- DONE"
@@ -40,50 +44,38 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns}
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms}
     do
-      for p in 1 2 4 8 16 32 64 #128
+      for p in ${proc}
       do
-        mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_used 0 ./bin/mc_amer_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
+        mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_used 0 ./bin/mc_amer_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
         echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
       done
     done
   done
 
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
+  for N in ${Ns}
   do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
+    for M in ${Ms}
     do
-      mpirun -np 1 --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} 1 >> ${results}
-      echo "hybrid N=${N}, M=${M}, processes=1, thread=1 -- DONE"
-    done
-  done
-
-  for N in  1024 8192 16384 65536 131072 #524288 1048276 #1000 5000 10000 50000 #100000 #1000000 # paths
-  do
-    for M in 50 100 250 500 750 1000 #10000 # steps in paths
-    do
-      for p in 2 4 8 #16 32 64 #128
+      for hybrid in ${hybr}
       do
-        for thread in 2 4 8 #16 32 64 #128
-        do
-          mpirun -np $p --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
-          echo "hybrid N=${N}, M=${M}, processes=${p}, thread=${thread} -- DONE"
-        done
+        mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
+        echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
       done
     done
   done
   echo "MC amer ${payoff_fun} w/ E=${E}: DONE -- N=$N"
 }
 
-for E in 90 95 100 105 110 120 130 140
+for E in 110 #90 95 100 105 110 120 130 140
 do
   common_cycle "call" ${E}
 done
 
-for E in 110 105 100 95 90 80 70 60
+for E in 90 #110 105 100 95 90 80 70 60
 do
   common_cycle "put" ${E}
 done
