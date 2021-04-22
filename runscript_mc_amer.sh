@@ -62,7 +62,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     do
       for hybrid in ${hybr[@]}
       do
-        mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
+        mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
         echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
       done
     done
