@@ -17,7 +17,7 @@ common_cycle(){
   E=$2
   Ns=(100 250 750 1000 1500 5000 10000 50000 100000) # paths
   thr=(1 5 10 25 50 75 100)
-  proc=(1 5 10 25 50 750)
+  proc=(1 5 10 25 50 75 100)
   hybr=(1 10 25 50)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h

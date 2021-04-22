@@ -19,7 +19,7 @@ common_cycle(){
   Ns=(1000 10000 25000 50000 75000 100000)  # paths
   Ms=(200 1000) # steps in paths
   thr=(1 5 10 25 50 75 100)
-  proc=(1 5 10 25 50 750)
+  proc=(1 5 10 25 50 75 100)
   hybr=(1 10 25 50)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
