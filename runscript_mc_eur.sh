@@ -22,33 +22,33 @@ common_cycle(){
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
   make mc_eur_bin
-  for N in ${Ns} 
+  for N in ${Ns[@]} 
   do
     ./bin/mc_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results} 
     echo "Serial N=${N} -- DONE"
   done
 
-  for N in ${Ns} 
+  for N in ${Ns[@]} 
   do
-    for thread in ${thr} 
+    for thread in ${thr[@]} 
     do
       ./bin/mc_eur_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${thread} >> ${results}
         echo "OMP N=${N}, thread=${thread} -- DONE"
     done
   done
 
-  for N in ${Ns}
+  for N in ${Ns[@]}
   do
-    for p in ${proc}
+    for p in ${proc[@]}
     do
       mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
       echo "MPI N=${N}, processes=${p} -- DONE"
     done
   done
 
-  for N in ${Ns}
+  for N in ${Ns[@]}
   do
-    for hybrid in ${hybr}
+    for hybrid in ${hybr[@]}
     do
       mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"

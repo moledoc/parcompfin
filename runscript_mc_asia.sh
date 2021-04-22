@@ -24,20 +24,20 @@ common_cycle(){
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in ${Ns}
+  for N in ${Ns[@]}
   do
-    for M in ${Ms}
+    for M in ${Ms[@]}
     do
       ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
       echo "Serial N=${N}, M=${M} -- DONE"
     done
   done
 
-  for N in ${Ns} 
+  for N in ${Ns[@]} 
   do
-    for M in ${Ms} 
+    for M in ${Ms[@]} 
     do
-      for thread in ${thr}
+      for thread in ${thr[@]}
       do
         ./bin/mc_asia_omp ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${thread} >> ${results}
         echo "OMP N=${N}, M=${M}, thread=${thread} -- DONE"
@@ -45,11 +45,11 @@ double comparison = ${compare};" > include/comparison.h
     done
   done
 
-  for N in ${Ns}
+  for N in ${Ns[@]}
   do
-    for M in ${Ms}
+    for M in ${Ms[@]}
     do
-      for p in ${proc} 
+      for p in ${proc[@]} 
       do
         mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_asia_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
         echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
@@ -57,11 +57,11 @@ double comparison = ${compare};" > include/comparison.h
     done
   done
 
-  for N in ${Ns} 
+  for N in ${Ns[@]} 
   do
-    for M in ${Ms} 
+    for M in ${Ms[@]} 
     do
-      for hybrid in ${hybr}
+      for hybrid in ${hybr[@]}
       do
         mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
         echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
