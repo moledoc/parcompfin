@@ -1,0 +1,3702 @@
+Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,Error
+Serial,call,100,110,0.02,0.75,1,1000,200,0,0.026493155,0.02648338,28.43072536,1.817931524
+Serial,call,100,110,0.02,0.75,1,10000,200,0,0.236041986,0.236037121,26.97462626,0.3618324196
+Serial,call,100,110,0.02,0.75,1,10000,1000,0,1.234153311,1.234144268,26.13138431,-0.4814095278
+Serial,call,100,110,0.02,0.75,1,25000,200,0,0.619701603,0.619692042,26.86072938,0.2479355362
+Serial,call,100,110,0.02,0.75,1,25000,1000,0,2.951468333,2.951453135,26.45396824,-0.1588255992
+Serial,call,100,110,0.02,0.75,1,50000,200,0,1.218579009,1.218571984,26.30082486,-0.3119689796
+Serial,call,100,110,0.02,0.75,1,50000,1000,0,6.013813281,6.013800897,26.35688491,-0.2559089272
+Serial,call,100,110,0.02,0.75,1,75000,200,0,1.847745387,1.847735604,26.51172849,-0.10106535
+Serial,call,100,110,0.02,0.75,1,75000,1000,0,9.130119844,9.130110475,26.49928946,-0.1135043807
+Serial,call,100,110,0.02,0.75,1,100000,200,0,2.460360069,2.460353268,26.45453001,-0.1582638264
+Serial,call,100,110,0.02,0.75,1,100000,1000,0,12.31542935,12.31541019,26.4130048,-0.1997890427
+OMP,call,100,110,0.02,0.75,1,1000,200,1,0.030392254,0.03034604,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,5,0.039740075,0.039728137,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,10,0.031604912,0.031599623,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,25,0.044330695,0.04431861,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,32,0.098394133,0.098388781,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,50,0.162513813,0.162505426,25.71327763,-0.8995162118
+OMP,call,100,110,0.02,0.75,1,1000,200,64,0.18344391,0.183431537,25.37393283,-1.238861013
+OMP,call,100,110,0.02,0.75,1,1000,200,100,0.23129247,0.231273542,25.37393283,-1.238861013
+OMP,call,100,110,0.02,0.75,1,1000,200,125,0.27573719,0.275727579,25.37393283,-1.238861013
+OMP,call,100,110,0.02,0.75,1,1000,1000,1,0.120171233,0.120158859,24.47721186,-2.135581983
+OMP,call,100,110,0.02,0.75,1,1000,1000,5,0.131655843,0.131642606,24.47721186,-2.135581983
+OMP,call,100,110,0.02,0.75,1,1000,1000,10,0.159597803,0.159588639,27.1049415,0.4921476613
+OMP,call,100,110,0.02,0.75,1,1000,1000,25,0.160754047,0.160741878,27.1049415,0.4921476613
+OMP,call,100,110,0.02,0.75,1,1000,1000,32,0.237261076,0.237255282,27.1049415,0.4921476613
+OMP,call,100,110,0.02,0.75,1,1000,1000,50,0.794532531,0.794525569,27.1049415,0.4921476613
+OMP,call,100,110,0.02,0.75,1,1000,1000,64,0.886169785,0.886159911,26.97565253,0.3628586942
+OMP,call,100,110,0.02,0.75,1,1000,1000,100,1.092630895,1.092615132,29.15558481,2.542790971
+OMP,call,100,110,0.02,0.75,1,1000,1000,125,1.298089205,1.298077089,29.73887634,3.126082499
+OMP,call,100,110,0.02,0.75,1,10000,200,1,0.234362075,0.234349565,26.24416539,-0.3686284474
+OMP,call,100,110,0.02,0.75,1,10000,200,5,0.193111292,0.193098308,25.63131211,-0.9814817278
+OMP,call,100,110,0.02,0.75,1,10000,200,10,0.229366277,0.229346667,26.20865278,-0.4041410638
+OMP,call,100,110,0.02,0.75,1,10000,200,25,0.246189948,0.24617752,26.20865278,-0.4041410638
+OMP,call,100,110,0.02,0.75,1,10000,200,32,0.232991778,0.23298467,26.20865278,-0.4041410638
+OMP,call,100,110,0.02,0.75,1,10000,200,50,0.317014055,0.317008434,26.20865278,-0.4041410638
+OMP,call,100,110,0.02,0.75,1,10000,200,64,0.341029546,0.341011497,26.75790521,0.1451113692
+OMP,call,100,110,0.02,0.75,1,10000,200,100,0.407999115,0.407989825,26.75790521,0.1451113692
+OMP,call,100,110,0.02,0.75,1,10000,200,125,0.458524111,0.458517075,26.819015,0.2062211639
+OMP,call,100,110,0.02,0.75,1,10000,1000,1,1.152037832,1.152028871,27.48179464,0.8690008042
+OMP,call,100,110,0.02,0.75,1,10000,1000,5,0.973319933,0.973307512,26.01555371,-0.5972401315
+OMP,call,100,110,0.02,0.75,1,10000,1000,10,0.981563205,0.981555752,25.4349798,-1.177814037
+OMP,call,100,110,0.02,0.75,1,10000,1000,25,1.167924211,1.16791664,26.94610897,0.3333151297
+OMP,call,100,110,0.02,0.75,1,10000,1000,32,1.225598038,1.225590628,26.91334057,0.3005467307
+OMP,call,100,110,0.02,0.75,1,10000,1000,50,1.612441746,1.612434959,26.16695349,-0.4458403452
+OMP,call,100,110,0.02,0.75,1,10000,1000,64,1.645444439,1.645431324,26.05011628,-0.5626775617
+OMP,call,100,110,0.02,0.75,1,10000,1000,100,1.863728039,1.863709044,25.87030141,-0.7424924328
+OMP,call,100,110,0.02,0.75,1,10000,1000,125,2.122554721,2.122542603,27.18855245,0.5757586134
+OMP,call,100,110,0.02,0.75,1,25000,200,1,0.621693135,0.621680766,27.09784607,0.4850522311
+OMP,call,100,110,0.02,0.75,1,25000,200,5,0.53769272,0.537680413,26.21175938,-0.4010344627
+OMP,call,100,110,0.02,0.75,1,25000,200,10,0.551692496,0.551679578,26.21175938,-0.4010344627
+OMP,call,100,110,0.02,0.75,1,25000,200,25,0.594450392,0.594443573,26.68222985,0.06943601329
+OMP,call,100,110,0.02,0.75,1,25000,200,32,0.596528782,0.596516924,26.68222985,0.06943601329
+OMP,call,100,110,0.02,0.75,1,25000,200,50,0.610243129,0.610235727,26.55415366,-0.05864018031
+OMP,call,100,110,0.02,0.75,1,25000,200,64,0.575004199,0.574985061,26.85487351,0.242079675
+OMP,call,100,110,0.02,0.75,1,25000,200,100,0.66019325,0.660184736,26.84024154,0.2274477016
+OMP,call,100,110,0.02,0.75,1,25000,200,125,0.71327363,0.713261929,27.00421811,0.3914242681
+OMP,call,100,110,0.02,0.75,1,25000,1000,1,3.079969026,3.079959831,26.9210173,0.3082234585
+OMP,call,100,110,0.02,0.75,1,25000,1000,5,2.536727477,2.536712475,26.47724133,-0.1355525086
+OMP,call,100,110,0.02,0.75,1,25000,1000,10,2.446283393,2.446273616,27.04649605,0.433702209
+OMP,call,100,110,0.02,0.75,1,25000,1000,25,2.827460549,2.827452941,26.50746837,-0.1053254703
+OMP,call,100,110,0.02,0.75,1,25000,1000,32,2.844720879,2.844706579,26.6570618,0.04426795845
+OMP,call,100,110,0.02,0.75,1,25000,1000,50,3.014523074,3.014508717,26.55310257,-0.05969127469
+OMP,call,100,110,0.02,0.75,1,25000,1000,64,2.967189012,2.967176079,27.18550844,0.5727146026
+OMP,call,100,110,0.02,0.75,1,25000,1000,100,3.199080617,3.199068198,26.90706158,0.2942677433
+OMP,call,100,110,0.02,0.75,1,25000,1000,125,3.542166187,3.542146158,26.23696448,-0.3758293613
+OMP,call,100,110,0.02,0.75,1,50000,200,1,1.196388166,1.196376428,26.92467851,0.3118846685
+OMP,call,100,110,0.02,0.75,1,50000,200,5,1.001172413,1.001152624,26.17089121,-0.4419026287
+OMP,call,100,110,0.02,0.75,1,50000,200,10,0.974086986,0.974078589,26.47571124,-0.137082597
+OMP,call,100,110,0.02,0.75,1,50000,200,25,1.14334421,1.143338848,26.99877581,0.3859819698
+OMP,call,100,110,0.02,0.75,1,50000,200,32,1.004800675,1.004789842,26.60526212,-0.007531716273
+OMP,call,100,110,0.02,0.75,1,50000,200,50,1.089357104,1.08935051,27.00353705,0.3907432056
+OMP,call,100,110,0.02,0.75,1,50000,200,64,1.137151091,1.137138171,26.72581922,0.1130253829
+OMP,call,100,110,0.02,0.75,1,50000,200,100,1.119489378,1.119476453,26.39010785,-0.2226859887
+OMP,call,100,110,0.02,0.75,1,50000,200,125,1.141344541,1.141331197,27.36261751,0.7498236714
+OMP,call,100,110,0.02,0.75,1,50000,1000,1,6.283570057,6.28355782,26.2760905,-0.3367033421
+OMP,call,100,110,0.02,0.75,1,50000,1000,5,5.052180557,5.052167476,26.88622277,0.2734289284
+OMP,call,100,110,0.02,0.75,1,50000,1000,10,4.938288381,4.938277001,26.70112052,0.088326681
+OMP,call,100,110,0.02,0.75,1,50000,1000,25,5.669060013,5.66904693,26.43709321,-0.1757006272
+OMP,call,100,110,0.02,0.75,1,50000,1000,32,5.897355227,5.897313842,27.09628105,0.4834872115
+OMP,call,100,110,0.02,0.75,1,50000,1000,50,5.554489115,5.55447595,27.04396164,0.4311678036
+OMP,call,100,110,0.02,0.75,1,50000,1000,64,5.599219103,5.599202008,26.58914841,-0.02364543243
+OMP,call,100,110,0.02,0.75,1,50000,1000,100,5.619146487,5.61913346,27.13027446,0.5174806201
+OMP,call,100,110,0.02,0.75,1,50000,1000,125,5.583542328,5.583529692,26.31057807,-0.3022157727
+OMP,call,100,110,0.02,0.75,1,75000,200,1,1.879154503,1.87913476,26.5953413,-0.01745253773
+OMP,call,100,110,0.02,0.75,1,75000,200,5,1.54721551,1.547208253,26.72275151,0.1099576673
+OMP,call,100,110,0.02,0.75,1,75000,200,10,1.553405628,1.553392289,27.16362461,0.5508307657
+OMP,call,100,110,0.02,0.75,1,75000,200,25,1.552455864,1.552448197,26.91000555,0.2972117141
+OMP,call,100,110,0.02,0.75,1,75000,200,32,1.711246803,1.711241565,26.38824637,-0.2245474697
+OMP,call,100,110,0.02,0.75,1,75000,200,50,1.613045903,1.613034772,26.52410595,-0.08868788737
+OMP,call,100,110,0.02,0.75,1,75000,200,64,1.55333936,1.553321127,26.32524884,-0.2875450032
+OMP,call,100,110,0.02,0.75,1,75000,200,100,1.630346505,1.630333857,26.68661319,0.07381935039
+OMP,call,100,110,0.02,0.75,1,75000,200,125,1.658605103,1.658584958,26.56126639,-0.05152745178
+OMP,call,100,110,0.02,0.75,1,75000,1000,1,9.569842964,9.569822789,26.46378261,-0.149011231
+OMP,call,100,110,0.02,0.75,1,75000,1000,5,7.735740997,7.735727624,26.8894611,0.2766672604
+OMP,call,100,110,0.02,0.75,1,75000,1000,10,7.356375395,7.356362809,26.03496266,-0.5778311824
+OMP,call,100,110,0.02,0.75,1,75000,1000,25,7.627726773,7.627715646,26.87753312,0.2647392758
+OMP,call,100,110,0.02,0.75,1,75000,1000,32,7.835512754,7.835499774,26.73525379,0.1224599482
+OMP,call,100,110,0.02,0.75,1,75000,1000,50,7.639110682,7.639099084,26.84168722,0.2288933772
+OMP,call,100,110,0.02,0.75,1,75000,1000,64,8.091206938,8.091186089,26.61219077,-0.0006030745843
+OMP,call,100,110,0.02,0.75,1,75000,1000,100,8.140169255,8.140148708,26.64932133,0.03652748601
+OMP,call,100,110,0.02,0.75,1,75000,1000,125,7.946171006,7.946157649,26.86742761,0.2546337711
+OMP,call,100,110,0.02,0.75,1,100000,200,1,2.516688027,2.516674815,26.74981416,0.137020322
+OMP,call,100,110,0.02,0.75,1,100000,200,5,2.034913375,2.034900701,26.79912908,0.1863352438
+OMP,call,100,110,0.02,0.75,1,100000,200,10,1.998420975,1.998411475,26.33615158,-0.2766422556
+OMP,call,100,110,0.02,0.75,1,100000,200,25,2.290880487,2.290871836,26.65516211,0.0423682653
+OMP,call,100,110,0.02,0.75,1,100000,200,32,2.120348555,2.120329411,26.68883044,0.07603660317
+OMP,call,100,110,0.02,0.75,1,100000,200,50,2.062453661,2.062445686,26.31112998,-0.3016638595
+OMP,call,100,110,0.02,0.75,1,100000,200,64,2.074051942,2.07403944,26.56794557,-0.04484826798
+OMP,call,100,110,0.02,0.75,1,100000,200,100,2.085279226,2.085269707,26.9217016,0.3089077605
+OMP,call,100,110,0.02,0.75,1,100000,200,125,2.203041646,2.203022454,27.29142744,0.6786336009
+OMP,call,100,110,0.02,0.75,1,100000,1000,1,12.91697051,12.91695745,26.62647593,0.01368209481
+OMP,call,100,110,0.02,0.75,1,100000,1000,5,10.09590819,10.09590064,26.54288205,-0.0699117851
+OMP,call,100,110,0.02,0.75,1,100000,1000,10,9.696355701,9.696344775,26.45615033,-0.1566435141
+OMP,call,100,110,0.02,0.75,1,100000,1000,25,11.37613774,11.37612781,26.26939379,-0.3434000469
+OMP,call,100,110,0.02,0.75,1,100000,1000,32,10.36232278,10.36230279,26.85212771,0.2393338669
+OMP,call,100,110,0.02,0.75,1,100000,1000,50,10.42361189,10.42359873,26.82856222,0.2157683848
+OMP,call,100,110,0.02,0.75,1,100000,1000,64,10.42714142,10.42712909,26.56604865,-0.04674518832
+OMP,call,100,110,0.02,0.75,1,100000,1000,100,10.45156662,10.45155429,26.49923686,-0.1135569839
+OMP,call,100,110,0.02,0.75,1,100000,1000,125,11.04631024,11.04629515,26.46152591,-0.1512679323
+--------------------------------------------------------------------------
+[[59448,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,1,0.13666067,0.019787194,28.1172797,1.504485864
+--------------------------------------------------------------------------
+[[59424,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,5,0.146577888,0.008229779,29.72398435,3.111190506
+--------------------------------------------------------------------------
+[[59420,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,10,0.156325448,0.004846258,28.03214706,1.419353224
+--------------------------------------------------------------------------
+[[59641,1],15]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,25,0.198447749,0.005457078,25.32409039,-1.288703449
+--------------------------------------------------------------------------
+[[59561,1],26]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,32,0.266177884,0.003857654,25.64163181,-0.971162033
+--------------------------------------------------------------------------
+[[59700,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,50,0.426523171,0.015758464,24.5168857,-2.095908136
+--------------------------------------------------------------------------
+[[59817,1],57]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,64,0.499230112,0.022768756,26.39645098,-0.2163428551
+--------------------------------------------------------------------------
+[[60116,1],93]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,100,0.845707062,0.033748672,25.07303968,-1.539754161
+--------------------------------------------------------------------------
+[[60327,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,200,125,1.264922065,0.05898143,24.13861877,-2.474175071
+--------------------------------------------------------------------------
+[[60731,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:27987] *** Process received signal ***
+[parcomp32:27987] Signal: Aborted (6)
+[parcomp32:27987] Signal code:  (-6)
+[parcomp32:27987] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7fde5ad8c8a0]
+[parcomp32:27987] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7fde5a9c7f47]
+[parcomp32:27987] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7fde5a9c98b1]
+[parcomp32:27987] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7fde5b805957]
+[parcomp32:27987] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7fde5b80bae6]
+[parcomp32:27987] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7fde5b80bb21]
+[parcomp32:27987] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7fde5b80bd54]
+[parcomp32:27987] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5596e9b0ee3a]
+[parcomp32:27987] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5596e9b1050b]
+[parcomp32:27987] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5596e9b0db44]
+[parcomp32:27987] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7fde5a9aab97]
+[parcomp32:27987] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5596e9b0ddda]
+[parcomp32:27987] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60706,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:27997] *** Process received signal ***
+[parcomp32:27997] Signal: Aborted (6)
+[parcomp32:27997] Signal code:  (-6)
+[parcomp32:27997] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f862ebef8a0]
+[parcomp32:27997] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f862e82af47]
+[parcomp32:27997] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f862e82c8b1]
+[parcomp32:27997] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f862f668957]
+[parcomp32:27997] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f862f66eae6]
+[parcomp32:27997] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f862f66eb21]
+[parcomp32:27997] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f862f66ed54]
+[parcomp32:27997] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x55ce1f3c7e3a]
+[parcomp32:27997] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x55ce1f3c950b]
+[parcomp32:27997] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x55ce1f3c6b44]
+[parcomp32:27997] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f862e80db97]
+[parcomp32:27997] [11] ./bin/mc_amer_mpi(+0xcdda)[0x55ce1f3c6dda]
+[parcomp32:27997] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60696,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,10,0.182056975,0.028471786,25.93939058,-0.6734032559
+--------------------------------------------------------------------------
+[[60901,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:28053] *** Process received signal ***
+[parcomp32:28053] Signal: Aborted (6)
+[parcomp32:28053] Signal code:  (-6)
+[parcomp32:28053] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7fd7ae0c78a0]
+[parcomp32:28053] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7fd7add02f47]
+[parcomp32:28053] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7fd7add048b1]
+[parcomp32:28053] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7fd7aeb40957]
+[parcomp32:28053] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7fd7aeb46ae6]
+[parcomp32:28053] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7fd7aeb46b21]
+[parcomp32:28053] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7fd7aeb46d54]
+[parcomp32:28053] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x55b7139c3e3a]
+[parcomp32:28053] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x55b7139c550b]
+[parcomp32:28053] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x55b7139c2b44]
+[parcomp32:28053] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7fd7adce5b97]
+[parcomp32:28053] [11] ./bin/mc_amer_mpi(+0xcdda)[0x55b7139c2dda]
+[parcomp32:28053] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60820,1],22]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,32,0.267956687,0.017047432,25.60384773,-1.008946109
+--------------------------------------------------------------------------
+[[60979,1],41]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,50,0.464250791,0.05808045,26.19157422,-0.4212196161
+--------------------------------------------------------------------------
+[[61076,1],57]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,64,0.632019648,0.085858885,24.49067711,-2.122116727
+--------------------------------------------------------------------------
+[[61395,1],96]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,100,1.040741162,0.173581832,27.50830396,0.8955101216
+--------------------------------------------------------------------------
+[[61602,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,1000,1000,125,1.404116177,0.206280628,27.58352103,0.9707271919
+--------------------------------------------------------------------------
+[[61990,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,1,0.356154885,0.235873688,27.28710267,0.6743088268
+--------------------------------------------------------------------------
+[[61998,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,5,0.193814048,0.055071972,27.65439977,1.041605934
+--------------------------------------------------------------------------
+[[61978,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,10,0.183621739,0.029722692,26.37282895,-0.2399648876
+--------------------------------------------------------------------------
+[[62183,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,25,0.238357268,0.017752593,26.03214499,-0.5806488471
+--------------------------------------------------------------------------
+[[62103,1],22]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,32,0.263856846,0.014544677,26.11292586,-0.4998679843
+--------------------------------------------------------------------------
+[[62258,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,50,0.409802008,0.036224622,26.72113855,0.1083447094
+--------------------------------------------------------------------------
+[[62359,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,64,0.629059112,0.088303778,26.9189541,0.3061602645
+--------------------------------------------------------------------------
+[[62674,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,100,0.978879036,0.052904196,27.29110886,0.6783150231
+--------------------------------------------------------------------------
+[[62893,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,200,125,1.341383909,0.079551448,25.74262061,-0.870173225
+--------------------------------------------------------------------------
+[[63267,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,1,1.333709098,1.215428747,26.54746756,-0.06532627958
+--------------------------------------------------------------------------
+[[63275,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,5,0.440705212,0.296842965,27.94217425,1.329380411
+--------------------------------------------------------------------------
+[[63239,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:30583] *** Process received signal ***
+[parcomp32:30583] Signal: Aborted (6)
+[parcomp32:30583] Signal code:  (-6)
+[parcomp32:30583] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f02393fb8a0]
+[parcomp32:30583] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f0239036f47]
+[parcomp32:30583] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f02390388b1]
+[parcomp32:30583] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f0239e74957]
+[parcomp32:30583] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f0239e7aae6]
+[parcomp32:30583] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f0239e7ab21]
+[parcomp32:30583] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f0239e7ad54]
+[parcomp32:30583] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x559362525e3a]
+[parcomp32:30583] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x55936252750b]
+[parcomp32:30583] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x559362524b44]
+[parcomp32:30583] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f0239019b97]
+[parcomp32:30583] [11] ./bin/mc_amer_mpi(+0xcdda)[0x559362524dda]
+[parcomp32:30583] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[63459,1],18]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,25,0.331804416,0.079064905,25.66648701,-0.9463068282
+--------------------------------------------------------------------------
+[[63378,1],26]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,32,0.338088664,0.08587708,25.37998508,-1.232808759
+--------------------------------------------------------------------------
+[[63545,1],45]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,50,0.535059582,0.135117549,27.15936119,0.54656735
+--------------------------------------------------------------------------
+[[63634,1],58]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,64,0.621520334,0.136580013,25.93904482,-0.6737490246
+--------------------------------------------------------------------------
+[[63961,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,100,1.088482414,0.178822886,27.30900459,0.6962107459
+--------------------------------------------------------------------------
+[[64168,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,10000,1000,125,1.36309381,0.196095661,25.86319245,-0.7496013854
+--------------------------------------------------------------------------
+[[64556,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,1,0.743514707,0.624462768,26.82695563,0.2141617896
+--------------------------------------------------------------------------
+[[64532,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,5,0.282302396,0.137148978,27.10035502,0.4875611753
+--------------------------------------------------------------------------
+[[64512,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,10,0.251015449,0.092452596,26.50630752,-0.1064863209
+--------------------------------------------------------------------------
+[[64749,1],16]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,25,0.269791721,0.042813172,27.14026047,0.5274666338
+--------------------------------------------------------------------------
+[[64668,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,32,0.305605931,0.032712001,26.76532426,0.152530417
+--------------------------------------------------------------------------
+[[64827,1],43]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,50,0.476894797,0.056825202,26.58845272,-0.02434112082
+--------------------------------------------------------------------------
+[[64927,1],57]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,64,0.523565469,0.058718886,26.57644242,-0.03635142281
+--------------------------------------------------------------------------
+[[65221,1],96]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,100,0.977895571,0.077446969,26.45235059,-0.1604432534
+--------------------------------------------------------------------------
+[[65431,1],120]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,200,125,1.276384569,0.133954329,26.9593747,0.3465808588
+--------------------------------------------------------------------------
+[[33490,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,1,3.236066498,3.111804981,26.52971315,-0.08308068503
+--------------------------------------------------------------------------
+[[33477,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,5,0.758887402,0.621877545,27.13903688,0.5262430438
+--------------------------------------------------------------------------
+[[33446,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,10,0.582533478,0.428468132,27.51923937,0.9064455308
+--------------------------------------------------------------------------
+[[33420,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,25,0.429655953,0.222950387,27.60797458,0.9951807352
+--------------------------------------------------------------------------
+[[33576,1],26]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,32,0.414425658,0.161975632,27.44257862,0.8297847814
+--------------------------------------------------------------------------
+[[33712,1],43]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:00970] *** Process received signal ***
+[parcomp32:00970] Signal: Aborted (6)
+[parcomp32:00970] Signal code:  (-6)
+[parcomp32:00970] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f349188b8a0]
+[parcomp32:00970] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f34914c6f47]
+[parcomp32:00970] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f34914c88b1]
+[parcomp32:00970] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f3492304957]
+[parcomp32:00970] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f349230aae6]
+[parcomp32:00970] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f349230ab21]
+[parcomp32:00970] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f349230ad54]
+[parcomp32:00970] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x555cba748e3a]
+[parcomp32:00970] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x555cba74a50b]
+[parcomp32:00970] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x555cba747b44]
+[parcomp32:00970] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f34914a9b97]
+[parcomp32:00970] [11] ./bin/mc_amer_mpi(+0xcdda)[0x555cba747dda]
+[parcomp32:00970] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[33814,1],55]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:01128] *** Process received signal ***
+[parcomp32:01128] Signal: Aborted (6)
+[parcomp32:01128] Signal code:  (-6)
+[parcomp32:01128] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f43d8eb18a0]
+[parcomp32:01128] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f43d8aecf47]
+[parcomp32:01128] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f43d8aee8b1]
+[parcomp32:01128] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f43d992a957]
+[parcomp32:01128] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f43d9930ae6]
+[parcomp32:01128] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f43d9930b21]
+[parcomp32:01128] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f43d9930d54]
+[parcomp32:01128] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5619e516ce3a]
+[parcomp32:01128] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5619e516e50b]
+[parcomp32:01128] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5619e516bb44]
+[parcomp32:01128] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f43d8acfb97]
+[parcomp32:01128] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5619e516bdda]
+[parcomp32:01128] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[34113,1],93]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:01338] *** Process received signal ***
+[parcomp32:01338] Signal: Aborted (6)
+[parcomp32:01338] Signal code:  (-6)
+[parcomp32:01338] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7efcd10038a0]
+[parcomp32:01338] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7efcd0c3ef47]
+[parcomp32:01338] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7efcd0c408b1]
+[parcomp32:01338] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7efcd1a7c957]
+[parcomp32:01338] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7efcd1a82ae6]
+[parcomp32:01338] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7efcd1a82b21]
+[parcomp32:01338] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7efcd1a82d54]
+[parcomp32:01338] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5574215bae3a]
+[parcomp32:01338] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5574215bc50b]
+[parcomp32:01338] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5574215b9b44]
+[parcomp32:01338] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7efcd0c21b97]
+[parcomp32:01338] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5574215b9dda]
+[parcomp32:01338] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[34559,1],117]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,25000,1000,125,1.502764894,0.396740444,26.81405911,0.2012652662
+--------------------------------------------------------------------------
+[[34861,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,1,1.315254606,1.194935452,26.31539924,-0.2973945984
+--------------------------------------------------------------------------
+[[34837,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,5,0.426263984,0.288276615,26.88065795,0.2678641145
+--------------------------------------------------------------------------
+[[34819,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,10,0.3232389,0.162096667,26.35639744,-0.2563964039
+--------------------------------------------------------------------------
+[[35052,1],14]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,25,0.298644718,0.077651306,26.59064533,-0.02214851429
+--------------------------------------------------------------------------
+[[34969,1],25]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,32,0.328297955,0.079892294,26.87802761,0.2652337749
+--------------------------------------------------------------------------
+[[35107,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,50,0.499950746,0.104920279,26.84767159,0.2348777494
+--------------------------------------------------------------------------
+[[35204,1],56]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,64,0.604453441,0.108129909,26.8339294,0.2211355643
+--------------------------------------------------------------------------
+[[35523,1],93]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,100,0.938221632,0.114309088,26.89429258,0.2814987352
+--------------------------------------------------------------------------
+[[35740,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,200,125,1.232930837,0.14862365,26.68406705,0.07127321042
+--------------------------------------------------------------------------
+[[36112,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,1,6.230661187,6.109785168,26.48159904,-0.1311948018
+--------------------------------------------------------------------------
+[[36120,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,5,1.448449166,1.310157254,26.96068397,0.3478901332
+--------------------------------------------------------------------------
+[[36340,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,10,0.838792856,0.680424829,27.11034874,0.4975549021
+--------------------------------------------------------------------------
+[[36305,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,25,0.585384013,0.344084743,27.21895224,0.6061583958
+--------------------------------------------------------------------------
+[[36225,1],22]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,32,0.615264407,0.353106138,27.38549797,0.7727041274
+--------------------------------------------------------------------------
+[[36396,1],43]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,50,0.813816577,0.423211362,27.0170422,0.4042483611
+--------------------------------------------------------------------------
+[[36481,1],56]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,64,0.910607521,0.455659179,27.01383129,0.4010374549
+--------------------------------------------------------------------------
+[[36812,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,100,1.400776428,0.529718141,26.92475134,0.3119575012
+--------------------------------------------------------------------------
+[[37023,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,50000,1000,125,1.749474048,0.516764214,26.34490317,-0.2678906689
+--------------------------------------------------------------------------
+[[37394,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,1,2.015234658,1.89453473,26.52153437,-0.09125946803
+--------------------------------------------------------------------------
+[[37402,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,5,0.564781511,0.42053258,26.97993057,0.36713673
+--------------------------------------------------------------------------
+[[37622,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,10,0.392619177,0.220748843,26.25680679,-0.3559870495
+--------------------------------------------------------------------------
+[[37587,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,25,0.339069154,0.117809366,26.29244865,-0.3203451916
+--------------------------------------------------------------------------
+[[37507,1],23]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,32,0.361685161,0.100521449,26.45296857,-0.1598252743
+--------------------------------------------------------------------------
+[[37678,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,50,0.559231574,0.12641792,26.74751924,0.1347253991
+--------------------------------------------------------------------------
+[[37763,1],53]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,64,0.632470455,0.139463037,27.22346285,0.6106690143
+--------------------------------------------------------------------------
+[[38094,1],94]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,100,1.032381302,0.171807478,26.9435878,0.3307939575
+--------------------------------------------------------------------------
+[[38297,1],120]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,200,125,1.358520464,0.170613423,26.96458941,0.3517955695
+--------------------------------------------------------------------------
+[[38685,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,1,9.614419033,9.494250644,26.37656306,-0.2362307804
+--------------------------------------------------------------------------
+[[38661,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,5,2.13837747,1.994573101,26.68441516,0.07162131925
+--------------------------------------------------------------------------
+[[38897,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,10,1.19081564,1.022440626,26.89768972,0.2848958808
+--------------------------------------------------------------------------
+[[38866,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,25,0.850693378,0.623852265,27.09660295,0.4838091052
+--------------------------------------------------------------------------
+[[38786,1],26]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,32,0.733344426,0.470471487,27.16420915,0.5514153093
+--------------------------------------------------------------------------
+[[38953,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,50,0.945825665,0.532644044,26.94907231,0.3362784694
+--------------------------------------------------------------------------
+[[39042,1],56]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,75000,1000,64,1.221992303,0.671842232,27.00401691,0.3912230744
+--------------------------------------------------------------------------
+[[39369,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:06593] *** Process received signal ***
+[parcomp32:06593] Signal: Aborted (6)
+[parcomp32:06593] Signal code:  (-6)
+[parcomp32:06593] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f8c1587e8a0]
+[parcomp32:06593] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f8c154b9f47]
+[parcomp32:06593] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f8c154bb8b1]
+[parcomp32:06593] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f8c162f7957]
+[parcomp32:06593] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f8c162fdae6]
+[parcomp32:06593] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f8c162fdb21]
+[parcomp32:06593] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f8c162fdd54]
+[parcomp32:06593] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x557a53197e3a]
+[parcomp32:06593] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x557a5319950b]
+[parcomp32:06593] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x557a53196b44]
+[parcomp32:06593] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f8c1549cb97]
+[parcomp32:06593] [11] ./bin/mc_amer_mpi(+0xcdda)[0x557a53196dda]
+[parcomp32:06593] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[39578,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:06900] *** Process received signal ***
+[parcomp32:06900] Signal: Aborted (6)
+[parcomp32:06900] Signal code:  (-6)
+[parcomp32:06900] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f7ec74068a0]
+[parcomp32:06900] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f7ec7041f47]
+[parcomp32:06900] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f7ec70438b1]
+[parcomp32:06900] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f7ec7e7f957]
+[parcomp32:06900] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f7ec7e85ae6]
+[parcomp32:06900] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f7ec7e85b21]
+[parcomp32:06900] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f7ec7e85d54]
+[parcomp32:06900] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x56091ae29e3a]
+[parcomp32:06900] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x56091ae2b50b]
+[parcomp32:06900] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x56091ae28b44]
+[parcomp32:06900] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f7ec7024b97]
+[parcomp32:06900] [11] ./bin/mc_amer_mpi(+0xcdda)[0x56091ae28dda]
+[parcomp32:06900] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[39961,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,1,2.721793568,2.59814694,26.44032656,-0.1724672792
+--------------------------------------------------------------------------
+[[39937,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,5,0.713049038,0.565622747,26.88349056,0.2706967165
+--------------------------------------------------------------------------
+[[40189,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,10,0.487422359,0.329005099,26.55492927,-0.05786456905
+--------------------------------------------------------------------------
+[[40158,1],18]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,25,0.406852247,0.177261924,26.3949163,-0.2178775374
+--------------------------------------------------------------------------
+[[40078,1],25]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,32,0.403702598,0.133613644,26.29903187,-0.3137619722
+--------------------------------------------------------------------------
+[[40213,1],41]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,50,0.586563979,0.157817221,26.37070148,-0.2420923576
+--------------------------------------------------------------------------
+[[40334,1],57]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,64,0.693953787,0.178015605,26.38050125,-0.2322925908
+--------------------------------------------------------------------------
+[[40629,1],93]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,100,1.073313114,0.248380467,26.18783554,-0.4249583037
+--------------------------------------------------------------------------
+[[40836,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,200,125,1.454742662,0.235953942,26.27395476,-0.3388390827
+--------------------------------------------------------------------------
+[[41243,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,1,13.03045688,12.90915599,26.41738062,-0.1954132242
+--------------------------------------------------------------------------
+[[41219,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,5,2.681776614,2.544137658,26.7519467,0.1391528626
+--------------------------------------------------------------------------
+[[41471,1],3]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,10,1.493539338,1.336758762,26.87457699,0.2617831538
+--------------------------------------------------------------------------
+[[41432,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,25,0.915813166,0.710509019,26.95623971,0.3434458651
+--------------------------------------------------------------------------
+[[41352,1],22]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,32,0.892500232,0.636403471,26.83674492,0.2239510836
+--------------------------------------------------------------------------
+[[41495,1],42]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,50,1.264851999,0.833443013,26.48641835,-0.1263754946
+--------------------------------------------------------------------------
+[[41608,1],56]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,64,1.413825858,0.863535955,26.40244378,-0.2103500565
+--------------------------------------------------------------------------
+[[41911,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,100,2.001769182,1.088831292,26.74540633,0.1326124896
+--------------------------------------------------------------------------
+[[42118,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,call,100,110,0.02,0.75,1,100000,1000,125,2.280324847,1.139324897,26.53161248,-0.08118136147
+Hybrid,call,100,110,0.02,0.75,1,1000,200,1001,0.135990326,0.021138772,25.52095443,-1.091839406
+Hybrid,call,100,110,0.02,0.75,1,1000,200,10010,0.173062217,0.017401944,25.37753683,-1.235257007
+Hybrid,call,100,110,0.02,0.75,1,1000,200,25025,0.251743871,0.043037022,25.28885909,-1.323934752
+Hybrid,call,100,110,0.02,0.75,1,1000,200,50050,0.968351886,0.506562266,26.56033722,-0.05245661716
+Hybrid,call,100,110,0.02,0.75,1,1000,1000,1001,0.224422419,0.10387021,24.37053105,-2.24226279
+Hybrid,call,100,110,0.02,0.75,1,1000,1000,10010,0.247381407,0.084371182,23.37508989,-3.237703949
+Hybrid,call,100,110,0.02,0.75,1,1000,1000,25025,0.392366578,0.178803749,24.61352719,-1.999266648
+Hybrid,call,100,110,0.02,0.75,1,1000,1000,50050,2.341125988,1.949524818,25.82522313,-0.7875707107
+Hybrid,call,100,110,0.02,0.75,1,10000,200,1001,0.34750809,0.226679417,26.71737396,0.1045801171
+Hybrid,call,100,110,0.02,0.75,1,10000,200,10010,0.201882104,0.04786643,26.63007728,0.01728343636
+Hybrid,call,100,110,0.02,0.75,1,10000,200,25025,0.265461192,0.051635631,26.18172233,-0.431071507
+Hybrid,call,100,110,0.02,0.75,1,10000,200,50050,0.963119494,0.565471836,25.92844941,-0.6843444276
+Hybrid,call,100,110,0.02,0.75,1,10000,1000,1001,1.343220429,1.220488329,26.40248347,-0.2103103685
+Hybrid,call,100,110,0.02,0.75,1,10000,1000,10010,0.341492857,0.182409951,26.30562454,-0.3071693
+Hybrid,call,100,110,0.02,0.75,1,10000,1000,25025,0.440294519,0.247214292,26.48279622,-0.1299976233
+Hybrid,call,100,110,0.02,0.75,1,10000,1000,50050,2.637856472,2.230031731,24.70156933,-1.911224512
+Hybrid,call,100,110,0.02,0.75,1,25000,200,1001,0.719589512,0.602161683,26.57200011,-0.0407937344
+Hybrid,call,100,110,0.02,0.75,1,25000,200,10010,0.262109251,0.110194297,26.63805894,0.02526509781
+Hybrid,call,100,110,0.02,0.75,1,25000,200,25025,0.280129403,0.075584763,25.68943128,-0.9233625608
+Hybrid,call,100,110,0.02,0.75,1,25000,200,50050,0.957116329,0.556411927,25.91176191,-0.7010319343
+Hybrid,call,100,110,0.02,0.75,1,25000,1000,1001,3.019701639,2.899200614,26.36961106,-0.2431827793
+Hybrid,call,100,110,0.02,0.75,1,25000,1000,10010,0.558116567,0.401654305,25.32599296,-1.286800876
+Hybrid,call,100,110,0.02,0.75,1,25000,1000,25025,0.588021978,0.369064219,27.01628379,0.4034899459
+Hybrid,call,100,110,0.02,0.75,1,25000,1000,50050,2.787589177,2.407823112,25.79834686,-0.814446983
+Hybrid,call,100,110,0.02,0.75,1,50000,200,1001,1.333004395,1.210717943,26.19025027,-0.4225435704
+Hybrid,call,100,110,0.02,0.75,1,50000,200,10010,0.338019225,0.170211843,26.93342099,0.3206271501
+Hybrid,call,100,110,0.02,0.75,1,50000,200,25025,0.347388703,0.115219712,26.2173208,-0.3954730408
+Hybrid,call,100,110,0.02,0.75,1,50000,200,50050,1.002862854,0.522139769,26.27238175,-0.34041209
+Hybrid,call,100,110,0.02,0.75,1,50000,1000,1001,6.844559174,6.721914041,26.2791059,-0.3336879441
+Hybrid,call,100,110,0.02,0.75,1,50000,1000,10010,0.887936834,0.727791688,26.6927416,0.07994776383
+Hybrid,call,100,110,0.02,0.75,1,50000,1000,25025,0.801983831,0.571351031,25.49734475,-1.115449089
+Hybrid,call,100,110,0.02,0.75,1,50000,1000,50050,2.770044824,2.336092316,26.52210635,-0.09068748654
+Hybrid,call,100,110,0.02,0.75,1,75000,200,1001,1.939763668,1.819922585,26.3981676,-0.2146262398
+Hybrid,call,100,110,0.02,0.75,1,75000,200,10010,0.375643615,0.217471608,26.51070682,-0.1020870241
+Hybrid,call,100,110,0.02,0.75,1,75000,200,25025,0.36089242,0.156352643,26.77137412,0.158580283
+Hybrid,call,100,110,0.02,0.75,1,75000,200,50050,1.085834611,0.701010705,26.96528298,0.3524891433
+Hybrid,call,100,110,0.02,0.75,1,75000,1000,1001,9.224530877,9.102920241,26.33557919,-0.2772146463
+Hybrid,call,100,110,0.02,0.75,1,75000,1000,10010,1.218909268,1.049595194,26.62792385,0.01513001019
+Hybrid,call,100,110,0.02,0.75,1,75000,1000,25025,0.987089823,0.763501572,26.89562322,0.282829384
+Hybrid,call,100,110,0.02,0.75,1,75000,1000,50050,2.989679422,2.591279624,25.83424341,-0.7785504333
+Hybrid,call,100,110,0.02,0.75,1,100000,200,1001,2.519666883,2.399527796,26.44646173,-0.1663321118
+Hybrid,call,100,110,0.02,0.75,1,100000,200,10010,0.445822166,0.2852019,26.32228873,-0.2905051076
+Hybrid,call,100,110,0.02,0.75,1,100000,200,25025,0.406338542,0.198304902,27.00507207,0.3922782345
+Hybrid,call,100,110,0.02,0.75,1,100000,200,50050,1.052015696,0.617210047,26.30750613,-0.305287706
+Hybrid,call,100,110,0.02,0.75,1,100000,1000,1001,11.9788092,11.85937858,26.34967879,-0.2631150505
+Hybrid,call,100,110,0.02,0.75,1,100000,1000,10010,1.411055631,1.259740512,26.14354302,-0.4692508172
+Hybrid,call,100,110,0.02,0.75,1,100000,1000,25025,1.175350987,0.975811147,26.42893674,-0.1838571019
+Hybrid,call,100,110,0.02,0.75,1,100000,1000,50050,2.884097263,2.48214452,26.68634762,0.07355377657
+Serial,put,100,90,0.02,0.75,1,1000,200,0,0.028448249,0.028442303,22.43420413,0.3079239365
+Serial,put,100,90,0.02,0.75,1,1000,1000,0,0.157613731,0.157604552,22.06273509,-0.06354509816
+Serial,put,100,90,0.02,0.75,1,10000,200,0,0.306080245,0.306070799,22.1216131,-0.004667086423
+Serial,put,100,90,0.02,0.75,1,10000,1000,0,1.509271744,1.509247821,22.06557807,-0.06070211867
+Serial,put,100,90,0.02,0.75,1,25000,200,0,0.92047523,0.920466954,22.09721038,-0.02906980507
+Serial,put,100,90,0.02,0.75,1,25000,1000,0,3.984836785,3.984829043,22.1042276,-0.02205258596
+Serial,put,100,90,0.02,0.75,1,50000,200,0,1.641204908,1.641196011,22.05784723,-0.06843295515
+Serial,put,100,90,0.02,0.75,1,50000,1000,0,7.891095272,7.891088725,22.02846564,-0.0978145468
+Serial,put,100,90,0.02,0.75,1,75000,200,0,2.394486535,2.394480827,22.08972137,-0.03655882203
+Serial,put,100,90,0.02,0.75,1,75000,1000,0,12.28683244,12.28682412,22.05593091,-0.0703492756
+Serial,put,100,90,0.02,0.75,1,100000,200,0,3.362569813,3.362559632,22.08771876,-0.03856142611
+Serial,put,100,90,0.02,0.75,1,100000,1000,0,16.85072143,16.85071551,22.05438599,-0.07189419827
+OMP,put,100,90,0.02,0.75,1,1000,200,1,0.025100377,0.025084726,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,5,0.028815215,0.02880943,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,10,0.030677974,0.030660771,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,25,0.029674965,0.029665805,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,32,0.06709381,0.067087151,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,50,0.172853621,0.172847182,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,64,0.213328128,0.213315596,21.88805939,-0.2382208018
+OMP,put,100,90,0.02,0.75,1,1000,200,100,0.263750776,0.2637386,21.94784714,-0.1784330514
+OMP,put,100,90,0.02,0.75,1,1000,200,125,0.313019821,0.313007979,21.94784714,-0.1784330514
+OMP,put,100,90,0.02,0.75,1,1000,1000,1,0.099642741,0.099625946,21.93363976,-0.1926404326
+OMP,put,100,90,0.02,0.75,1,1000,1000,5,0.113133089,0.113125633,21.93363976,-0.1926404326
+OMP,put,100,90,0.02,0.75,1,1000,1000,10,0.121158281,0.121145521,21.93363976,-0.1926404326
+OMP,put,100,90,0.02,0.75,1,1000,1000,25,0.134720299,0.134712944,22.15846878,0.03218859256
+OMP,put,100,90,0.02,0.75,1,1000,1000,32,0.127569903,0.127563433,22.15846878,0.03218859256
+OMP,put,100,90,0.02,0.75,1,1000,1000,50,0.898287799,0.898279918,22.15846878,0.03218859256
+OMP,put,100,90,0.02,0.75,1,1000,1000,64,0.917317944,0.917311049,22.45848102,0.3322008284
+OMP,put,100,90,0.02,0.75,1,1000,1000,100,1.133163776,1.133142169,22.01115813,-0.1151220595
+OMP,put,100,90,0.02,0.75,1,1000,1000,125,1.368628213,1.368615552,22.08373563,-0.0425445551
+OMP,put,100,90,0.02,0.75,1,10000,200,1,0.193244931,0.193233401,21.90091094,-0.2253692549
+OMP,put,100,90,0.02,0.75,1,10000,200,5,0.179589461,0.179577125,21.90091094,-0.2253692549
+OMP,put,100,90,0.02,0.75,1,10000,200,10,0.181569752,0.18156388,21.94953426,-0.1767459262
+OMP,put,100,90,0.02,0.75,1,10000,200,25,0.196214859,0.196209122,21.94953426,-0.1767459262
+OMP,put,100,90,0.02,0.75,1,10000,200,32,0.199829872,0.199824258,21.94953426,-0.1767459262
+OMP,put,100,90,0.02,0.75,1,10000,200,50,0.326789961,0.326783636,21.94953426,-0.1767459262
+OMP,put,100,90,0.02,0.75,1,10000,200,64,0.338940921,0.338921239,22.05206767,-0.0742125161
+OMP,put,100,90,0.02,0.75,1,10000,200,100,0.418126476,0.418107655,22.07484865,-0.05143154352
+OMP,put,100,90,0.02,0.75,1,10000,200,125,0.471394908,0.471380979,22.07484865,-0.05143154352
+OMP,put,100,90,0.02,0.75,1,10000,1000,1,0.991423522,0.991413227,22.02935298,-0.09692721197
+OMP,put,100,90,0.02,0.75,1,10000,1000,5,0.829782757,0.829773568,22.1068456,-0.01943458548
+OMP,put,100,90,0.02,0.75,1,10000,1000,10,0.83375289,0.833732558,22.12406082,-0.002219366518
+OMP,put,100,90,0.02,0.75,1,10000,1000,25,0.840734986,0.840728775,22.0080827,-0.1181974876
+OMP,put,100,90,0.02,0.75,1,10000,1000,32,0.848336089,0.8483287,21.85009626,-0.2761839255
+OMP,put,100,90,0.02,0.75,1,10000,1000,50,1.546641137,1.546634104,21.8667057,-0.2595744924
+OMP,put,100,90,0.02,0.75,1,10000,1000,64,1.643136999,1.643124876,21.91473082,-0.2115493688
+OMP,put,100,90,0.02,0.75,1,10000,1000,100,1.494925653,1.494909678,22.11593911,-0.01034107683
+OMP,put,100,90,0.02,0.75,1,10000,1000,125,2.123314458,2.123307846,21.93517839,-0.1911017985
+OMP,put,100,90,0.02,0.75,1,25000,200,1,0.511458562,0.511445158,21.9265108,-0.1997693881
+OMP,put,100,90,0.02,0.75,1,25000,200,5,0.504525791,0.504504806,21.94050987,-0.1857703207
+OMP,put,100,90,0.02,0.75,1,25000,200,10,0.440414838,0.440407045,21.94050987,-0.1857703207
+OMP,put,100,90,0.02,0.75,1,25000,200,25,0.438793857,0.438785879,22.09126262,-0.03501757
+OMP,put,100,90,0.02,0.75,1,25000,200,32,0.458517218,0.4585057,22.09126262,-0.03501757
+OMP,put,100,90,0.02,0.75,1,25000,200,50,0.602795265,0.602786931,21.98365255,-0.1426276444
+OMP,put,100,90,0.02,0.75,1,25000,200,64,0.692445256,0.692420165,21.98365255,-0.1426276444
+OMP,put,100,90,0.02,0.75,1,25000,200,100,0.712571981,0.712559709,22.02277024,-0.1035099474
+OMP,put,100,90,0.02,0.75,1,25000,200,125,0.813536582,0.813521065,22.07286584,-0.05341434549
+OMP,put,100,90,0.02,0.75,1,25000,1000,1,2.774305933,2.774296089,22.06234037,-0.06393981883
+OMP,put,100,90,0.02,0.75,1,25000,1000,5,2.184279545,2.184265887,21.90725589,-0.2190243037
+OMP,put,100,90,0.02,0.75,1,25000,1000,10,2.112165298,2.112158652,21.98312351,-0.1431566835
+OMP,put,100,90,0.02,0.75,1,25000,1000,25,2.063359648,2.063347415,22.01298649,-0.1132937045
+OMP,put,100,90,0.02,0.75,1,25000,1000,32,2.093201626,2.093192864,22.0156836,-0.1105965914
+OMP,put,100,90,0.02,0.75,1,25000,1000,50,3.035884985,3.03587386,21.86365978,-0.2626204122
+OMP,put,100,90,0.02,0.75,1,25000,1000,64,3.123038221,3.123029843,21.96042515,-0.165855045
+OMP,put,100,90,0.02,0.75,1,25000,1000,100,3.461222734,3.461207517,22.13612667,0.009846479187
+OMP,put,100,90,0.02,0.75,1,25000,1000,125,3.830540308,3.830524902,22.08417932,-0.04210087032
+OMP,put,100,90,0.02,0.75,1,50000,200,1,1.197090519,1.197070295,22.01245449,-0.1138256985
+OMP,put,100,90,0.02,0.75,1,50000,200,5,1.04089668,1.040882814,22.00831149,-0.1179686955
+OMP,put,100,90,0.02,0.75,1,50000,200,10,0.918958334,0.91894965,22.00694781,-0.1193323792
+OMP,put,100,90,0.02,0.75,1,50000,200,25,0.877165406,0.877156807,21.99088095,-0.1353992442
+OMP,put,100,90,0.02,0.75,1,50000,200,32,0.908585353,0.908573619,21.90751954,-0.2187606457
+OMP,put,100,90,0.02,0.75,1,50000,200,50,1.023686365,1.023679371,22.00741898,-0.1188612093
+OMP,put,100,90,0.02,0.75,1,50000,200,64,1.143173702,1.143162043,21.96537655,-0.1609036416
+OMP,put,100,90,0.02,0.75,1,50000,200,100,1.118282566,1.118272926,22.02579947,-0.1004807194
+OMP,put,100,90,0.02,0.75,1,50000,200,125,1.261608027,1.261593093,22.00808703,-0.1181931601
+OMP,put,100,90,0.02,0.75,1,50000,1000,1,5.644027014,5.644008919,22.04622173,-0.08005845789
+OMP,put,100,90,0.02,0.75,1,50000,1000,5,4.272589278,4.272577968,22.01250791,-0.1137722816
+OMP,put,100,90,0.02,0.75,1,50000,1000,10,4.151616422,4.151604051,21.96259255,-0.1636876366
+OMP,put,100,90,0.02,0.75,1,50000,1000,25,4.076130851,4.076115125,22.04659392,-0.07968627453
+OMP,put,100,90,0.02,0.75,1,50000,1000,32,4.110436586,4.110427055,21.98042411,-0.1458560752
+OMP,put,100,90,0.02,0.75,1,50000,1000,50,4.892272354,4.892261736,22.03575586,-0.09052432751
+OMP,put,100,90,0.02,0.75,1,50000,1000,64,4.933748258,4.933735912,22.06492393,-0.06135626395
+OMP,put,100,90,0.02,0.75,1,50000,1000,100,5.103166991,5.10315463,21.92051047,-0.2057697154
+OMP,put,100,90,0.02,0.75,1,50000,1000,125,5.401299862,5.401286039,21.96567643,-0.1606037562
+OMP,put,100,90,0.02,0.75,1,75000,200,1,1.550150974,1.550137801,22.00942623,-0.1168539573
+OMP,put,100,90,0.02,0.75,1,75000,200,5,1.309998265,1.309985326,21.98098156,-0.1452986269
+OMP,put,100,90,0.02,0.75,1,75000,200,10,1.275839093,1.275831606,21.98772391,-0.1385562754
+OMP,put,100,90,0.02,0.75,1,75000,200,25,1.270967979,1.270960308,22.07950271,-0.0467774834
+OMP,put,100,90,0.02,0.75,1,75000,200,32,1.25640603,1.256397852,21.98108718,-0.1451930093
+OMP,put,100,90,0.02,0.75,1,75000,200,50,1.359929052,1.359921977,21.97725086,-0.1490293279
+OMP,put,100,90,0.02,0.75,1,75000,200,64,1.609690433,1.609667183,22.02422057,-0.1020596178
+OMP,put,100,90,0.02,0.75,1,75000,200,100,1.475793558,1.475783663,22.02321684,-0.1030633546
+OMP,put,100,90,0.02,0.75,1,75000,200,125,1.568170804,1.568158415,22.06886507,-0.05741512464
+OMP,put,100,90,0.02,0.75,1,75000,1000,1,7.57857069,7.578553758,22.03809184,-0.08818835476
+OMP,put,100,90,0.02,0.75,1,75000,1000,5,6.4603538,6.460340655,22.01808106,-0.1081991288
+OMP,put,100,90,0.02,0.75,1,75000,1000,10,6.220607276,6.220592975,22.03591933,-0.09036085549
+OMP,put,100,90,0.02,0.75,1,75000,1000,25,6.084476467,6.084463857,21.96166895,-0.1646112407
+OMP,put,100,90,0.02,0.75,1,75000,1000,32,6.146131904,6.146118871,21.9631038,-0.1631763871
+OMP,put,100,90,0.02,0.75,1,75000,1000,50,7.31284822,7.312839066,21.95159353,-0.1746866628
+OMP,put,100,90,0.02,0.75,1,75000,1000,64,6.567549428,6.567532106,21.89591475,-0.2303654357
+OMP,put,100,90,0.02,0.75,1,75000,1000,100,7.036268602,7.036256309,21.95452526,-0.1717549252
+OMP,put,100,90,0.02,0.75,1,75000,1000,125,7.515159787,7.515147505,21.9803773,-0.1459028889
+OMP,put,100,90,0.02,0.75,1,100000,200,1,2.119672725,2.119660254,21.95094391,-0.1753362808
+OMP,put,100,90,0.02,0.75,1,100000,200,5,1.748636959,1.748626892,22.07867564,-0.04760454761
+OMP,put,100,90,0.02,0.75,1,100000,200,10,1.717947126,1.717927758,22.00017407,-0.1261061216
+OMP,put,100,90,0.02,0.75,1,100000,200,25,2.49144989,2.491436889,22.02213464,-0.1041455488
+OMP,put,100,90,0.02,0.75,1,100000,200,32,1.863169633,1.863156344,21.97992296,-0.1463572288
+OMP,put,100,90,0.02,0.75,1,100000,200,50,1.806486216,1.806478091,22.01451413,-0.1117660593
+OMP,put,100,90,0.02,0.75,1,100000,200,64,1.843491248,1.843478438,22.00727999,-0.1190001981
+OMP,put,100,90,0.02,0.75,1,100000,200,100,2.227067387,2.227056167,21.99904135,-0.1272388408
+OMP,put,100,90,0.02,0.75,1,100000,200,125,2.107244216,2.107234406,22.02401454,-0.1022656513
+OMP,put,100,90,0.02,0.75,1,100000,1000,1,14.32614164,14.32612895,22.06152862,-0.06475156754
+OMP,put,100,90,0.02,0.75,1,100000,1000,5,8.500598295,8.500587752,22.01425658,-0.1120236142
+OMP,put,100,90,0.02,0.75,1,100000,1000,10,8.487753252,8.487740155,21.98214964,-0.1441305451
+OMP,put,100,90,0.02,0.75,1,100000,1000,25,8.200547211,8.200534924,21.99463183,-0.1316483581
+OMP,put,100,90,0.02,0.75,1,100000,1000,32,8.739777625,8.739765115,21.91845081,-0.2078293794
+OMP,put,100,90,0.02,0.75,1,100000,1000,50,8.335525827,8.335494658,22.02174802,-0.1045321725
+OMP,put,100,90,0.02,0.75,1,100000,1000,64,8.824340503,8.824327157,22.01230108,-0.1139791113
+OMP,put,100,90,0.02,0.75,1,100000,1000,100,9.595910136,9.595900948,21.99595708,-0.1303231124
+OMP,put,100,90,0.02,0.75,1,100000,1000,125,9.532936048,9.532918815,21.96190296,-0.1643772325
+--------------------------------------------------------------------------
+[[56339,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,1,0.152540524,0.029000863,22.46737823,0.3410980414
+--------------------------------------------------------------------------
+[[56347,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,5,0.155028787,0.01266891,21.89615393,-0.2301262635
+--------------------------------------------------------------------------
+[[56567,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,10,0.161001139,0.008213235,21.76003187,-0.366248322
+--------------------------------------------------------------------------
+[[56528,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,25,0.21835854,0.005356039,22.14115714,0.01487694951
+--------------------------------------------------------------------------
+[[56448,1],24]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,32,0.235065304,0.004978362,22.50443911,0.3781589241
+--------------------------------------------------------------------------
+[[56623,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,50,0.469264493,0.064179756,21.81104008,-0.3152401074
+--------------------------------------------------------------------------
+[[56704,1],54]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,64,0.485555316,0.03258818,22.79670213,0.6704219371
+--------------------------------------------------------------------------
+[[57038,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,100,0.880213749,0.04403884,22.70395778,0.5776775931
+--------------------------------------------------------------------------
+[[57241,1],117]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,200,125,1.223670557,0.081269875,21.65266953,-0.4736106634
+--------------------------------------------------------------------------
+[[57628,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,1000,1,0.250817207,0.134179819,22.60659402,0.4803138316
+--------------------------------------------------------------------------
+[[57607,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,1000,5,0.186490883,0.040660481,21.99750123,-0.1287789596
+--------------------------------------------------------------------------
+[[57843,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,1000,10,0.187701633,0.021384286,21.3324004,-0.7938797945
+--------------------------------------------------------------------------
+[[57820,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:25006] *** Process received signal ***
+[parcomp32:25006] Signal: Aborted (6)
+[parcomp32:25006] Signal code:  (-6)
+[parcomp32:25006] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f4e159288a0]
+[parcomp32:25006] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f4e15563f47]
+[parcomp32:25006] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f4e155658b1]
+[parcomp32:25006] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f4e163a1957]
+[parcomp32:25006] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f4e163a7ae6]
+[parcomp32:25006] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f4e163a7b21]
+[parcomp32:25006] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f4e163a7d54]
+[parcomp32:25006] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5616cd5b9e3a]
+[parcomp32:25006] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5616cd5bb50b]
+[parcomp32:25006] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5616cd5b8b44]
+[parcomp32:25006] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f4e15546b97]
+[parcomp32:25006] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5616cd5b8dda]
+[parcomp32:25006] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[57742,1],20]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:25088] *** Process received signal ***
+[parcomp32:25088] Signal: Aborted (6)
+[parcomp32:25088] Signal code:  (-6)
+[parcomp32:25088] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f92974308a0]
+[parcomp32:25088] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f929706bf47]
+[parcomp32:25088] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f929706d8b1]
+[parcomp32:25088] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f9297ea9957]
+[parcomp32:25088] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f9297eafae6]
+[parcomp32:25088] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f9297eafb21]
+[parcomp32:25088] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f9297eafd54]
+[parcomp32:25088] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x562c6468ee3a]
+[parcomp32:25088] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x562c6469050b]
+[parcomp32:25088] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x562c6468db44]
+[parcomp32:25088] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f929704eb97]
+[parcomp32:25088] [11] ./bin/mc_amer_mpi(+0xcdda)[0x562c6468ddda]
+[parcomp32:25088] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[57879,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,1000,50,0.502897398,0.068840781,22.14013618,0.01385598567
+--------------------------------------------------------------------------
+[[58229,1],58]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:25349] *** Process received signal ***
+[parcomp32:25349] Signal: Aborted (6)
+[parcomp32:25349] Signal code:  (-6)
+[parcomp32:25349] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f35cdb768a0]
+[parcomp32:25349] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f35cd7b1f47]
+[parcomp32:25349] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f35cd7b38b1]
+[parcomp32:25349] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f35ce5ef957]
+[parcomp32:25349] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f35ce5f5ae6]
+[parcomp32:25349] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f35ce5f5b21]
+[parcomp32:25349] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f35ce5f5d54]
+[parcomp32:25349] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5573a4a90e3a]
+[parcomp32:25349] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5573a4a9250b]
+[parcomp32:25349] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5573a4a8fb44]
+[parcomp32:25349] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f35cd794b97]
+[parcomp32:25349] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5573a4a8fdda]
+[parcomp32:25349] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[58291,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,1000,1000,100,1.033369481,0.163712313,21.63744951,-0.4888306835
+--------------------------------------------------------------------------
+[[58510,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:25856] *** Process received signal ***
+[parcomp32:25856] Signal: Aborted (6)
+[parcomp32:25856] Signal code:  (-6)
+[parcomp32:25856] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7fc0001998a0]
+[parcomp32:25856] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7fbfffdd4f47]
+[parcomp32:25856] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7fbfffdd68b1]
+[parcomp32:25856] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7fc000c12957]
+[parcomp32:25856] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7fc000c18ae6]
+[parcomp32:25856] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7fc000c18b21]
+[parcomp32:25856] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7fc000c18d54]
+[parcomp32:25856] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x557b5e7d1e3a]
+[parcomp32:25856] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x557b5e7d350b]
+[parcomp32:25856] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x557b5e7d0b44]
+[parcomp32:25856] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7fbfffdb7b97]
+[parcomp32:25856] [11] ./bin/mc_amer_mpi(+0xcdda)[0x557b5e7d0dda]
+[parcomp32:25856] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[58895,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,1,0.442830381,0.322113903,22.18525732,0.05897713103
+--------------------------------------------------------------------------
+[[59127,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,5,0.203915496,0.061233986,21.93729795,-0.1889822434
+--------------------------------------------------------------------------
+[[59107,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,10,0.189629667,0.033258951,22.20679648,0.08051629153
+--------------------------------------------------------------------------
+[[59084,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,25,0.224606423,0.017409752,21.98132692,-0.1449532671
+--------------------------------------------------------------------------
+[[59260,1],21]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,32,0.255736007,0.019657316,22.134609,0.00832881074
+--------------------------------------------------------------------------
+[[59163,1],45]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,50,0.446172374,0.061328724,22.16069573,0.03441554163
+--------------------------------------------------------------------------
+[[59519,1],55]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,64,0.497999617,0.039282229,22.13506,0.008779808137
+--------------------------------------------------------------------------
+[[59578,1],96]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,100,0.869230289,0.024968353,22.25325929,0.1269790969
+--------------------------------------------------------------------------
+[[60021,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,200,125,1.230295094,0.077117779,22.10777346,-0.01850673497
+--------------------------------------------------------------------------
+[[60169,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,1000,1,1.55079085,1.436025401,22.02707936,-0.09920082678
+--------------------------------------------------------------------------
+[[60401,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,1000,5,0.54850654,0.405812488,21.92524975,-0.2010304358
+--------------------------------------------------------------------------
+[[60397,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,1000,10,0.32838731,0.171558867,21.9162124,-0.2100677879
+--------------------------------------------------------------------------
+[[60366,1],15]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,1000,25,0.332954869,0.122585163,22.06375001,-0.06253018001
+--------------------------------------------------------------------------
+[[60542,1],25]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:27664] *** Process received signal ***
+[parcomp32:27664] Signal: Aborted (6)
+[parcomp32:27664] Signal code:  (-6)
+[parcomp32:27664] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7ff6ad6668a0]
+[parcomp32:27664] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7ff6ad2a1f47]
+[parcomp32:27664] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7ff6ad2a38b1]
+[parcomp32:27664] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7ff6ae0df957]
+[parcomp32:27664] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7ff6ae0e5ae6]
+[parcomp32:27664] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7ff6ae0e5b21]
+[parcomp32:27664] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7ff6ae0e5d54]
+[parcomp32:27664] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x55c60cd35e3a]
+[parcomp32:27664] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x55c60cd3750b]
+[parcomp32:27664] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x55c60cd34b44]
+[parcomp32:27664] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7ff6ad284b97]
+[parcomp32:27664] [11] ./bin/mc_amer_mpi(+0xcdda)[0x55c60cd34dda]
+[parcomp32:27664] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60420,1],42]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:27766] *** Process received signal ***
+[parcomp32:27766] Signal: Aborted (6)
+[parcomp32:27766] Signal code:  (-6)
+[parcomp32:27766] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f0b0e2bc8a0]
+[parcomp32:27766] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f0b0def7f47]
+[parcomp32:27766] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f0b0def98b1]
+[parcomp32:27766] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f0b0ed35957]
+[parcomp32:27766] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f0b0ed3bae6]
+[parcomp32:27766] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f0b0ed3bb21]
+[parcomp32:27766] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f0b0ed3bd54]
+[parcomp32:27766] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5602db479e3a]
+[parcomp32:27766] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5602db47b50b]
+[parcomp32:27766] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5602db478b44]
+[parcomp32:27766] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f0b0dedab97]
+[parcomp32:27766] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5602db478dda]
+[parcomp32:27766] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60792,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:27922] *** Process received signal ***
+[parcomp32:27922] Signal: Aborted (6)
+[parcomp32:27922] Signal code:  (-6)
+[parcomp32:27922] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f27fb9928a0]
+[parcomp32:27922] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f27fb5cdf47]
+[parcomp32:27922] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f27fb5cf8b1]
+[parcomp32:27922] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f27fc40b957]
+[parcomp32:27922] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f27fc411ae6]
+[parcomp32:27922] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f27fc411b21]
+[parcomp32:27922] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f27fc411d54]
+[parcomp32:27922] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x55dcfb100e3a]
+[parcomp32:27922] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x55dcfb10250b]
+[parcomp32:27922] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x55dcfb0ffb44]
+[parcomp32:27922] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f27fb5b0b97]
+[parcomp32:27922] [11] ./bin/mc_amer_mpi(+0xcdda)[0x55dcfb0ffdda]
+[parcomp32:27922] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[60833,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:28121] *** Process received signal ***
+[parcomp32:28121] Signal: Aborted (6)
+[parcomp32:28121] Signal code:  (-6)
+[parcomp32:28121] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7ff4d91698a0]
+[parcomp32:28121] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7ff4d8da4f47]
+[parcomp32:28121] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7ff4d8da68b1]
+[parcomp32:28121] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7ff4d9be2957]
+[parcomp32:28121] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7ff4d9be8ae6]
+[parcomp32:28121] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7ff4d9be8b21]
+[parcomp32:28121] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7ff4d9be8d54]
+[parcomp32:28121] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x559535d62e3a]
+[parcomp32:28121] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x559535d6450b]
+[parcomp32:28121] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x559535d61b44]
+[parcomp32:28121] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7ff4d8d87b97]
+[parcomp32:28121] [11] ./bin/mc_amer_mpi(+0xcdda)[0x559535d61dda]
+[parcomp32:28121] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[61299,1],120]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,10000,1000,125,1.428961923,0.289058194,22.04098553,-0.08529466259
+--------------------------------------------------------------------------
+[[61687,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,1,0.866677716,0.745298706,22.08401973,-0.04226046111
+--------------------------------------------------------------------------
+[[61695,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,5,0.321347596,0.183939567,21.95153393,-0.1747462567
+--------------------------------------------------------------------------
+[[61675,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,10,0.278856576,0.114717417,22.06403081,-0.06224937682
+--------------------------------------------------------------------------
+[[61620,1],16]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,25,0.262019069,0.042056197,22.09888841,-0.02739177509
+--------------------------------------------------------------------------
+[[61796,1],24]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,32,0.281945545,0.042958853,22.12049482,-0.005785366618
+--------------------------------------------------------------------------
+[[61699,1],45]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,50,0.467217211,0.080120481,21.97776486,-0.1485153303
+--------------------------------------------------------------------------
+[[62052,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,64,0.540200321,0.057871441,21.92249592,-0.2037842738
+--------------------------------------------------------------------------
+[[62115,1],93]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,100,0.916190415,0.119142815,21.99536769,-0.130912502
+--------------------------------------------------------------------------
+[[62578,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,200,125,1.282520527,0.146289902,21.95703297,-0.16924722
+--------------------------------------------------------------------------
+[[62966,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,1,3.899705881,3.77625859,22.09398132,-0.03229886617
+--------------------------------------------------------------------------
+[[62974,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,5,0.949699265,0.807222607,21.88230221,-0.2439779768
+--------------------------------------------------------------------------
+[[62954,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,10,0.562183428,0.404413739,21.88277951,-0.2435006775
+--------------------------------------------------------------------------
+[[62903,1],15]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,25,0.461158218,0.255518113,22.01300958,-0.1132706145
+--------------------------------------------------------------------------
+[[63079,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,32,0.450889994,0.206457657,22.10624786,-0.02003233062
+--------------------------------------------------------------------------
+[[62978,1],42]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,50,0.741794324,0.327999174,22.06125125,-0.0650289389
+--------------------------------------------------------------------------
+[[63335,1],3]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,64,0.933323281,0.393901583,22.02296761,-0.1033125819
+--------------------------------------------------------------------------
+[[63404,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,100,1.275886729,0.426994269,21.99070246,-0.1355777304
+--------------------------------------------------------------------------
+[[63871,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,25000,1000,125,1.615435288,0.444545924,22.07421567,-0.05206451672
+--------------------------------------------------------------------------
+[[64243,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,1,1.619021808,1.498500067,22.06392536,-0.06235483081
+--------------------------------------------------------------------------
+[[64251,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,5,0.478770295,0.329907676,21.99074544,-0.1355347514
+--------------------------------------------------------------------------
+[[64215,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,10,0.337156809,0.17847657,22.08772548,-0.03855471208
+--------------------------------------------------------------------------
+[[64176,1],18]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,25,0.315251028,0.097749327,22.06250241,-0.06377778475
+--------------------------------------------------------------------------
+[[64352,1],26]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,32,0.326234411,0.083602681,22.0559872,-0.07029298551
+--------------------------------------------------------------------------
+[[64271,1],42]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,50,0.500232279,0.117233908,22.09771976,-0.02856043404
+--------------------------------------------------------------------------
+[[64608,1],59]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,64,0.700307066,0.148152228,22.0994663,-0.02681389202
+--------------------------------------------------------------------------
+[[64686,1],94]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,100,0.971798714,0.14676965,22.01171641,-0.1145637784
+--------------------------------------------------------------------------
+[[65144,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,200,125,1.352108435,0.204838887,22.00208948,-0.1241907085
+--------------------------------------------------------------------------
+[[65535,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,1,8.033215327,7.91234792,22.02612134,-0.1001588494
+--------------------------------------------------------------------------
+[[65511,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,5,1.717061806,1.580277908,21.96739992,-0.1588802678
+--------------------------------------------------------------------------
+[[65490,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,10,0.965368231,0.807956239,21.94188264,-0.1843975491
+--------------------------------------------------------------------------
+[[65471,1],19]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,25,0.756740854,0.551542198,22.00037477,-0.1259054218
+--------------------------------------------------------------------------
+[[33080,1],24]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,32,0.646555801,0.415733926,22.02670321,-0.09957697778
+--------------------------------------------------------------------------
+[[33227,1],40]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,50,1.00950186,0.594519281,22.0188501,-0.1074300852
+--------------------------------------------------------------------------
+[[33322,1],57]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,64,1.106542411,0.615109962,21.9924796,-0.1338005857
+--------------------------------------------------------------------------
+[[33588,1],96]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,100,1.638031086,0.708910237,21.97027886,-0.1560013322
+--------------------------------------------------------------------------
+[[34032,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,50000,1000,125,1.914281554,0.742922112,21.981264,-0.1450161861
+--------------------------------------------------------------------------
+[[34395,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,1,2.457800912,2.337534833,22.07886692,-0.04741326712
+--------------------------------------------------------------------------
+[[34370,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,5,0.713925819,0.571912293,21.96939387,-0.1568863189
+--------------------------------------------------------------------------
+[[34366,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,10,0.42891517,0.277501258,22.02683037,-0.09944981932
+--------------------------------------------------------------------------
+[[34330,1],16]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,25,0.345111456,0.12264692,22.03384091,-0.09243927999
+--------------------------------------------------------------------------
+[[34452,1],22]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,32,0.368974414,0.124014317,22.08224968,-0.04403051426
+--------------------------------------------------------------------------
+[[34581,1],45]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,50,0.608046509,0.167892888,22.02643138,-0.09984880537
+--------------------------------------------------------------------------
+[[34936,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,64,0.729490643,0.159925374,21.96649478,-0.1597854103
+--------------------------------------------------------------------------
+[[34988,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,100,1.111707883,0.215401527,21.96384164,-0.1624385511
+--------------------------------------------------------------------------
+[[35428,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,200,125,1.485458376,0.222802516,21.99118915,-0.1350910359
+--------------------------------------------------------------------------
+[[35834,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,1,12.11846174,11.99944378,22.05119942,-0.07508076777
+--------------------------------------------------------------------------
+[[35810,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,5,2.786509314,2.634709583,22.00979011,-0.1164900835
+--------------------------------------------------------------------------
+[[35806,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,10,1.472751257,1.313255652,21.96856253,-0.1577176596
+--------------------------------------------------------------------------
+[[35771,1],17]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,25,0.933116651,0.715202465,22.00718639,-0.1190937971
+--------------------------------------------------------------------------
+[[35947,1],2]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,32,0.869313569,0.615767813,21.97703186,-0.1492483289
+--------------------------------------------------------------------------
+[[36086,1],43]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,50,1.24454551,0.83244963,22.00940935,-0.116870844
+--------------------------------------------------------------------------
+[[36203,1],58]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,75000,1000,64,1.317893341,0.791841476,22.01043671,-0.1158434844
+--------------------------------------------------------------------------
+[[36246,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:03560] *** Process received signal ***
+[parcomp32:03560] Signal: Aborted (6)
+[parcomp32:03560] Signal code:  (-6)
+[parcomp32:03560] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7f2ff12c58a0]
+[parcomp32:03560] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7f2ff0f00f47]
+[parcomp32:03560] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7f2ff0f028b1]
+[parcomp32:03560] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7f2ff1d3e957]
+[parcomp32:03560] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7f2ff1d44ae6]
+[parcomp32:03560] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7f2ff1d44b21]
+[parcomp32:03560] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7f2ff1d44d54]
+[parcomp32:03560] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5561dcee2e3a]
+[parcomp32:03560] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5561dcee450b]
+[parcomp32:03560] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5561dcee1b44]
+[parcomp32:03560] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7f2ff0ee3b97]
+[parcomp32:03560] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5561dcee1dda]
+[parcomp32:03560] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[36704,1],118]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+[parcomp32:03866] *** Process received signal ***
+[parcomp32:03866] Signal: Aborted (6)
+[parcomp32:03866] Signal code:  (-6)
+[parcomp32:03866] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x128a0)[0x7fe1f2c628a0]
+[parcomp32:03866] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xc7)[0x7fe1f289df47]
+[parcomp32:03866] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x141)[0x7fe1f289f8b1]
+[parcomp32:03866] [ 3] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x8c957)[0x7fe1f36db957]
+[parcomp32:03866] [ 4] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92ae6)[0x7fe1f36e1ae6]
+[parcomp32:03866] [ 5] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92b21)[0x7fe1f36e1b21]
+[parcomp32:03866] [ 6] /usr/lib/x86_64-linux-gnu/libstdc++.so.6(+0x92d54)[0x7fe1f36e1d54]
+[parcomp32:03866] [ 7] ./bin/mc_amer_mpi(+0xde3a)[0x5619dca2ae3a]
+[parcomp32:03866] [ 8] ./bin/mc_amer_mpi(+0xf50b)[0x5619dca2c50b]
+[parcomp32:03866] [ 9] ./bin/mc_amer_mpi(+0xcb44)[0x5619dca29b44]
+[parcomp32:03866] [10] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7)[0x7fe1f2880b97]
+[parcomp32:03866] [11] ./bin/mc_amer_mpi(+0xcdda)[0x5619dca29dda]
+[parcomp32:03866] *** End of error message ***
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node parcomp32 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[[37095,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,1,3.274117173,3.153290209,22.08418147,-0.04209872317
+--------------------------------------------------------------------------
+[[37103,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,5,0.829624101,0.690700087,21.95649979,-0.1697803992
+--------------------------------------------------------------------------
+[[37083,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,10,0.501291803,0.344449971,22.02835172,-0.0979284701
+--------------------------------------------------------------------------
+[[37028,1],14]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,25,0.408841351,0.196360185,21.97891504,-0.1473651468
+--------------------------------------------------------------------------
+[[37204,1],24]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,32,0.416997157,0.173479709,22.00801463,-0.1182655591
+--------------------------------------------------------------------------
+[[37363,1],44]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,50,0.637466051,0.255550397,21.98631152,-0.1399686714
+--------------------------------------------------------------------------
+[[37460,1],55]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,64,0.774863352,0.269453032,21.97336271,-0.152917477
+--------------------------------------------------------------------------
+[[37522,1],94]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,100,1.077520578,0.278442296,22.01704678,-0.1092334065
+--------------------------------------------------------------------------
+[[37997,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,200,125,1.44149893,0.29001593,22.0160148,-0.1102653858
+--------------------------------------------------------------------------
+[[38369,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,1,17.01175098,16.88881182,22.05905091,-0.06722927989
+--------------------------------------------------------------------------
+[[38377,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,5,3.653229346,3.506389598,21.97248434,-0.1537958503
+--------------------------------------------------------------------------
+[[38341,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,10,1.825565095,1.658211107,21.96448279,-0.1617974039
+--------------------------------------------------------------------------
+[[38310,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,25,1.537268875,1.31456418,21.99676064,-0.1295195476
+--------------------------------------------------------------------------
+[[38486,1],24]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,32,1.066573806,0.812942092,22.02596277,-0.10031742
+--------------------------------------------------------------------------
+[[38653,1],43]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,50,1.242434297,0.817351641,22.00064113,-0.1256390584
+--------------------------------------------------------------------------
+[[38742,1],58]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,64,1.54247564,1.020411705,21.99059763,-0.1356825593
+--------------------------------------------------------------------------
+[[38813,1],95]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,100,2.345240673,1.442069458,21.95916457,-0.1671156181
+--------------------------------------------------------------------------
+[[39276,1],119]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: parcomp32
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+MPI,put,100,90,0.02,0.75,1,100000,1000,125,2.662888323,1.44425181,21.94920486,-0.1770753252
+Hybrid,put,100,90,0.02,0.75,1,1000,200,1001,0.14552447,0.021418027,22.01375985,-0.1125203409
+Hybrid,put,100,90,0.02,0.75,1,1000,200,10010,0.176887194,0.016651433,22.45105001,0.3247698183
+Hybrid,put,100,90,0.02,0.75,1,1000,200,25025,0.252753013,0.03810882,22.45414624,0.3278660458
+Hybrid,put,100,90,0.02,0.75,1,1000,200,50050,0.957156737,0.510963209,22.42790612,0.3016259308
+Hybrid,put,100,90,0.02,0.75,1,1000,1000,1001,0.215454783,0.094120265,22.03371832,-0.09256186958
+Hybrid,put,100,90,0.02,0.75,1,1000,1000,10010,0.215394851,0.068813375,22.34501246,0.2187322697
+Hybrid,put,100,90,0.02,0.75,1,1000,1000,25025,0.373719351,0.177241814,22.54045001,0.4141698233
+Hybrid,put,100,90,0.02,0.75,1,1000,1000,50050,2.667358847,2.219476156,21.6892352,-0.4370449898
+Hybrid,put,100,90,0.02,0.75,1,10000,200,1001,0.336067805,0.206995706,22.11076496,-0.01551523246
+Hybrid,put,100,90,0.02,0.75,1,10000,200,10010,0.200300382,0.044070182,22.0931988,-0.0330813937
+Hybrid,put,100,90,0.02,0.75,1,10000,200,25025,0.290783855,0.048750656,22.10075853,-0.02552165609
+Hybrid,put,100,90,0.02,0.75,1,10000,200,50050,0.902358575,0.471755778,22.03749725,-0.08878293584
+Hybrid,put,100,90,0.02,0.75,1,10000,1000,1001,1.08563354,0.970285962,21.92553305,-0.2007471441
+Hybrid,put,100,90,0.02,0.75,1,10000,1000,10010,0.321454398,0.171415503,22.09978322,-0.02649696631
+Hybrid,put,100,90,0.02,0.75,1,10000,1000,25025,0.451347312,0.232080977,22.10971738,-0.01656280853
+Hybrid,put,100,90,0.02,0.75,1,10000,1000,50050,2.846352243,2.436599885,21.93991881,-0.1863613751
+Hybrid,put,100,90,0.02,0.75,1,25000,200,1001,0.742385879,0.616844998,22.02854616,-0.09773402633
+Hybrid,put,100,90,0.02,0.75,1,25000,200,10010,0.241285203,0.080691591,22.13688853,0.01060833619
+Hybrid,put,100,90,0.02,0.75,1,25000,200,25025,0.299168365,0.071441231,22.15906985,0.03278965674
+Hybrid,put,100,90,0.02,0.75,1,25000,200,50050,0.946335584,0.546517313,22.20923539,0.08295519586
+Hybrid,put,100,90,0.02,0.75,1,25000,1000,1001,2.717447,2.595624545,21.96741635,-0.1588638366
+Hybrid,put,100,90,0.02,0.75,1,25000,1000,10010,0.491726963,0.335622071,21.89703761,-0.2292425823
+Hybrid,put,100,90,0.02,0.75,1,25000,1000,25025,0.551162601,0.332786143,22.24234011,0.1160599249
+Hybrid,put,100,90,0.02,0.75,1,25000,1000,50050,2.737344193,2.328442522,21.62010378,-0.5061764069
+Hybrid,put,100,90,0.02,0.75,1,50000,200,1001,1.165192472,1.044202872,21.96496253,-0.1613176589
+Hybrid,put,100,90,0.02,0.75,1,50000,200,10010,0.322570477,0.14566343,22.00582856,-0.120451629
+Hybrid,put,100,90,0.02,0.75,1,50000,200,25025,0.308728659,0.100749164,22.04337252,-0.08290767169
+Hybrid,put,100,90,0.02,0.75,1,50000,200,50050,0.932609614,0.534811282,22.00162759,-0.1246526011
+Hybrid,put,100,90,0.02,0.75,1,50000,1000,1001,5.299420188,5.171164119,21.98271411,-0.1435660846
+Hybrid,put,100,90,0.02,0.75,1,50000,1000,10010,0.776501215,0.620867088,22.10141259,-0.02486759892
+Hybrid,put,100,90,0.02,0.75,1,50000,1000,25025,0.72612505,0.497667836,21.8533729,-0.2729072895
+Hybrid,put,100,90,0.02,0.75,1,50000,1000,50050,2.734926432,2.315929307,22.04137132,-0.08490887127
+Hybrid,put,100,90,0.02,0.75,1,75000,200,1001,1.700408553,1.584265748,21.99169077,-0.1345894239
+Hybrid,put,100,90,0.02,0.75,1,75000,200,10010,0.359537305,0.197461173,21.9981593,-0.1281208934
+Hybrid,put,100,90,0.02,0.75,1,75000,200,25025,0.348006095,0.134381435,22.02368003,-0.1026001634
+Hybrid,put,100,90,0.02,0.75,1,75000,200,50050,1.005940709,0.572401212,22.09484588,-0.03143430943
+Hybrid,put,100,90,0.02,0.75,1,75000,1000,1001,7.955369442,7.833234335,21.98152686,-0.1447533346
+Hybrid,put,100,90,0.02,0.75,1,75000,1000,10010,1.125149227,0.958453193,21.86528679,-0.2609933982
+Hybrid,put,100,90,0.02,0.75,1,75000,1000,25025,0.899965614,0.661127598,22.10779042,-0.01848977262
+Hybrid,put,100,90,0.02,0.75,1,75000,1000,50050,2.825827944,2.389170694,21.99995125,-0.1263289398
+Hybrid,put,100,90,0.02,0.75,1,100000,200,1001,2.208336045,2.087172745,21.98488544,-0.1413947548
+Hybrid,put,100,90,0.02,0.75,1,100000,200,10010,0.411677245,0.254052631,21.98795063,-0.1383295588
+Hybrid,put,100,90,0.02,0.75,1,100000,200,25025,0.375353766,0.168069277,21.99031747,-0.1359627174
+Hybrid,put,100,90,0.02,0.75,1,100000,200,50050,1.033816162,0.563873177,22.08031515,-0.04596503932
+Hybrid,put,100,90,0.02,0.75,1,100000,1000,1001,10.47306328,10.35322678,21.98289686,-0.1433833267
+Hybrid,put,100,90,0.02,0.75,1,100000,1000,10010,1.29159241,1.135437467,21.92319652,-0.2030836736
+Hybrid,put,100,90,0.02,0.75,1,100000,1000,25025,1.039130893,0.825947919,21.92751398,-0.198766209
+Hybrid,put,100,90,0.02,0.75,1,100000,1000,50050,2.958821502,2.543321947,22.07516218,-0.05111800751
