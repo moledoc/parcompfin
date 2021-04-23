@@ -1,5 +1,5 @@
 #include <Eigen/Dense>
-#include <Eigen/LU>
+/* #include <Eigen/LU> */
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/normal_distribution.hpp>    
 
