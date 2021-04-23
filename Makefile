@@ -11,8 +11,8 @@ CXXFLAGS_MULTI = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3
 
 ########################################################################################################################
 
-all: init binom mc_eur mc_amer mc_asia
-all_bin: init binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin
+all: init binom mc_eur mc_amer mc_asia mc_eur_multi
+all_bin: init binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin mc_eur_multi_bin
 
 init:
 		if [ ! -d bin ]; then mkdir bin; fi
@@ -168,7 +168,7 @@ mc_eur_multi_tst: mc_eur_multi_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 10000000 4 0.5 4
 
 mc_eur_multi: init mc_eur_multi_bin
-	# bash runscript_mc_eur_multi.sh
+	bash runscript_mc_eur_multi.sh
 
 ########################################################################################################################
 
