@@ -6,7 +6,8 @@ CXX_MPI=mpic++
 # -Wall 	shows all warnings when compiling, always use this!
 # -std=c++11 	enables the C++17 standard mode
 # CXXFLAGS = -Wall -std=c++17 -Iinclude
-CXXFLAGS = -Wall -std=c++17 -Iinclude -Ofast
+CXXFLAGS = -Wall -std=c++17 -Iinclude #-I /usr/include/eigen3 #-Ofast 
+CXXFLAGS_MULTI = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3 
 
 ########################################################################################################################
 
@@ -145,6 +146,40 @@ mc_asia_tst: mc_asia_bin
 
 mc_asia: init mc_asia_bin
 	bash runscript_mc_asia.sh
+
+########################################################################################################################
+
+mc_eur_multi_prep: include/common.h include/comparison.h	
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi.cpp -o obj/mc_eur_multi.o
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_omp.cpp -o obj/mc_eur_multi_omp.o -fopenmp
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
+
+mc_eur_multi_bin: mc_eur_multi_prep
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi.o -o bin/mc_eur_multi 
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_omp.o -o bin/mc_eur_multi_omp -fopenmp 
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_mpi.o -o bin/mc_eur_multi_mpi 
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
+
+mc_eur_multi_tst: mc_eur_multi_bin
+	./bin/mc_eur_multi call 100 100 0.1 0.2 1 10000000 4 0.5
+	./bin/mc_eur_multi_omp call 100 100 0.1 0.2 1 10000000 4 0.5 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_mpi call 100 100 0.1 0.2 1 10000000 4 0.5
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 10000000 4 0.5 4
+
+mc_eur_multi: init mc_eur_multi_bin
+	# bash runscript_mc_eur_multi.sh
+
+########################################################################################################################
+
+tsting_prep: include/common.h include/comparison.h	
+	$(CXX) $(CXXFLAGS) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
+
+tsting_bin: tsting_prep
+	$(CXX) $(CXXFLAGS) obj/mc_amer_v2.o -o bin/mc_amer_v2 
+
+tsting_tst: tsting_tst
+	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 100
 
 ########################################################################################################################
 
