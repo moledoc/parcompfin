@@ -19,7 +19,9 @@ double mc_asia
   double result;  
   double result_inter=0;
 
-  int N_p = N/size;
+  int N_p;
+  if(N%size!=0) N_p = (N+size-N%size)/size;
+  else N_p = N/size;
   double dt = (double)T/(double)M;
 
   time_t cur_time;
@@ -80,7 +82,7 @@ int main (int argc, char *argv[]){
   MPI_Comm_size(MPI_COMM_WORLD,&size);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  if (N%size!=0) throw std::invalid_argument("N needs to be divisible by P");
+  /* if (N%size!=0) throw std::invalid_argument("N needs to be divisible by P"); */
 
   auto start = std::chrono::system_clock::now();
   double result = mc_asia(S0,E,r,sigma,T,N,M,payoff_fun,size,rank);

@@ -15,9 +15,9 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,E
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(1000000 2000000 5000000 7500000 10000000 25000000 50000000 75000000 100000000)
-  thr=(1 5 10 25 50 100)
-  proc=(1 5 10 25 50 100)
+  Ns=(1000000 2000000 5000000 10000000 25000000 50000000 75000000 100000000)
+  thr=(1 5 10 25 32 50 64 100 125)
+  proc=(1 5 10 25 32 50 64 100 125)
   hybr=(1 10 25 50)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h

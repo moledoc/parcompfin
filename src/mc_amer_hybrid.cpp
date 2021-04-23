@@ -139,23 +139,25 @@ double mc_amer
   double result;
   // calculate paths
   std::vector<std::vector<double>> paths;
+  // calculate the number of paths process is responsible for
+  int N_p=N/size;
+  if(N_p%2!=0) ++N_p ;
+
 #pragma omp parallel
   {
 #pragma omp sections
     {
 #pragma omp section
-  paths = pathsfinder(S0,E,r,sigma,T,N/size,M,rank);
+  paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
     }
   }
 
-  // calculate the number of paths process is responsible for
-  int n_p = N/size;
 
   // store each paths timestep value when option is exercised
-  std::vector<double> exercise_when(n_p,M);
+  std::vector<double> exercise_when(N_p,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
-  std::vector<double> exercise_st(n_p);
-  for(int n=0;n<n_p;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
+  std::vector<double> exercise_st(N_p);
+  for(int n=0;n<N_p;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
   
   std::vector<std::vector<double>> xTx(3);
   for(int i=0;i<3;++i) xTx[i].resize(3);
@@ -165,17 +167,17 @@ double mc_amer
   // Find timesteps at each path when the option is exercised.
   // Store corresponding when and st values. Update them when earier exercise timestep is found.
   for(int m=M-1;m>0;--m){
-    std::vector<double> x(n_p,-1);
-    std::vector<double> y(n_p,-1);
+    std::vector<double> x(N_p,-1);
+    std::vector<double> y(N_p,-1);
     double sum_x; double sum_x2; double sum_x3; double sum_x4; double sum_y; double sum_yx; double sum_yx2;
     double sum_x_p = 0; double sum_x2_p = 0; double sum_x3_p = 0; double sum_x4_p = 0; double sum_y_p = 0; double sum_yx_p = 0; double sum_yx2_p = 0;
 
     double x_length; double x_length_p=0;
 
-/* #pragma omp parallel */
-/*   { */
-/* #pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x_p,sum_x2_p,sum_x3_p,sum_x4_p,sum_y_p,sum_yx_p,sum_yx2_p,x_length_p) */
-    for(int n=0;n<n_p;++n){
+#pragma omp parallel
+  {
+#pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x_p,sum_x2_p,sum_x3_p,sum_x4_p,sum_y_p,sum_yx_p,sum_yx2_p,x_length_p)
+    for(int n=0;n<N_p;++n){
       double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
@@ -196,7 +198,7 @@ double mc_amer
         sum_yx2_p += cont*exer*exer;
       };
     };
-  /* } */
+  }
     
     // if no path was in the money, skip it, because we are not interested in it.
     // when M is big and dt is small, the step m=1 might not be in money.
@@ -227,7 +229,7 @@ double mc_amer
 
     MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
   
-    for(int i=0;i<n_p;++i){
+    for(int i=0;i<N_p;++i){
       if(x[i]!=-1){
         double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
         // exercise value at t_m
@@ -243,7 +245,7 @@ double mc_amer
 #pragma omp parallel
   {
 #pragma omp for schedule(dynamic,100) nowait reduction(+:result_p)
-  for(int n=0;n<n_p;++n){
+  for(int n=0;n<N_p;++n){
     if(exercise_st[n]!=0) result_p+=exp(-r*exercise_when[n]*dt)*exercise_st[n];
   };
   }

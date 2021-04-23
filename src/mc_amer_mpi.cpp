@@ -143,7 +143,8 @@ double mc_amer
   double result_p = 0;
   double result;
   // calculate the number of paths process is responsible for
-  int N_p = N/size;
+  int N_p=N/size;
+  if(N_p%2!=0) ++N_p ;
   // calculate paths
   std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
 
