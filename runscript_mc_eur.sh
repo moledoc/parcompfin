@@ -20,7 +20,7 @@ common_cycle(){
   proc=(1 5 10 25 32 50 64 100 125)
   hybr=(1 10 25 50)
   echo "#pragma once
-double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $13}');" > include/comparison.h
+double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make mc_eur_bin
   for N in ${Ns[@]} 
   do
