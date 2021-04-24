@@ -16,22 +16,21 @@ double mc_eur
   ,double rho
 )
 {
-
   // pre-calculate random variables from N(Mu,Sigma);
-  Eigen::MatrixXd samples;
-#pragma omp sections
-  {
-#pragma omp section
-  samples = sample(N,assets,sigma,rho);
-  }
+  Eigen::MatrixXd samples = sample(N,assets,sigma,rho);
+
+/* #pragma omp sections */
+/*   { */
+/* #pragma omp section */
+/*   samples = sample(N,assets,sigma,rho); */
+/*   } */
 
   double result=0;
 #pragma omp parallel
   {
-  /* Eigen::MatrixXd samples = sample(N,assets,sigma,rho); */
   // payoff of the basket option will depend on the  arithmetic average of prices at maturity T.
   double w_i = 1.0/(double)assets;
-#pragma omp for schedule(dynamic,1000) reduction(+:result) nowait private(rho)
+#pragma omp for schedule(dynamic,1000) reduction(+:result) nowait collapse(1) private(rho) 
   for(int n=0;n<N;++n){
     double result_n = 0;
     for(int asset=0;asset<assets;++asset){
@@ -79,6 +78,8 @@ int main (int argc, char *argv[]){
       ,comparison
       ,N
       ,threads
+      ,0
+      ,assets
       );
   return EXIT_SUCCESS;
 }

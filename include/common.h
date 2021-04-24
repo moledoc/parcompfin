@@ -78,6 +78,7 @@ void reporting
   ,int N
   ,int parallel=0
   ,int M=0
+  ,int assets=1
 )
 {
   std::cout << std::setprecision(10) \
@@ -91,10 +92,11 @@ void reporting
     << N << "," \ 
     << M << "," \ 
     << parallel << ","\
+    << assets << ","\
     << time_overall << "," \
     << time << "," \
     << result << "," \
-    /* << abs(result-comparison) << "," \ */ 
+    << abs(result-comparison) << "," \ 
     << result-comparison/* << ","*/ \ 
     << std::endl;
 }

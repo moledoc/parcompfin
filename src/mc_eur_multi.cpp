@@ -5,8 +5,7 @@
 
 double mc_eur
 (
-  double S0
-  ,double E
+  double S0 ,double E
   ,double r
   ,double sigma
   ,double T
@@ -67,6 +66,9 @@ int main (int argc, char *argv[]){
       ,result
       ,comparison
       ,N
+      ,0
+      ,0
+      ,assets
       );
   return EXIT_SUCCESS;
 }

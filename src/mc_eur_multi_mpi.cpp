@@ -90,6 +90,8 @@ int main (int argc, char *argv[]){
         ,comparison
         ,N
         ,size
+        ,0
+        ,assets
         );
   };
   MPI_Finalize();

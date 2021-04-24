@@ -10,12 +10,12 @@ T=1
 echo "#pragma once
 double comparison = 0;" > include/comparison.h
 
-echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,Error" > ${results}
+echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calculation,Result,Abs_Error,Error" > ${results}
 
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(1000000 2000000 5000000 10000000 25000000 50000000 75000000 100000000)
+  Ns=(10000000 25000000 50000000 75000000 100000000 250000000 500000000 750000000 1000000000)
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
   hybr=(1 10 25 50)

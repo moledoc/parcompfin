@@ -101,6 +101,8 @@ int main (int argc, char *argv[]){
         ,comparison
         ,N
         ,size*1000+threads
+        ,0
+        ,assets
         );
   };
   MPI_Finalize();

@@ -18,7 +18,7 @@ compares=(11.90 11.60) # from article
 echo "#pragma once
 double comparison = 0;" > include/comparison.h
 
-echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,T_overall,T_calculation,Result,Error" > ${results}
+echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calculation,Result,Abs_Error,Error" > ${results}
 
 common_cycle(){
   payoff_fun=$1
