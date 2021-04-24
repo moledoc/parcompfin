@@ -11,8 +11,8 @@ CXXFLAGS_MULTI = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3
 
 ########################################################################################################################
 
-all: init binom mc_eur mc_amer mc_asia mc_eur_multi
-all_bin: init binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin mc_eur_multi_bin
+all: all_bin binom mc_eur mc_amer mc_asia mc_eur_multi
+all_bin: clean init  binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin mc_eur_multi_bin
 
 init:
 		if [ ! -d bin ]; then mkdir bin; fi
