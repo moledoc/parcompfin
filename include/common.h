@@ -47,9 +47,13 @@ double payoff_put(double St,double E){
 
 double payoff(double St,double E,std::string payoff_fun){
   if(payoff_fun == "call") return payoff_call(St,E);
-  else if(payoff_fun == "put") return payoff_put(St,E);
-  else throw std::invalid_argument("Unknown payoff function");
+  if(payoff_fun == "put") return payoff_put(St,E);
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
 }
+
+/* double payoff(double St,double E,int payoff_fun){ */
+/*   return std::max(payoff_fun*(St-E),0); */
+/* } */
 
 double comb(int N,int i){
   if (i==0 || i==N) return 0;
