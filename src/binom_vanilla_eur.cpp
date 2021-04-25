@@ -10,7 +10,7 @@ double binom
   ,double sigma
   ,double T
   ,int N
-  ,std::string payoff_fun
+  ,double payoff_fun
 )
 {
   double dt = (double)T/(double)N;
@@ -23,7 +23,8 @@ double binom
   std::vector<double> v_ij;
 
   for(int i=0;i<N;++i)
-    v_ij.push_back(payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun));
+    v_ij.push_back(std::max(((S0*pow(u,i)*pow(d,N-i))-E)*payoff_fun,(double)0.0));
+    /* v_ij.push_back(payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun)); */
 
   for (int n=N-1;n>=0;--n){
     for(int i=0;i<n+1;++i){
@@ -46,8 +47,13 @@ int main (int argc, char *argv[]){
   int N =                   getArg(argv,7);
   /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   auto start = std::chrono::system_clock::now();
-  double result = binom(S0,E,r,sigma,T,N,payoff_fun);
+  double result = binom(S0,E,r,sigma,T,N,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
