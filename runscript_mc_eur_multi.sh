@@ -78,6 +78,9 @@ done
 
 for E in 90 #110 105 100 95 90 80 70 60
 do
-  common_cycle "put" ${E}
+  for i in 0 1
+  do
+    common_cycle "put" ${E} ${assets[${i}]} ${compares[${i}]}
+  done
 done
 
