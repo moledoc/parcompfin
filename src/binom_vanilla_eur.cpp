@@ -22,7 +22,7 @@ double binom
 
   std::vector<double> v_ij;
 
-  for(int i=0;i<N;++i)
+  for(int i=0;i<N+1;++i)
     v_ij.push_back(std::max(((S0*pow(u,i)*pow(d,N-i))-E)*payoff_fun,(double)0.0));
     /* v_ij.push_back(payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun)); */
 
