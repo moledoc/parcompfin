@@ -200,7 +200,11 @@ double mc_amer
     MPI_Reduce(&sum_yx_p ,&sum_yx ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
-    MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    /* MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
+    //
+    // Use allreduce, becase if some process continues, then following bcast will deadlock.
+    // if every x_length_p==0 then collectively go to next iteration.
+    MPI_Allreduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD);
     
     // if no path was in the money, skip it, because we are not interested in it.
     // when M is big and dt is small, the step m=1 might not be in money.
