@@ -15,7 +15,7 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(10000 25000 50000 75000 100000) # paths
+  Ns=(250 500 750 1000 2500 5000 7500 10000 25000 50000 75000 100000) # paths
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
   hybr=(1 10 25 50)

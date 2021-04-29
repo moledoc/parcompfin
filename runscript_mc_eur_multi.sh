@@ -25,7 +25,7 @@ common_cycle(){
   E=$2
   asset=$3
   compare=$4
-  Ns=(1000000 2000000 5000000 10000000 25000000 50000000 75000000 100000000)
+  Ns=(100000 250000 500000 750000 1000000 2000000 2500000 5000000 7500000 10000000 25000000 50000000 75000000 100000000)
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
   hybr=(1 10 25 50)
@@ -64,7 +64,7 @@ double comparison = ${compare};" > include/comparison.h
       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
     done
   done
-  echo "MC eur ${payoff_fun} w/ ${E}: DONE -- $N"
+  echo "MC eur multi ${payoff_fun} w/ ${E}: DONE -- $N"
 }
 
 for E in 100 #110 #90 95 100 105 110 120 130 140

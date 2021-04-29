@@ -137,20 +137,21 @@ double mc_amer
   double dt = T/M;
   double result_p = 0;
   double result;
-  // calculate paths
-  std::vector<std::vector<double>> paths;
   // calculate the number of paths process is responsible for
   int N_p=N/size;
   if(N_p%2!=0) ++N_p ;
+  
+  // calculate paths
+  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
 
-#pragma omp parallel
-  {
-#pragma omp sections
-    {
-#pragma omp section
-  paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
-    }
-  }
+/* #pragma omp parallel */
+/*   { */
+/* #pragma omp sections */
+/*     { */
+/* #pragma omp section */
+/*   paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank); */
+/*     } */
+/*   } */
 
 
   // store each paths timestep value when option is exercised
@@ -199,10 +200,6 @@ double mc_amer
       };
     };
   }
-    
-    // if no path was in the money, skip it, because we are not interested in it.
-    // when M is big and dt is small, the step m=1 might not be in money.
-    if (x_length==0) continue;
 
     std::vector<double> coef(3);
 
@@ -214,7 +211,15 @@ double mc_amer
     MPI_Reduce(&sum_yx_p, &sum_yx, 1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
-    MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+    /* MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
+    //
+    // Use allreduce, becase if some process continues, then following bcast will deadlock.
+    // if every x_length_p==0 then collectively go to next iteration.
+    MPI_Allreduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD);
+    
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    if (x_length==0) continue;
     
     if(rank==0){
       // compose xTx and xTy
@@ -283,6 +288,7 @@ int main (int argc, char *argv[]){
   auto start = std::chrono::system_clock::now();
   double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun,size,rank);
   auto end = std::chrono::system_clock::now();
+  
 
   if (rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
