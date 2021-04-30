@@ -12,7 +12,7 @@ double binom
   ,int N
   ,int size
   ,int rank
-  ,std::string payoff_fun
+  ,double payoff_fun
  )
 {
   double dt = T/(double)N;
@@ -68,6 +68,11 @@ int main (int argc, char *argv[]){
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
 
+  double payoff_fun_d;
+  if(payoff_fun=="put") payoff_fun_d=-1;
+  if(payoff_fun=="call") payoff_fun_d=1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
   if (ierr !=0){
@@ -81,7 +86,7 @@ int main (int argc, char *argv[]){
 
   /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
   auto start = std::chrono::system_clock::now();
-  double result = binom(S0,E,r,sigma,T,N,size,rank,payoff_fun);
+  double result = binom(S0,E,r,sigma,T,N,size,rank,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

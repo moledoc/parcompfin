@@ -10,7 +10,7 @@ double mc_eur
   ,double sigma
   ,double T
   ,int N
-  ,std::string payoff_fun
+  ,double payoff_fun
 )
 {
   time_t cur_time;
@@ -36,8 +36,13 @@ int main (int argc, char *argv[]){
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun);
+  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

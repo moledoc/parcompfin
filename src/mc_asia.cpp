@@ -11,7 +11,7 @@ double mc_asia
   ,double T
   ,int N
   ,int M
-  ,std::string payoff_fun
+  ,double payoff_fun
 )
 {
   double dt = (double)T/(double)M;
@@ -62,8 +62,13 @@ int main (int argc, char *argv[]){
   int N =                   getArg(argv,7);
   int M =                   getArg(argv,8);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   auto start = std::chrono::system_clock::now();
-  double result = mc_asia(S0,E,r,sigma,T,N,M,payoff_fun);
+  double result = mc_asia(S0,E,r,sigma,T,N,M,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

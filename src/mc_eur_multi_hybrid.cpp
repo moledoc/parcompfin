@@ -11,7 +11,7 @@ double mc_eur
   ,double sigma
   ,double T
   ,int N
-  ,std::string payoff_fun
+  ,double payoff_fun
   ,int assets
   ,double rho
   ,int size
@@ -69,6 +69,12 @@ int main (int argc, char *argv[]){
   int threads =             getArg(argv,10);
   omp_set_num_threads(threads);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
+
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
   if (ierr !=0){
@@ -81,7 +87,7 @@ int main (int argc, char *argv[]){
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun,assets,rho,size,rank);
+  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun_d,assets,rho,size,rank);
   auto end = std::chrono::system_clock::now();
 
   if(rank ==0 ){

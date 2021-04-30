@@ -45,12 +45,13 @@ int main (int argc, char *argv[]){
   double sigma =            getArgD(argv,5);
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
-  /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 
   double payoff_fun_d;
   if (payoff_fun=="call") payoff_fun_d = 1;
   if (payoff_fun=="put") payoff_fun_d = -1;
   if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
+  /* bencmarking code found at: https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c */
 
   auto start = std::chrono::system_clock::now();
   double result = binom(S0,E,r,sigma,T,N,payoff_fun_d);

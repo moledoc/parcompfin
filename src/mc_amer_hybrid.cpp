@@ -129,7 +129,7 @@ double mc_amer
   ,double T
   ,int N
   ,int M
-  ,std::string payoff_fun
+  ,double payoff_fun
   ,int size
   ,int rank
  )
@@ -273,6 +273,11 @@ int main (int argc, char *argv[]){
   int threads =             getArg(argv,9);
   omp_set_num_threads(threads);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
   if (ierr !=0){
@@ -286,7 +291,7 @@ int main (int argc, char *argv[]){
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun,size,rank);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,size,rank);
   auto end = std::chrono::system_clock::now();
   
 

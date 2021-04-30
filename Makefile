@@ -12,7 +12,8 @@ CXXFLAGS_MULTI = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3
 ########################################################################################################################
 
 all: all_bin binom mc_eur mc_amer mc_asia mc_eur_multi
-all_bin: clean init  binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin mc_eur_multi_bin
+all_bin: clean init binom_bin mc_eur_bin  mc_amer_bin mc_asia_bin mc_eur_multi_bin
+all_tst: clean init binom_tst mc_eur_tst  mc_amer_tst mc_asia_tst mc_eur_multi_tst
 
 init:
 		if [ ! -d bin ]; then mkdir bin; fi
@@ -38,17 +39,17 @@ binom_bin: binom_prep
 	$(CXX_MPI) $(CXXFLAGS) obj/binom_embar_hybrid.o -o bin/binom_embar_hybrid -fopenmp 
 
 binom_tst: binom_bin
-	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 10000
-	./bin/binom_embar call 100 110 0.02 0.75 1 10000
-	./bin/binom_embar_omp call 100 110 0.02 0.75 1 50000 2
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 50000
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 50000 2
+	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 1000
+	./bin/binom_embar call 100 110 0.02 0.75 1 1000
+	./bin/binom_embar_omp call 100 110 0.02 0.75 1 5000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi call 100 110 0.02 0.75 1 5000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid call 100 110 0.02 0.75 1 5000 2
 	#####
-	./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 10000
-	./bin/binom_embar put 100 90 0.02 0.75 1 10000
-	./bin/binom_embar_omp put 100 90 0.02 0.75 1 50000 2
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 50000
-	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 50000 2
+	./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 1000
+	./bin/binom_embar put 100 90 0.02 0.75 1 1000
+	./bin/binom_embar_omp put 100 90 0.02 0.75 1 5000 2
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_mpi put 100 90 0.02 0.75 1 5000
+	mpirun -n 4 --hostfile hostfile ./bin/binom_embar_hybrid put 100 90 0.02 0.75 1 5000 2
 
 binom: init binom_bin
 	#./runscript_binom_embar.sh
@@ -73,16 +74,16 @@ mc_eur_bin: mc_eur_prep
 
 mc_eur_tst: mc_eur_bin
 	./bin/binom_vanilla_eur call 100 110 0.02 0.75 1 1000
-	./bin/mc_eur call 100 110 0.02 0.75 1 10000000
-	./bin/mc_eur_omp call 100 110 0.02 0.75 1 10000000 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_mpi call 100 110 0.02 0.75 1 10000000
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid call 100 110 0.02 0.75 1 10000000 4
+	./bin/mc_eur call 100 110 0.02 0.75 1 1000000
+	./bin/mc_eur_omp call 100 110 0.02 0.75 1 1000000 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_mpi call 100 110 0.02 0.75 1 1000000
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid call 100 110 0.02 0.75 1 1000000 4
 	##############
 	./bin/binom_vanilla_eur put 100 90 0.02 0.75 1 1000
-	./bin/mc_eur put 100 90 0.02 0.75 1 10000000
-	./bin/mc_eur_omp put 100 90 0.02 0.75 1 10000000 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_mpi put 100 90 0.02 0.75 1 10000000
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid put 100 90 0.02 0.75 1 10000000 4
+	./bin/mc_eur put 100 90 0.02 0.75 1 1000000
+	./bin/mc_eur_omp put 100 90 0.02 0.75 1 1000000 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_mpi put 100 90 0.02 0.75 1 1000000
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_hybrid put 100 90 0.02 0.75 1 1000000 4
 
 mc_eur: init mc_eur_bin
 	bash runscript_mc_eur.sh
@@ -107,14 +108,14 @@ mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
 	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
 	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 100 4
-	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
-	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
-	#################
-	#./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
-	#./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
-	#./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
-	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
-	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
+	################
+	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
+	./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
+	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
 
 mc_amer: init mc_amer_bin
 	bash runscript_mc_amer.sh
@@ -152,20 +153,20 @@ mc_asia: init mc_asia_bin
 mc_eur_multi_prep: include/common.h include/comparison.h	
 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi.cpp -o obj/mc_eur_multi.o
 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_omp.cpp -o obj/mc_eur_multi_omp.o -fopenmp
-	# $(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
-	# $(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
 
 mc_eur_multi_bin: mc_eur_multi_prep
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi.o -o bin/mc_eur_multi 
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_omp.o -o bin/mc_eur_multi_omp -fopenmp 
-	# $(CXX) $(CXXFLAGS) obj/mc_eur_multi_mpi.o -o bin/mc_eur_multi_mpi 
-	# $(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_mpi.o -o bin/mc_eur_multi_mpi 
+	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
 
 mc_eur_multi_tst: mc_eur_multi_bin
-	./bin/mc_eur_multi call 100 100 0.1 0.2 1 10000000 4 0.5
-	./bin/mc_eur_multi_omp call 100 100 0.1 0.2 1 10000000 4 0.5 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_mpi call 100 100 0.1 0.2 1 10000000 4 0.5
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 10000000 4 0.5 4
+	./bin/mc_eur_multi call 100 100 0.1 0.2 1 1000000 4 0.5
+	./bin/mc_eur_multi_omp call 100 100 0.1 0.2 1 1000000 4 0.5 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_mpi call 100 100 0.1 0.2 1 1000000 4 0.5
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 1000000 4 0.5 4
 
 mc_eur_multi: init mc_eur_multi_bin
 	bash runscript_mc_eur_multi.sh

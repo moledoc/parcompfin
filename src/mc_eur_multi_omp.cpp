@@ -11,7 +11,7 @@ double mc_eur
   ,double sigma
   ,double T
   ,int N
-  ,std::string payoff_fun
+  ,double payoff_fun
   ,int assets
   ,double rho
   ,int threads
@@ -52,8 +52,13 @@ int main (int argc, char *argv[]){
   int threads =             getArg(argv,10);
   omp_set_num_threads(threads);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun,assets,rho,threads);
+  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun_d,assets,rho,threads);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

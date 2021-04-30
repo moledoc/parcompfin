@@ -10,7 +10,7 @@ double mc_eur
   ,double sigma
   ,double T
   ,int N
-  ,std::string payoff_fun
+  ,double payoff_fun
   ,time_t cur_time
   ,int size
   ,int rank
@@ -42,6 +42,12 @@ int main (int argc, char *argv[]){
   double sigma =            getArgD(argv,5);
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
+
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   time_t cur_time;
   /* Init MPI */
   int ierr = MPI_Init(&argc,&argv);
@@ -62,7 +68,7 @@ int main (int argc, char *argv[]){
   };
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(S0,E,r,sigma,T,N_fixed/size,payoff_fun,cur_time,size,rank);
+  double result = mc_eur(S0,E,r,sigma,T,N_fixed/size,payoff_fun_d,cur_time,size,rank);
   /* double inter_result = mc_eur(N_fixed/size,S0,E,r,T,sigma,cur_time,rank); */
   /* double result; */
   /* MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
