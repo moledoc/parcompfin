@@ -15,10 +15,10 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(250 500 750 1000 2500 5000 7500 10000 25000 50000 75000 100000) # paths
+  Ns=(1000 2500 5000 7500 10000 25000 50000 75000 100000) # paths
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 10 25 50)
+  hybr=(1 5 16 25 32 50 60)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make binom_bin
@@ -42,7 +42,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
   do
     for p in ${proc[@]}
     do
-      mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
+      mpirun -np ${p} --hostfile hostfile ./bin/binom_embar_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} >> ${results}
       echo "MPI N=${N}, processes=${p} -- DONE"
     done
   done
@@ -51,7 +51,7 @@ double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${si
   do
     for hybrid in ${hybr[@]}
     do
-      mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
+      mpirun -np ${hybrid} --hostfile hostfile ./bin/binom_embar_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${hybrid} >> ${results}
       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
     done
   done

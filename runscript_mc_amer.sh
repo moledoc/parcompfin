@@ -15,11 +15,11 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(250 500 750 1000 2500 5000 7500 10000 25000 50000 75000 100000 250000 500000 750000 1000000) # paths
+  Ns=(1000 2500 5000 7500 10000 25000 50000 75000 100000 250000 500000 750000 1000000) # paths
   Ms=(200 1000) # steps in path
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 10 25 50)
+  hybr=(1 5 16 25 32 50 60)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 10000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make mc_amer_bin
@@ -50,7 +50,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     do
       for p in ${proc[@]}
       do
-        mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_used 0 ./bin/mc_amer_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
+        mpirun -np ${p} --hostfile hostfile ./bin/mc_amer_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results}
         echo "MPI N=${N}, M=${M}, processes=${p} -- DONE"
       done
     done
@@ -62,7 +62,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     do
       for hybrid in ${hybr[@]}
       do
-        mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
+        mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
         echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
       done
     done

@@ -107,14 +107,14 @@ mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
 	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
 	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
-	################
-	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
-	./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
-	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
+	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
+	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
+	#################
+	#./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
+	#./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
+	#./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
+	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
+	#mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
 
 mc_amer: init mc_amer_bin
 	bash runscript_mc_amer.sh
@@ -152,14 +152,14 @@ mc_asia: init mc_asia_bin
 mc_eur_multi_prep: include/common.h include/comparison.h	
 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi.cpp -o obj/mc_eur_multi.o
 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_omp.cpp -o obj/mc_eur_multi_omp.o -fopenmp
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
+	# $(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
+	# $(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
 
 mc_eur_multi_bin: mc_eur_multi_prep
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi.o -o bin/mc_eur_multi 
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_omp.o -o bin/mc_eur_multi_omp -fopenmp 
-	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_mpi.o -o bin/mc_eur_multi_mpi 
-	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
+	# $(CXX) $(CXXFLAGS) obj/mc_eur_multi_mpi.o -o bin/mc_eur_multi_mpi 
+	# $(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
 
 mc_eur_multi_tst: mc_eur_multi_bin
 	./bin/mc_eur_multi call 100 100 0.1 0.2 1 10000000 4 0.5
@@ -172,14 +172,17 @@ mc_eur_multi: init mc_eur_multi_bin
 
 ########################################################################################################################
 
-tsting_prep: include/common.h include/comparison.h	
-	$(CXX) $(CXXFLAGS) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
+# tsting_prep: include/common.h include/comparison.h	
+# 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o -fopenmp
+# 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
 
-tsting_bin: tsting_prep
-	$(CXX) $(CXXFLAGS) obj/mc_amer_v2.o -o bin/mc_amer_v2 
+# tsting_bin: tsting_prep
+# 	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2.o -o bin/mc_amer_v2 -fopenmp
+# 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
 
-tsting_tst: tsting_tst
-	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 100
+# tsting_tst: tsting_bin
+# 	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 100 4
+# 	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
 
 ########################################################################################################################
 

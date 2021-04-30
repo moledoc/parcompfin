@@ -25,10 +25,10 @@ common_cycle(){
   E=$2
   asset=$3
   compare=$4
-  Ns=(100000 250000 500000 750000 1000000 2000000 2500000 5000000 7500000 10000000 25000000 50000000 75000000 100000000)
+  Ns=(100000 250000 500000 750000 1000000 2500000 5000000 7500000 10000000 25000000 50000000 75000000 100000000)
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 10 25 50)
+  hybr=(1 5 16 25 32 50 60)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_eur_multi_bin
@@ -51,7 +51,7 @@ double comparison = ${compare};" > include/comparison.h
   do
     for p in ${proc[@]}
     do
-      mpirun -np ${p} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_multi_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${asset} ${rho} >> ${results}
+      mpirun -np ${p} --hostfile hostfile ./bin/mc_eur_multi_mpi ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${asset} ${rho} >> ${results}
       echo "MPI N=${N}, processes=${p} -- DONE"
     done
   done
@@ -60,7 +60,7 @@ double comparison = ${compare};" > include/comparison.h
   do
     for hybrid in ${hybr[@]}
     do
-      mpirun -np ${hybrid} --hostfile hostfile --mca btl_base_warn_component_unused 0 ./bin/mc_eur_multi_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${asset} ${rho} ${hybrid} >> ${results}
+      mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_eur_multi_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${asset} ${rho} ${hybrid} >> ${results}
       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
     done
   done
