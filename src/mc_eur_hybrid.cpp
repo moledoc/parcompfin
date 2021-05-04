@@ -78,9 +78,14 @@ int main (int argc, char *argv[]){
   /* MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
   /* result = result/size; */
   auto end = std::chrono::system_clock::now();
-  if (rank==0){
+  
+  // close processes
+  MPI_Finalize();
+  auto end_overall = std::chrono::system_clock::now();
+
+  if(rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
+    std::chrono::duration<double> elapsed_seconds_overall = end_overall-start_overall;
     reporting(
         "Hybrid"
         ,payoff_fun
@@ -97,6 +102,5 @@ int main (int argc, char *argv[]){
         ,size*1000+threads
         );
   };
-  MPI_Finalize();
   return EXIT_SUCCESS;
 }

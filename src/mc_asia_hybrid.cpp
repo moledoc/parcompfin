@@ -98,10 +98,14 @@ int main (int argc, char *argv[]){
   auto start = std::chrono::system_clock::now();
   double result = mc_asia(S0,E,r,sigma,T,N,M,payoff_fun_d,size,rank);
   auto end = std::chrono::system_clock::now();
+  
+  // close processes
+  MPI_Finalize();
+  auto end_overall = std::chrono::system_clock::now();
 
   if(rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
+    std::chrono::duration<double> elapsed_seconds_overall = end_overall-start_overall;
     reporting(
         "Hybrid"
         ,payoff_fun
@@ -119,6 +123,5 @@ int main (int argc, char *argv[]){
         ,M
         );
   };
-  MPI_Finalize();
   return EXIT_SUCCESS;
 }

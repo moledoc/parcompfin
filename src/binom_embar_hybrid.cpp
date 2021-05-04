@@ -95,11 +95,13 @@ int main (int argc, char *argv[]){
   double result = binom(S0,E,r,sigma,T,N,size,rank,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
-  std::chrono::duration<double> elapsed_seconds = end-start;
-  std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
-  if (rank==0){
+  // close processes
+  MPI_Finalize();
+  auto end_overall = std::chrono::system_clock::now();
+
+  if(rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
+    std::chrono::duration<double> elapsed_seconds_overall = end_overall-start_overall;
     reporting(
         "Hybrid"
         ,payoff_fun
@@ -116,6 +118,5 @@ int main (int argc, char *argv[]){
         ,size*1000+threads
         );
   };
-  MPI_Finalize();
   return EXIT_SUCCESS;
 }

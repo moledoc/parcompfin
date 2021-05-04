@@ -88,12 +88,14 @@ int main (int argc, char *argv[]){
   auto start = std::chrono::system_clock::now();
   double result = binom(S0,E,r,sigma,T,N,size,rank,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
+  
+  // close processes
+  MPI_Finalize();
+  auto end_overall = std::chrono::system_clock::now();
 
-  std::chrono::duration<double> elapsed_seconds = end-start;
-  std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   if (rank==0){
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
+    std::chrono::duration<double> elapsed_seconds_overall = end_overall-start_overall;
     reporting(
         "MPI"
         ,payoff_fun
@@ -110,6 +112,5 @@ int main (int argc, char *argv[]){
         ,size
         );
   };
-  MPI_Finalize();
   return EXIT_SUCCESS;
 }
