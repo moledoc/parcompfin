@@ -173,17 +173,23 @@ mc_eur_multi: init mc_eur_multi_bin
 
 ########################################################################################################################
 
-# tsting_prep: include/common.h include/comparison.h	
-# 	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o -fopenmp
-# 	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
+tsting_prep: include/common.h include/comparison.h	
+	# $(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
+	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2_omp.cpp -o obj/mc_amer_v2_omp.o -fopenmp
+	# $(CXX) $(CXXFLAGS) -c src/tst.cpp -o obj/tst.o -fopenmp
 
-# tsting_bin: tsting_prep
-# 	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2.o -o bin/mc_amer_v2 -fopenmp
-# 	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+tsting_bin: tsting_prep
+	# $(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2.o -o bin/mc_amer_v2
+	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2_omp.o -o bin/mc_amer_v2_omp -fopenmp
+	# $(CXX) $(CXXFLAGS) obj/tst.o -o bin/tst -fopenmp 
 
-# tsting_tst: tsting_bin
-# 	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 100 4
-# 	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
+tsting_tst: tsting_bin
+	# ./bin/mc_amer call 100 110 0.02 0.75 1 10000 1000
+	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 500
+	./bin/mc_amer_v2_omp call 100 110 0.02 0.75 1 100000 500 4
+	# ./bin/tst
 
 ########################################################################################################################
 

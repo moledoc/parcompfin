@@ -3,6 +3,13 @@
 #include <comparison.h>
 #include <mvn.h>
 
+Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
+  Eigen::MatrixXd D(A.rows(),A.cols()+B.cols());
+  D << A,B;
+  std::cout << D << std::endl;
+  return D;
+};
+
 Eigen::MatrixXd pathsfinder
 (
  double S0
@@ -24,6 +31,7 @@ Eigen::MatrixXd pathsfinder
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
   // generate paths
+/* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
     gen.seed(time(&cur_time)+n+1);
@@ -38,7 +46,6 @@ Eigen::MatrixXd pathsfinder
     };
   };
   return paths.transpose();
-  /* return transpose(paths); */
 }
 
 double mc_amer
@@ -51,18 +58,41 @@ double mc_amer
   ,int N
   ,int M
   ,double payoff_fun
+  ,int threads
  )
 {
   double dt = T/M;
   double result = 0;
   // calculate paths
-  Eigen::MatrixXd paths = pathsfinder(S0,E,r,sigma,T,N,M);
+  Eigen::MatrixXd paths(M,N/threads);
+  /* Eigen::MatrixXd paths1 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+  /* Eigen::MatrixXd paths2 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+  /* std::cout << paths1 << std::endl; */
+  /* std::cout << paths2 << std::endl; */
+  /* std::cout << (Eigen::MatrixXd(paths1.rows(),paths1.cols()+paths2.cols()) << paths1,paths2).finished() << std::endl; */
+  /* std::cout <<  paths1+paths2 << std::endl; */
+
+
+#pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))\
+     initializer(omp_priv=Eigen::MatrixXd::Zero(omp_orig.rows(),omp_orig.cols()))
+
+#pragma omp parallel
+  {
+#pragma omp for reduction(merge:paths)
+  for(int i=0;i<threads;++i){
+    pathsfinder(S0,E,r,sigma,T,N/threads,M);
+    /* paths = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+  };
+  }
   
+
+  std::cout << paths << std::endl;
   // store each paths timestep value when option is exercised
   Eigen::VectorXd exercise_when(N);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   Eigen::VectorXd exercise_st(N);
 
+#pragma omp parallel for 
   for(int n=0;n<N;++n){ 
     exercise_when(n) = M;
     exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
@@ -71,11 +101,15 @@ double mc_amer
   for(int m=M-1;m>M-2;--m){
     Eigen::ArrayXXf info(3,N);
     
+#pragma omp parallel
+    {
+#pragma omp for nowait schedule(dynamic,1000) private(E,payoff_fun,m,N)
     for(int n=0;n<N;++n){
       double tmp = paths(m,n);
       info(0,n) = payoff(tmp,E,payoff_fun);
       info(1,n) = tmp;
       info(2,n) = exercise_when(n);
+    };
     }
 
     int in_money=(info.row(0)>0).count();
@@ -85,6 +119,9 @@ double mc_amer
     Eigen::VectorXd y(in_money);
 
     int counter=0;
+#pragma omp parallel 
+    {
+#pragma omp for schedule(dynamic,100) nowait private(E,payoff_fun,m,N,r,dt,info)
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
         x(counter,0) = 1;
@@ -94,16 +131,33 @@ double mc_amer
         ++counter;
       };
     };
+    }
+
+    Eigen::MatrixXd xTx;
+    Eigen::MatrixXd xTy;
+    Eigen::MatrixXd xTx_inv;
 
     Eigen::MatrixXd xT = x.transpose();
-    /* Eigen::MatrixXd xTx = xT*x; */
-    /* Eigen::MatrixXd xTy = xT*y; */
-    /* Eigen::MatrixXd xTx_inv = xTx.inverse(); */
-    /* Eigen::VectorXd coef = xTx_inv*xTy; */
+#pragma omp sections
+    {
+#pragma omp section
+    xTx = xT*x;
+#pragma omp section
+    xTy = xT*y;
+    }
 
-    Eigen::VectorXd coef = (xT*x).inverse()*xT*y;
+#pragma omp sections
+    {
+#pragma omp section
+    xTx_inv = xTx.inverse();
+    }
+
+    Eigen::VectorXd coef = xTx_inv*xTy;
 
     counter=0;
+#pragma omp parallel
+    {
+#pragma omp for schedule(dynamic,1000) nowait private(E,payoff_fun,m,coef,x,exercise_when,exercise_st)
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
         double tmp_x = x(counter,1);
@@ -117,12 +171,16 @@ double mc_amer
         ++counter;
       };
     };
+    }
   };
   
-
+#pragma omp parallel
+  {
+#pragma omp for nowait reduction(+:result) schedule(dynamic,1000) //private(r,dt)
   for(int n=0;n<N;++n){
     if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
+  }
 
   return std::max(payoff(S0,E,payoff_fun),result/(double)N);
 }
@@ -137,6 +195,8 @@ int main (int argc, char *argv[]){
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
   int M =                   getArg(argv,8);
+  int threads =             getArg(argv,9);
+  omp_set_num_threads(threads);
 
   double payoff_fun_d;
   if (payoff_fun=="call") payoff_fun_d = 1;
@@ -146,13 +206,13 @@ int main (int argc, char *argv[]){
   /* std::cout << pathsfinder(S0,E,r,sigma,T,N,M) << std::endl; */ 
   
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,threads);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
-      "Serial"
+      "OMP"
       ,payoff_fun
       ,S0
       ,E
@@ -164,7 +224,7 @@ int main (int argc, char *argv[]){
       ,result
       ,comparison
       ,N
-      ,0
+      ,threads
       ,M
       );
   return EXIT_SUCCESS;
