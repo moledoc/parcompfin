@@ -125,7 +125,7 @@ double mc_amer
   ,double T
   ,int N
   ,int M
-  ,std::string payoff_fun
+  ,double payoff_fun
  )
 {
   double dt = T/M;
@@ -135,82 +135,71 @@ double mc_amer
   
   // store each paths timestep value when option is exercised
   Eigen::VectorXd exercise_when(N);
-  for(int n=0;n<N;++n) exercise_when(n) = M;
-
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   Eigen::VectorXd exercise_st(N);
-  for(int n=0;n<N;++n) exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
-  
-  Eigen::MatrixXd xTx(3,3);
-  Eigen::VectorXd xTy(3);
 
-  // Find timesteps at each path when the option is exercised.
-  // Store corresponding when and st values. Update them when earier exercise timestep is found.
-  for(int m=M-1;m>0;--m){
-    Eigen::VectorXd x(N);
-    Eigen::VectorXd y(N);
-    for(int i=0;i<N;++i){
-      x(i)=-1;y(i)=-1;
-    };
-    double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
-    double x_length=0;
+  for(int n=0;n<N;++n){ 
+    exercise_when(n) = M;
+    exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
+  };
 
+  for(int m=M-1;m>M-2;--m){
+    Eigen::ArrayXXf info(3,N);
+    
     for(int n=0;n<N;++n){
-      double payoff_val = payoff(paths(m,n),E,payoff_fun);
-      // keep only paths that are in the money
-      if(payoff_val>0){
-        ++x_length;
-        // stock price at time t_m
-        double exer = paths(m,n);
-        x(n) = exer;
-        // discounted cashflow at time t_{m+1}
-        double cont = exp(-r*dt*(exercise_when(n)-m))*payoff(paths(exercise_when(n),n),E,payoff_fun);
-        y(n) = cont;
-        // calc values for xTx and xTy.
-        sum_x   += exer;
-        sum_x2  += exer*exer;
-        sum_x3  += exer*exer*exer;
-        sum_x4  += exer*exer*exer*exer;
-        sum_y   += cont;
-        sum_yx  += cont*exer;
-        sum_yx2 += cont*exer*exer;
+      double tmp = paths(m,n);
+      info(0,n) = payoff(tmp,E,payoff_fun);
+      info(1,n) = tmp;
+      info(2,n) = exercise_when(n);
+    }
+
+    int in_money=(info.row(0)>0).count();
+    if(in_money==0) continue;
+
+    Eigen::MatrixXd x(in_money,3);
+    Eigen::VectorXd y(in_money);
+
+    int counter=0;
+    for(int n=0;n<N;++n){
+      if(info(0,n)>0){
+        x(counter,0) = 1;
+        x(counter,1) = info(1,n);
+        x(counter,2) = pow(info(1,n),2);
+        y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
+        ++counter;
       };
     };
-    
-    // if no path was in the money, skip it, because we are not interested in it.
-    // when M is big and dt is small, the step m=1 might not be in money.
-    if (x_length==0) continue;
-    
-    // compose xTx and xTy
-    xTx(0,0) = x_length; xTx(0,1) = sum_x ; xTx(0,2) = sum_x2 ;
-    xTx(1,0) = sum_x   ; xTx(1,1) = sum_x2; xTx(1,2) = sum_x3 ;
-    xTx(2,0) = sum_x2  ; xTx(2,1) = sum_x3; xTx(2,2) = sum_x4 ;
-    xTy(0)    = sum_y   ; xTy(1)    = sum_yx; xTy(2)    = sum_yx2;
 
-    /* Eigen::VectorXd coef = mat_vec_mul(inverse(xTx),xTy); */
-    /* Eigen::VectorXd coef = mat_vec_mul(xTx.inverse(),xTy); */
+    Eigen::MatrixXd xT = x.transpose();
+    /* Eigen::MatrixXd xTx = xT*x; */
+    /* Eigen::MatrixXd xTy = xT*y; */
+    /* Eigen::MatrixXd xTx_inv = xTx.inverse(); */
+    /* Eigen::VectorXd coef = xTx_inv*xTy; */
 
-    Eigen::VectorXd coef = xTx.inverse()*xTy;
+    Eigen::VectorXd coef = (xT*x).inverse()*xT*y;
 
-    for(int i=0;i<N;++i){
-      if(x(i)!=-1){
-        double EYIX = coef(0) + coef(1)*x(i) + coef(2)*pow(x(i),2);
+    counter=0;
+    for(int n=0;n<N;++n){
+      if(info(0,n)>0){
+        double tmp_x = x(counter,1);
+        double EYIX = coef(0) + coef(1)*x(counter,1) + coef(2)*pow(x(counter,1),2);
         // exercise value at t_m
-        double payoff_val = payoff(x(i),E,payoff_fun);
+        double payoff_val = payoff(x(counter,1),E,payoff_fun);
         if (payoff_val > EYIX) {
-          exercise_when(i) = m;
-          exercise_st(i) = payoff_val;
+          exercise_when(n) = m;
+          exercise_st(n) = payoff_val;
         };
+        ++counter;
       };
     };
   };
+  
 
   for(int n=0;n<N;++n){
     if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
 
   return std::max(payoff(S0,E,payoff_fun),result/(double)N);
-  /* return 0; */
 }
 
 int main (int argc, char *argv[]){
@@ -224,10 +213,15 @@ int main (int argc, char *argv[]){
   int N =                   getArg(argv,7);
   int M =                   getArg(argv,8);
 
+  double payoff_fun_d;
+  if (payoff_fun=="call") payoff_fun_d = 1;
+  if (payoff_fun=="put") payoff_fun_d = -1;
+  if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
+
   /* std::cout << pathsfinder(S0,E,r,sigma,T,N,M) << std::endl; */ 
   
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
