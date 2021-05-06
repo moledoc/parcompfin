@@ -68,7 +68,7 @@ double mc_amer
     exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
   };
 
-  for(int m=M-1;m>M-2;--m){
+  for(int m=M-1;m>0;--m){
     Eigen::ArrayXXf info(3,N);
     
     for(int n=0;n<N;++n){
@@ -76,20 +76,24 @@ double mc_amer
       info(0,n) = payoff(tmp,E,payoff_fun);
       info(1,n) = tmp;
       info(2,n) = exercise_when(n);
-    }
+    };
 
     int in_money=(info.row(0)>0).count();
     if(in_money==0) continue;
 
-    Eigen::MatrixXd x(in_money,3);
+
+    // handle cases where in money < 3 with:
+    // * 1 - constant
+    // * 2 - linear regression
+    Eigen::MatrixXd x(in_money,std::min(in_money,3));
     Eigen::VectorXd y(in_money);
 
     int counter=0;
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
         x(counter,0) = 1;
-        x(counter,1) = info(1,n);
-        x(counter,2) = pow(info(1,n),2);
+        if (in_money > 1) x(counter,1) = info(1,n);
+        if (in_money > 2) x(counter,2) = pow(info(1,n),2);
         y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
         ++counter;
       };
@@ -106,10 +110,22 @@ double mc_amer
     counter=0;
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
-        double tmp_x = x(counter,1);
-        double EYIX = coef(0) + coef(1)*x(counter,1) + coef(2)*pow(x(counter,1),2);
-        // exercise value at t_m
-        double payoff_val = payoff(x(counter,1),E,payoff_fun);
+        double EYIX;
+        double payoff_val;
+        double poly=0;
+        if(in_money!=1){
+          if(in_money>2){
+            poly = coef(2)*pow(x(counter,1),2);
+          };
+          EYIX = coef(0) + coef(1)*x(counter,1) + poly;
+          // exercise value at t_m
+          payoff_val = payoff(x(counter,1),E,payoff_fun);
+        }else {
+          EYIX = coef(0);
+          // exercise value at t_m
+          payoff_val = payoff(x(counter,0),E,payoff_fun);
+        };
+
         if (payoff_val > EYIX) {
           exercise_when(n) = m;
           exercise_st(n) = payoff_val;

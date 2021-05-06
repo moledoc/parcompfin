@@ -4,10 +4,12 @@
 #include <mvn.h>
 
 Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
-  Eigen::MatrixXd D(A.rows(),A.cols()+B.cols());
-  D << A,B;
-  std::cout << D << std::endl;
-  return D;
+  if (A.isZero(0)){
+    return B;
+  }
+  Eigen::MatrixXd C(A.rows(),A.cols()+B.cols());
+  C << A,B;
+  return C;
 };
 
 Eigen::MatrixXd pathsfinder
@@ -19,6 +21,7 @@ Eigen::MatrixXd pathsfinder
  ,double T
  ,int N
  ,int M
+ ,int threads
 )
 {
   double dt = T/M;
@@ -34,7 +37,7 @@ Eigen::MatrixXd pathsfinder
 /* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+n+1);
+    gen.seed(time(&cur_time)+(n+1)*(threads+1));
     // init new path
     paths(n,0) = S0;
     paths(n+N/2,0) = S0;
@@ -61,10 +64,8 @@ double mc_amer
   ,int threads
  )
 {
-  double dt = T/M;
+  double dt = T/(double)M;
   double result = 0;
-  // calculate paths
-  Eigen::MatrixXd paths(M,N/threads);
   /* Eigen::MatrixXd paths1 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
   /* Eigen::MatrixXd paths2 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
   /* std::cout << paths1 << std::endl; */
@@ -72,21 +73,25 @@ double mc_amer
   /* std::cout << (Eigen::MatrixXd(paths1.rows(),paths1.cols()+paths2.cols()) << paths1,paths2).finished() << std::endl; */
   /* std::cout <<  paths1+paths2 << std::endl; */
 
+  int N_p;
+  if(N%(2*threads)!=0) N_p = N/threads+1;
+  else N_p = N/threads;
+  // calculate paths
+  Eigen::MatrixXd paths(M+1,N_p);
 
-#pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))\
+#pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))//\
      initializer(omp_priv=Eigen::MatrixXd::Zero(omp_orig.rows(),omp_orig.cols()))
+     /* initializer(omp_priv(omp_orig)) */
 
 #pragma omp parallel
   {
-#pragma omp for reduction(merge:paths)
+#pragma omp for reduction(merge:paths) nowait schedule(dynamic,1) 
   for(int i=0;i<threads;++i){
-    pathsfinder(S0,E,r,sigma,T,N/threads,M);
-    /* paths = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+    paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
   };
   }
   
 
-  std::cout << paths << std::endl;
   // store each paths timestep value when option is exercised
   Eigen::VectorXd exercise_when(N);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
@@ -98,7 +103,7 @@ double mc_amer
     exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
   };
 
-  for(int m=M-1;m>M-2;--m){
+  for(int m=M-1;m>0;--m){
     Eigen::ArrayXXf info(3,N);
     
 #pragma omp parallel
@@ -115,7 +120,10 @@ double mc_amer
     int in_money=(info.row(0)>0).count();
     if(in_money==0) continue;
 
-    Eigen::MatrixXd x(in_money,3);
+    // handle cases where in money < 3 with:
+    // * 1 - constant
+    // * 2 - linear regression
+    Eigen::MatrixXd x(in_money,std::min(in_money,3));
     Eigen::VectorXd y(in_money);
 
     int counter=0;
@@ -125,8 +133,8 @@ double mc_amer
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
         x(counter,0) = 1;
-        x(counter,1) = info(1,n);
-        x(counter,2) = pow(info(1,n),2);
+        if (in_money > 1) x(counter,1) = info(1,n);
+        if (in_money > 2) x(counter,2) = pow(info(1,n),2);
         y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
         ++counter;
       };
@@ -160,10 +168,21 @@ double mc_amer
 #pragma omp for schedule(dynamic,1000) nowait private(E,payoff_fun,m,coef,x,exercise_when,exercise_st)
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
-        double tmp_x = x(counter,1);
-        double EYIX = coef(0) + coef(1)*x(counter,1) + coef(2)*pow(x(counter,1),2);
-        // exercise value at t_m
-        double payoff_val = payoff(x(counter,1),E,payoff_fun);
+        double EYIX;
+        double payoff_val;
+        double poly=0;
+        if(in_money!=1){
+          if(in_money>2){
+            poly = coef(2)*pow(x(counter,1),2);
+          };
+          EYIX = coef(0) + coef(1)*x(counter,1) + poly;
+          // exercise value at t_m
+          payoff_val = payoff(x(counter,1),E,payoff_fun);
+        }else {
+          EYIX = coef(0);
+          // exercise value at t_m
+          payoff_val = payoff(x(counter,0),E,payoff_fun);
+        };
         if (payoff_val > EYIX) {
           exercise_when(n) = m;
           exercise_st(n) = payoff_val;
