@@ -109,17 +109,17 @@ double mc_amer
     MPI_Gather(y_p.data(),N_p,MPI_DOUBLE,y.data(),N_p,MPI_DOUBLE,0,MPI_COMM_WORLD);
     MPI_Gather(is_in_money_p.data(),N_p,MPI_DOUBLE,is_in_money.data(),N_p,MPI_DOUBLE,0,MPI_COMM_WORLD);
 
-    Eigen::VectorXd coef(3);
+    Eigen::VectorXd coef(std::min(in_money,3));
 
     if(rank==0){
-    Eigen::MatrixXd xmat=Eigen::MatrixXd::Zero(in_money,3);
+    Eigen::MatrixXd xmat=Eigen::MatrixXd::Zero(in_money,std::min(in_money,3));
     Eigen::MatrixXd yvec=Eigen::VectorXd::Zero(in_money);
     int counter = 0;
     for(int i=0;i<N_p*size;++i){
       if(is_in_money(i)>0){
         xmat(counter,0)=1;
-        xmat(counter,1)=x(i);
-        xmat(counter,2)=pow(x(i),2);
+        if (in_money > 1) xmat(counter,1)=x(i);
+        if (in_money > 2) xmat(counter,2)=pow(x(i),2);
         yvec(counter)=y(i);
         ++counter;
       };
@@ -133,9 +133,22 @@ double mc_amer
 
     for(int i=0;i<N_p;++i){
       if(is_in_money_p(i)>0){
-        double EYIX = coef(0) + coef(1)*x_p(i) + coef(2)*pow(x_p(i),2);
+        double EYIX;
+        double payoff_val;
+        double poly=0;
+        if(in_money!=1){
+          if(in_money>2){
+            poly = coef(2)*pow(x_p(i),2);
+          };
+          EYIX = coef(0) + coef(1)*x_p(i) + poly;
+          // exercise value at t_m
+          payoff_val = payoff(x_p(i),E,payoff_fun);
+        }else {
+          EYIX = coef(0);
+          // exercise value at t_m
+          payoff_val = payoff(x_p(i),E,payoff_fun);
+        };
         // exercise value at t_m
-        double payoff_val = payoff(x_p(i),E,payoff_fun);
         if (payoff_val > EYIX) {
           exercise_when(i) = m;
           exercise_st(i) = payoff_val;

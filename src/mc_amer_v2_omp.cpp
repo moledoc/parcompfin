@@ -181,7 +181,7 @@ double mc_amer
         }else {
           EYIX = coef(0);
           // exercise value at t_m
-          payoff_val = payoff(x(counter,0),E,payoff_fun);
+          payoff_val = payoff(info(1,n),E,payoff_fun);
         };
         if (payoff_val > EYIX) {
           exercise_when(n) = m;
