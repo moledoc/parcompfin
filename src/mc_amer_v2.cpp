@@ -80,11 +80,21 @@ double mc_amer
 
     int in_money=(info.row(0)>0).count();
     if(in_money==0) continue;
+    /* if(in_money==1){ */
+    /*   for(int n=0;n<N;++n){ */
+    /*     if(info(0,n)>0){ */
+    /*       double payoff_val = info(0,n); */
+    /*       double discounted =  exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun); */
+    /*       if (payoff_val > discounted) { */
+    /*         exercise_when(n) = m; */
+    /*         exercise_st(n) = payoff_val; */
+    /*       }; */
+    /*       break; */
+    /*     }; */
+    /*   }; */
+    /*   continue; */
+    /* }; */
 
-
-    // handle cases where in money < 3 with:
-    // * 1 - constant
-    // * 2 - linear regression
     Eigen::MatrixXd x(in_money,std::min(in_money,3));
     Eigen::VectorXd y(in_money);
 
@@ -92,7 +102,7 @@ double mc_amer
     for(int n=0;n<N;++n){
       if(info(0,n)>0){
         x(counter,0) = 1;
-        if (in_money > 1) x(counter,1) = info(1,n);
+        x(counter,1) = info(1,n);
         if (in_money > 2) x(counter,2) = pow(info(1,n),2);
         y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
         ++counter;
@@ -100,11 +110,6 @@ double mc_amer
     };
 
     Eigen::MatrixXd xT = x.transpose();
-    /* Eigen::MatrixXd xTx = xT*x; */
-    /* Eigen::MatrixXd xTy = xT*y; */
-    /* Eigen::MatrixXd xTx_inv = xTx.inverse(); */
-    /* Eigen::VectorXd coef = xTx_inv*xTy; */
-
     Eigen::VectorXd coef = (xT*x).inverse()*xT*y;
 
     counter=0;
@@ -113,18 +118,12 @@ double mc_amer
         double EYIX;
         double payoff_val;
         double poly=0;
-        if(in_money!=1){
-          if(in_money>2){
-            poly = coef(2)*pow(x(counter,1),2);
-          };
-          EYIX = coef(0) + coef(1)*x(counter,1) + poly;
-          // exercise value at t_m
-          payoff_val = payoff(x(counter,1),E,payoff_fun);
-        }else {
-          EYIX = coef(0);
-          // exercise value at t_m
-          payoff_val = payoff(x(counter,0),E,payoff_fun);
+        if(in_money>2){
+          poly = coef(2)*pow(x(counter,1),2);
         };
+        EYIX = coef(0) + coef(1)*x(counter,1) + poly;
+        // exercise value at t_m
+        payoff_val = payoff(x(counter,1),E,payoff_fun);
 
         if (payoff_val > EYIX) {
           exercise_when(n) = m;
