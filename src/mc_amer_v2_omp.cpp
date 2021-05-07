@@ -26,7 +26,7 @@ Eigen::MatrixXd pathsfinder
 {
   double dt = T/M;
   // matrix to store paths
-  Eigen::MatrixXd paths(N,M+1);
+  Eigen::MatrixXd paths(M+1,N);
   //
   // make a generator from  N(0,sqrt(T))
   time_t cur_time;
@@ -39,16 +39,17 @@ Eigen::MatrixXd pathsfinder
     // for each path use different seed
     gen.seed(time(&cur_time)+(n+1)*(threads+1));
     // init new path
-    paths(n,0) = S0;
-    paths(n+N/2,0) = S0;
+    paths(0,n) = S0;
+    paths(0,n+N/2) = S0;
     // fill path
     for(int m=1;m<M+1;++m){
       double w = norm(gen);
-      paths(n,m) = paths(n,m-1)*exp((r-0.5*sigma*sigma)*dt+sigma*w);
-      paths(n+N/2,m) = paths(n+N/2,m-1)*exp((r-0.5*sigma*sigma)*dt-sigma*w);
+      paths(m,n) = paths(m-1,n)*exp((r-0.5*sigma*sigma)*dt+sigma*w);
+      paths(m,n+N/2) = paths(m-1,n+N/2)*exp((r-0.5*sigma*sigma)*dt-sigma*w);
     };
   };
-  return paths.transpose();
+  /* return paths.transpose(); */
+  return paths;
 }
 
 double mc_amer
