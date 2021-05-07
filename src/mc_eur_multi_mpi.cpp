@@ -26,7 +26,7 @@ double mc_eur
   else N_p=N/size;
 
   // pre-calculate random variables from N(Mu,Sigma);
-  Eigen::MatrixXd samples = sample(N_p,assets,sigma,rho);
+  Eigen::MatrixXd Bt = mvnorm(N_p,assets,rho,rank);
 
   // payoff of the basket option will depend on the  arithmetic average of prices at maturity T.
   double w_i = 1.0/(double)assets;
@@ -35,7 +35,7 @@ double mc_eur
     double result_n = 0;
     for(int asset=0;asset<assets;++asset){
       // assuming same constant volatility for each underlying asset.
-      result_n += w_i*S0*exp((r-pow(sigma,2)/2)*T+sigma*samples(asset,n));
+      result_n += w_i*S0*exp((r-pow(sigma,2)/2)*T+sigma*Bt(asset,n));
     };
     result_inter += payoff(result_n,E,payoff_fun);
   };
