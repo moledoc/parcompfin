@@ -7,7 +7,7 @@ CXX_MPI=mpic++
 # -std=c++11 	enables the C++17 standard mode
 # CXXFLAGS = -Wall -std=c++17 -Iinclude
 CXXFLAGS = -Wall -std=c++17 -Iinclude #-I /usr/include/eigen3 #-Ofast 
-CXXFLAGS_MULTI = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3 
+CXXFLAGS_EIGEN = -std=c++17 -Wall -Iinclude -I /usr/include/eigen3 
 
 ########################################################################################################################
 
@@ -92,30 +92,30 @@ mc_eur: init mc_eur_bin
 
 mc_amer_prep: include/common.h include/comparison.h
 	$(CXX) $(CXXFLAGS) -c src/binom_vanilla_amer.cpp -o obj/binom_vanilla_amer.o # test american option value
-	$(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
-	$(CXX) $(CXXFLAGS) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
-	$(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_hybrid.cpp -o obj/mc_amer_hybrid.o -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer.cpp -o obj/mc_amer.o
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
+	# $(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_hybrid.cpp -o obj/mc_amer_hybrid.o -fopenmp
 
 mc_amer_bin: mc_amer_prep
 	$(CXX) $(CXXFLAGS) obj/binom_vanilla_amer.o -o bin/binom_vanilla_amer # test american option value
-	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
-	$(CXX) $(CXXFLAGS) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
-	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
-	$(CXX_MPI) $(CXXFLAGS) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer.o -o bin/mc_amer 
+	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
+	$(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
+	# $(CXX_MPI) $(CXXFLAGS) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
 
 mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
-	./bin/mc_amer call 100 110 0.02 0.75 1 100000 100
-	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
+	./bin/mc_amer call 100 110 0.02 0.75 1 100000 200
+	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 200
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
 	################
 	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
-	./bin/mc_amer put 100 90 0.02 0.75 1 100000 100
-	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 100 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 100
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 100 4
+	./bin/mc_amer put 100 90 0.02 0.75 1 100000 200
+	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 200
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 200 4
 
 mc_amer: init mc_amer_bin
 	bash runscript_mc_amer.sh
@@ -151,10 +151,10 @@ mc_asia: init mc_asia_bin
 ########################################################################################################################
 
 mc_eur_multi_prep: include/common.h include/comparison.h	
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi.cpp -o obj/mc_eur_multi.o
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_omp.cpp -o obj/mc_eur_multi_omp.o -fopenmp
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_eur_multi.cpp -o obj/mc_eur_multi.o
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_eur_multi_omp.cpp -o obj/mc_eur_multi_omp.o -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_eur_multi_mpi.cpp -o obj/mc_eur_multi_mpi.o
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_eur_multi_hybrid.cpp -o obj/mc_eur_multi_hybrid.o -fopenmp
 
 mc_eur_multi_bin: mc_eur_multi_prep
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi.o -o bin/mc_eur_multi 
@@ -163,10 +163,10 @@ mc_eur_multi_bin: mc_eur_multi_prep
 	$(CXX) $(CXXFLAGS) obj/mc_eur_multi_hybrid.o -o bin/mc_eur_multi_hybrid -fopenmp 
 
 mc_eur_multi_tst: mc_eur_multi_bin
-	./bin/mc_eur_multi call 100 100 0.1 0.2 1 1000000 4 0.5
-	./bin/mc_eur_multi_omp call 100 100 0.1 0.2 1 1000000 4 0.5 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_mpi call 100 100 0.1 0.2 1 1000000 4 0.5
-	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 1000000 4 0.5 4
+	./bin/mc_eur_multi call 100 100 0.1 0.2 1 10000000 4 0.5
+	./bin/mc_eur_multi_omp call 100 100 0.1 0.2 1 10000000 4 0.5 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_mpi call 100 100 0.1 0.2 1 10000000 4 0.5
+	mpirun -n 4 --hostfile hostfile ./bin/mc_eur_multi_hybrid call 100 100 0.1 0.2 1 10000000 4 0.5 4
 
 mc_eur_multi: init mc_eur_multi_bin
 	bash runscript_mc_eur_multi.sh
@@ -175,20 +175,33 @@ mc_eur_multi: init mc_eur_multi_bin
 
 tsting_prep: include/common.h include/comparison.h	
 	# $(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
-	$(CXX) $(CXXFLAGS_MULTI) -c src/mc_amer_v2_omp.cpp -o obj/mc_amer_v2_omp.o -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3.cpp -o obj/mc_amer_v3.o
+	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
+	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3_omp.cpp -o obj/mc_amer_v3_omp.o -fopenmp
+	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_omp.cpp -o obj/mc_amer_v2_omp.o -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_mpi.cpp -o obj/mc_amer_v2_mpi.o
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_1_mpi.cpp -o obj/mc_amer_v2_1_mpi.o
 	# $(CXX) $(CXXFLAGS) -c src/tst.cpp -o obj/tst.o -fopenmp
 
 tsting_bin: tsting_prep
 	# $(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
-	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2.o -o bin/mc_amer_v2
-	$(CXX) $(CXXFLAGS_MULTI) obj/mc_amer_v2_omp.o -o bin/mc_amer_v2_omp -fopenmp
+	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3.o -o bin/mc_amer_v3
+	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v2.o -o bin/mc_amer_v2
+	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3_omp.o -o bin/mc_amer_v3_omp -fopenmp
+	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_omp.o -o bin/mc_amer_v2_omp -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_mpi.o -o bin/mc_amer_v2_mpi
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_1_mpi.o -o bin/mc_amer_v2_1_mpi
 	# $(CXX) $(CXXFLAGS) obj/tst.o -o bin/tst -fopenmp 
 
 tsting_tst: tsting_bin
-	# ./bin/mc_amer call 100 110 0.02 0.75 1 10000 1000
-	./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 500
+	./bin/mc_amer_v3 call 100 110 0.02 0.75 1 100000 500
+	# ./bin/mc_amer call 100 110 0.02 0.75 1 100000 500
+	# ./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 500
+	./bin/mc_amer_v3_omp call 100 110 0.02 0.75 1 100000 500 4
+	# ./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 500 4
 	./bin/mc_amer_v2_omp call 100 110 0.02 0.75 1 100000 500 4
+	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_v2_1_mpi call 100 110 0.02 0.75 1 100000 500
+	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_v2_mpi call 100 110 0.02 0.75 1 100000 500
 	# ./bin/tst
 
 ########################################################################################################################

@@ -1,48 +1,18 @@
 
 #include <common.h>
 #include <comparison.h>
+#include <mvn.h>
 
-/* void vecprinter(std::vector<double> vec) */
-/* { */
-/*   for(int i = 0;i<vec.size();++i){ */
-/*     std::cout<<vec[i]<< " " ; */
-/*   }; */
-/*   std::cout<<std::endl; */
-/* } */
-
-/* void matprinter(std::vector<std::vector<double>> mat) */
-/* { */
-/*   for(int i = 0;i<mat.size();++i){ */
-/*     for(int j = 0;j<mat[i].size();++j){ */
-/*       std::cout<<mat[i][j] << " " ; */
-/*     }; */
-/*     std::cout<<std::endl; */
-/*   }; */
-/* } */
-
-
-std::vector<std::vector<double>> transpose
-(
- std::vector<std::vector<double>> y
-)
-{
-  std::vector<std::vector<double>> transposed(y[0].size());
-  for(int i=0;i<y[0].size();++i){
-    transposed[i].resize(y.size());
-  };
-#pragma omp parallel
-  {
-#pragma omp for schedule(dynamic,1000) nowait
-  for(int j=0;j<y[0].size();++j){
-    for(int i=0;i<y.size();++i){
-      transposed[j][i] = y[i][j];
-    };
-  };
+Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
+  if (A.isZero(0)){
+    return B;
   }
-  return transposed;
-}
+  Eigen::MatrixXd C(A.rows(),A.cols()+B.cols());
+  C << A,B;
+  return C;
+};
 
-std::vector<std::vector<double>> pathsfinder
+Eigen::MatrixXd pathsfinder
 (
  double S0
  ,double E
@@ -51,81 +21,36 @@ std::vector<std::vector<double>> pathsfinder
  ,double T
  ,int N
  ,int M
+ ,int threads
 )
 {
   double dt = T/M;
   // matrix to store paths
-  std::vector<std::vector<double>> paths(N);
-  for(int i=0;i<N;++i){
-    paths[i].resize(M+1);
-  };
+  Eigen::MatrixXd paths(M+1,N);
+  //
   // make a generator from  N(0,sqrt(T))
   time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
-    
-/* #pragma omp parallel for */
   // generate paths
+/* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)*(n+1));
-
+    gen.seed(time(&cur_time)+(n+1)*(threads+1));
     // init new path
-    paths[n][0] = S0;
-    paths[n+N/2][0] = S0;
-
+    paths(0,n) = S0;
+    paths(0,n+N/2) = S0;
     // fill path
     for(int m=1;m<M+1;++m){
       double w = norm(gen);
-      paths[n][m] = paths[n][m-1]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
-      paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
+      paths(m,n) = paths(m-1,n)*exp((r-0.5*sigma*sigma)*dt+sigma*w);
+      paths(m,n+N/2) = paths(m-1,n+N/2)*exp((r-0.5*sigma*sigma)*dt-sigma*w);
     };
   };
-  return transpose(paths);
+  /* return paths.transpose(); */
+  return paths;
 }
-
-std::vector<double> mat_vec_mul
-(
-  std::vector<std::vector<double>> x
-  ,std::vector<double> y
-)
-{
-  std::vector<double> mat(x.size());
-  for(int i=0;i<x.size();++i){
-    for(int j=0;j<y.size();++j){
-        mat[i]+=x[i][j]*y[j]; 
-      };
-  };
-  return mat;
-}
-
-// in my case it is always 3x3 matrix
-std::vector<std::vector<double>> inverse
-(
- std::vector<std::vector<double>> x
-)
-{
-  std::vector<std::vector<double>> inversed(3);
-  for(int i=0;i<3;++i){
-    inversed[i].resize(3);
-  };
-  double determinant=0;
-  //finding determinant of the matrix
-  for(int i=0; i<3;++i)
-    determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3]));
-  //Condition to check if the derterminat is zero or not if zero than inverse dont exists
-  if(determinant<=0){
-    throw std::invalid_argument("Detereminant is not > 0");
-  };
-  for(int i=0;i<3;++i){
-    for(int j=0;j<3;++j){
-      inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant;
-    };
-   };
-  return inversed;
-}
-
 
 double mc_amer
  (
@@ -137,94 +62,159 @@ double mc_amer
   ,int N
   ,int M
   ,double payoff_fun
+  ,int threads
  )
 {
-  double dt = T/M;
+  double dt = T/(double)M;
   double result = 0;
+  /* Eigen::MatrixXd paths1 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+  /* Eigen::MatrixXd paths2 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
+  /* std::cout << paths1 << std::endl; */
+  /* std::cout << paths2 << std::endl; */
+  /* std::cout << (Eigen::MatrixXd(paths1.rows(),paths1.cols()+paths2.cols()) << paths1,paths2).finished() << std::endl; */
+  /* std::cout <<  paths1+paths2 << std::endl; */
+
+  int N_p;
+  if(N%(2*threads)!=0) N_p = N/threads+1;
+  else N_p = N/threads;
   // calculate paths
-std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M);
+  Eigen::MatrixXd paths(M+1,N_p);
+
+#pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))//\
+     initializer(omp_priv=Eigen::MatrixXd::Zero(omp_orig.rows(),omp_orig.cols()))
+     /* initializer(omp_priv(omp_orig)) */
+
+#pragma omp parallel
+  {
+#pragma omp for reduction(merge:paths) nowait schedule(dynamic,1) 
+  for(int i=0;i<threads;++i){
+    paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
+  };
+  }
+  
+
   // store each paths timestep value when option is exercised
-  std::vector<double> exercise_when(N,M);
+  Eigen::VectorXd exercise_when(N);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
-  std::vector<double> exercise_st(N);
+  Eigen::VectorXd exercise_st(N);
 
-  for(int n=0;n<N;++n) exercise_st[n] = payoff(paths[M][n],E,payoff_fun);
-  std::vector<std::vector<double>> xTx(3);
-  for(int i=0;i<3;++i) xTx[i].resize(3);
-  std::vector<double> xTy(3);
-
-  // Find timesteps at each path when the option is exercised.
-  // Store corresponding when and st values. Update them when earier exercise timestep is found.
+#pragma omp parallel for 
+  for(int n=0;n<N;++n){ 
+    exercise_when(n) = M;
+    exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
+  };
 
   for(int m=M-1;m>0;--m){
-    std::vector<double> x(N,-1);
-    std::vector<double> y(N,-1);
-    double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
-    double x_length=0;
+    Eigen::ArrayXXf info(3,N);
+    
 #pragma omp parallel
-  {
-#pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x,sum_x2,sum_x3,sum_x4,sum_y,sum_yx,sum_yx2,x_length)
+    {
+#pragma omp for nowait schedule(dynamic,1000) private(E,payoff_fun,m,N)
     for(int n=0;n<N;++n){
-      double payoff_val = payoff(paths[m][n],E,payoff_fun);
-      // keep only paths that are in the money
-      if(payoff_val>0){
-        ++x_length;
-        // stock price at time t_m
-        double exer = paths[m][n];
-        x[n] = exer;
-        // discounted cashflow at time t_{m+1}
-        double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
-        y[n] = cont;
-
-        // calc values for xTx and xTy.
-        sum_x   += exer;
-        sum_x2  += exer*exer;
-        sum_x3  += exer*exer*exer;
-        sum_x4  += exer*exer*exer*exer;
-        sum_y   += cont;
-        sum_yx  += cont*exer;
-        sum_yx2 += cont*exer*exer;
-      };
+      double tmp = paths(m,n);
+      info(0,n) = payoff(tmp,E,payoff_fun);
+      info(1,n) = tmp;
+      info(2,n) = exercise_when(n);
     };
-  }
-    
-    // if no path was in the money, skip it, because we are not interested in it.
-    // when M is big and dt is small, the step m=1 might not be in money.
-    if (x_length==0) continue;
-    
-    // compose xTx and xTy
-    xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
-    xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
-    xTx[2][0] = sum_x2  ; xTx[2][1] = sum_x3; xTx[2][2] = sum_x4 ;
-    xTy[0]    = sum_y   ; xTy[1]    = sum_yx; xTy[2]    = sum_yx2;
+    }
 
-    std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
-    for(int i=0;i<N;++i){
-      if(x[i]!=-1){
-        double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
-        // exercise value at t_m
-        double payoff_val = payoff(x[i],E,payoff_fun);
-        if (payoff_val > EYIX) {
-          exercise_when[i] = m;
-          exercise_st[i] = payoff_val;
+    int in_money=(info.row(0)>0).count();
+    if(in_money==0) continue;
+
+    if(in_money==1){
+      for(int n=0;n<N;++n){
+        if(info(0,n)>0){
+          double payoff_val = info(0,n);
+          double discounted =  exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
+          if (payoff_val > discounted) {
+            exercise_when(n) = m;
+            exercise_st(n) = payoff_val;
+          };
+          break;
         };
       };
+      continue;
     };
-  };
 
+    // handle cases where in money < 3 with:
+    // * 1 - constant
+    // * 2 - linear regression
+    Eigen::MatrixXd x(in_money,std::min(in_money,3));
+    Eigen::VectorXd y(in_money);
+
+    int counter=0;
+#pragma omp parallel 
+    {
+#pragma omp for schedule(dynamic,100) nowait private(E,payoff_fun,m,N,r,dt,info)
+    for(int n=0;n<N;++n){
+      if(info(0,n)>0){
+        x(counter,0) = 1;
+        x(counter,1) = info(1,n);
+        if (in_money > 2) x(counter,2) = pow(info(1,n),2);
+        y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
+        ++counter;
+      };
+    };
+    }
+
+    Eigen::MatrixXd xTx;
+    Eigen::MatrixXd xTy;
+    Eigen::MatrixXd xTx_inv;
+
+    Eigen::MatrixXd xT = x.transpose();
+#pragma omp sections
+    {
+#pragma omp section
+    xTx = xT*x;
+#pragma omp section
+    xTy = xT*y;
+    }
+
+#pragma omp sections
+    {
+#pragma omp section
+    xTx_inv = xTx.inverse();
+    }
+
+    Eigen::VectorXd coef = xTx_inv*xTy;
+
+    counter=0;
+#pragma omp parallel
+    {
+#pragma omp for schedule(dynamic,1000) nowait private(E,payoff_fun,m,coef,x,exercise_when,exercise_st)
+    for(int n=0;n<N;++n){
+      if(info(0,n)>0){
+        double EYIX;
+        double payoff_val;
+        double poly=0;
+        if(in_money>2){
+          poly = coef(2)*pow(x(counter,1),2);
+        };
+        EYIX = coef(0) + coef(1)*x(counter,1) + poly;
+        // exercise value at t_m
+        payoff_val = payoff(x(counter,1),E,payoff_fun);
+        if (payoff_val > EYIX) {
+          exercise_when(n) = m;
+          exercise_st(n) = payoff_val;
+        };
+        ++counter;
+      };
+    };
+    }
+  };
+  
 #pragma omp parallel
   {
-#pragma omp for schedule(dynamic,1000) nowait reduction(+:result)
+#pragma omp for nowait reduction(+:result) schedule(dynamic,1000) //private(r,dt)
   for(int n=0;n<N;++n){
-    if(exercise_when[n]!=0) result+=exp(-r*exercise_when[n]*dt)*exercise_st[n];
+    if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
-  }  
+  }
 
   return std::max(payoff(S0,E,payoff_fun),result/(double)N);
 }
 
 int main (int argc, char *argv[]){
-
   auto start_overall = std::chrono::system_clock::now();
   std::string payoff_fun =  argv[1];
   double S0 =               getArgD(argv,2);
@@ -242,8 +232,10 @@ int main (int argc, char *argv[]){
   if (payoff_fun=="put") payoff_fun_d = -1;
   if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
 
+  /* std::cout << pathsfinder(S0,E,r,sigma,T,N,M) << std::endl; */ 
+  
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,threads);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;

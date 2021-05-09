@@ -1,5 +1,6 @@
 
 #include <common.h>
+#include <comparison.h>
 #include <mvn.h>
 
 Eigen::MatrixXd pathsfinder
@@ -14,37 +15,33 @@ Eigen::MatrixXd pathsfinder
  ,int rank
 )
 {
-  if (N%2!=0) throw std::invalid_argument("N needs to be divisible by 2 for finding paths");
-  double dt = T/(double)M;
+  double dt = T/M;
   // matrix to store paths
   Eigen::MatrixXd paths(M+1,N);
+  //
   // make a generator from  N(0,sqrt(T))
   time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
-    
   // generate paths
+/* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)*(rank+1)+(n+1));
-
+    gen.seed(time(&cur_time)+(n+1));
     // init new path
     paths(0,n) = S0;
     paths(0,n+N/2) = S0;
-
     // fill path
     for(int m=1;m<M+1;++m){
       double w = norm(gen);
       paths(m,n) = paths(m-1,n)*exp((r-0.5*sigma*sigma)*dt+sigma*w);
       paths(m,n+N/2) = paths(m-1,n+N/2)*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-
     };
   };
   /* return paths.transpose(); */
   return paths;
 }
-
 
 double mc_amer
  (
@@ -61,12 +58,12 @@ double mc_amer
  )
 {
   double dt = T/M;
-  double result_p = 0;
   double result;
+  double result_p = 0;
   // calculate the number of paths process is responsible for
-  int N_p=N/size;
-  if(N_p%2!=0) ++N_p ;
-  
+  int N_p;
+  if(N%(2*size)!=0) N_p = N/size+1;
+  else N_p = N/size;
   // calculate paths
   Eigen::MatrixXd paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank);
   
@@ -75,93 +72,78 @@ double mc_amer
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
   Eigen::VectorXd exercise_st(N_p);
 
-
-  for(int n=0;n<N_p;++n){
+  for(int n=0;n<N_p;++n){ 
     exercise_when(n) = M;
     exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
   };
 
-  
-  Eigen::MatrixXd xTx = Eigen::MatrixXd::Zero(3,3);
-  Eigen::VectorXd xTy = Eigen::VectorXd::Zero(3);
-
-  // Find timesteps at each path when the option is exercised.
-  // Store corresponding when and st values. Update them when earier exercise timestep is found.
   for(int m=M-1;m>0;--m){
-    Eigen::VectorXd x=Eigen::VectorXd::Zero(N_p);
-    Eigen::VectorXd y=Eigen::VectorXd::Zero(N_p);
-    double sum_x; double sum_x2; double sum_x3; double sum_x4; double sum_y; double sum_yx; double sum_yx2;
-    double sum_x_p = 0; double sum_x2_p = 0; double sum_x3_p = 0; double sum_x4_p = 0; double sum_y_p = 0; double sum_yx_p = 0; double sum_yx2_p = 0;
-
-    double x_length; double x_length_p=0;
-
+    Eigen::ArrayXXf info(3,N);
+    
     for(int n=0;n<N_p;++n){
-      double payoff_val = payoff(paths(m,n),E,payoff_fun);
-      // keep only paths that are in the money
-      if(payoff_val>0){
-        ++x_length_p;
-        // stock price at time t_m
-        double exer = paths(m,n);
-        x(n) = exer;
-        double cont = exp(-r*dt*(exercise_when(n)-m))*payoff(paths(exercise_when(n),n),E,payoff_fun);
-        y(n) = cont;
+      double tmp = paths(m,n);
+      info(0,n) = payoff(tmp,E,payoff_fun);
+      info(1,n) = tmp;
+      info(2,n) = exercise_when(n);
+    };
 
-        // calc values for xTx and xTy.
-        sum_x_p   += exer;
-        sum_x2_p  += exer*exer;
-        sum_x3_p  += exer*exer*exer;
-        sum_x4_p  += exer*exer*exer*exer;
-        sum_y_p   += cont;
-        sum_yx_p  += cont*exer;
-        sum_yx2_p += cont*exer*exer;
+    int in_money=(info.row(0)>0).count();
+    if(in_money==0) continue;
+
+    if(in_money==1){
+      for(int n=0;n<N_p;++n){
+        if(info(0,n)>0){
+          double payoff_val = info(0,n);
+          double discounted =  exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
+          if (payoff_val > discounted) {
+            exercise_when(n) = m;
+            exercise_st(n) = payoff_val;
+          };
+          break;
+        };
+      };
+      continue;
+    };
+
+    Eigen::MatrixXd x(in_money,std::min(in_money,3));
+    Eigen::VectorXd y(in_money);
+
+    int counter=0;
+    for(int n=0;n<N_p;++n){
+      if(info(0,n)>0){
+        x(counter,0) = 1;
+        x(counter,1) = info(1,n);
+        if (in_money > 2) x(counter,2) = pow(info(1,n),2);
+        y(counter) = exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
+        ++counter;
       };
     };
 
-    Eigen::VectorXd coef(3);
+    Eigen::MatrixXd xT = x.transpose();
+    Eigen::VectorXd coef = (xT*x).inverse()*xT*y;
 
-    MPI_Reduce(&sum_x_p  ,&sum_x  ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x2_p ,&sum_x2 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x3_p ,&sum_x3 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_x4_p ,&sum_x4 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_y_p  ,&sum_y  ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_yx_p ,&sum_yx ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-    MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-
-    /* MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
-    //
-    // Use allreduce, becase if some process continues, then following bcast will deadlock.
-    // if every x_length_p==0 then collectively go to next iteration.
-    MPI_Allreduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD);
-    
-    // if no path was in the money, skip it, because we are not interested in it.
-    // when M is big and dt is small, the step m=1 might not be in money.
-    if (x_length==0) continue;
-    
-    if(rank==0){
-      // compose xTx and xTy
-      xTx(0,0) = x_length; xTx(0,1) = sum_x ; xTx(0,2) = sum_x2 ;
-      xTx(1,0) = sum_x   ; xTx(1,1) = sum_x2; xTx(1,2) = sum_x3 ;
-      xTx(2,0) = sum_x2  ; xTx(2,1) = sum_x3; xTx(2,2) = sum_x4 ;
-      xTy(0)   = sum_y   ; xTy(1)   = sum_yx; xTy(2)   = sum_yx2;
-
-      coef = xTx.inverse()*xTy;
-    };
-
-
-    MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
-  
-    for(int i=0;i<N_p;++i){
-      if(x(i)!=-1){
-        double EYIX = coef(0) + coef(1)*x(i) + coef(2)*pow(x(i),2);
-        // exercise value at t_m
-        double payoff_val = payoff(x(i),E,payoff_fun);
-        if (payoff_val > EYIX) {
-          exercise_when(i) = m;
-          exercise_st(i) = payoff_val;
+    counter=0;
+    for(int n=0;n<N_p;++n){
+      if(info(0,n)>0){
+        double EYIX;
+        double payoff_val;
+        double poly=0;
+        if(in_money>2){
+          poly = coef(2)*pow(x(counter,1),2);
         };
+        EYIX = coef(0) + coef(1)*x(counter,1) + poly;
+        // exercise value at t_m
+        payoff_val = payoff(x(counter,1),E,payoff_fun);
+
+        if (payoff_val > EYIX) {
+          exercise_when(n) = m;
+          exercise_st(n) = payoff_val;
+        };
+        ++counter;
       };
     };
   };
+  
 
   for(int n=0;n<N_p;++n){
     if(exercise_st(n)!=0) result_p+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
