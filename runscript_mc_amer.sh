@@ -56,17 +56,17 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     done
   done
 
-  for N in ${Ns[@]}
-  do
-    for M in ${Ms[@]}
-    do
-      for hybrid in ${hybr[@]}
-      do
-        mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
-        echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
-      done
-    done
-  done
+  # for N in ${Ns[@]}
+  # do
+  #   for M in ${Ms[@]}
+  #   do
+  #     for hybrid in ${hybr[@]}
+  #     do
+  #       mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
+  #       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
+  #     done
+  #   done
+  # done
   echo "MC amer ${payoff_fun} w/ E=${E}: DONE -- N=$N"
 }
 
