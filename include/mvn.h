@@ -39,13 +39,13 @@ struct functor_traits<scalar_normal_dist_op<Scalar> >
   Draw N samples from a assets-dimensional normal distribution
   with a constant mu,sigma and rho
 */
-Eigen::MatrixXd sample(int N,int assets,double sigma,double rho) 
+Eigen::MatrixXd mvnorm(int N,int assets,double rho,int parallel=0) 
 {
   time_t cur_time;
   // assets = Dimensionality (rows) 
   // N = How many samples (columns) to draw
   Eigen::internal::scalar_normal_dist_op<double> randN; // Gaussian functor
-  Eigen::internal::scalar_normal_dist_op<double>::rng.seed(time(&cur_time)); // Seed the rng with cur time 
+  Eigen::internal::scalar_normal_dist_op<double>::rng.seed(time(&cur_time)+0); // Seed the rng with cur time 
 
   // Define mean and covariance of the distribution
   Eigen::VectorXd mean(assets);       
