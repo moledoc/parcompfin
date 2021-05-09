@@ -67,12 +67,6 @@ double mc_amer
 {
   double dt = T/(double)M;
   double result = 0;
-  /* Eigen::MatrixXd paths1 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
-  /* Eigen::MatrixXd paths2 = pathsfinder(S0,E,r,sigma,T,N/threads,M); */
-  /* std::cout << paths1 << std::endl; */
-  /* std::cout << paths2 << std::endl; */
-  /* std::cout << (Eigen::MatrixXd(paths1.rows(),paths1.cols()+paths2.cols()) << paths1,paths2).finished() << std::endl; */
-  /* std::cout <<  paths1+paths2 << std::endl; */
 
   int N_p;
   if(N%(2*threads)!=0) N_p = N/threads+1;
@@ -86,7 +80,7 @@ double mc_amer
 
 #pragma omp parallel
   {
-#pragma omp for reduction(merge:paths) nowait schedule(dynamic,1) 
+#pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait
   for(int i=0;i<threads;++i){
     paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
   };
@@ -99,7 +93,7 @@ double mc_amer
   Eigen::VectorXd exercise_st(N);
 
 #pragma omp parallel for 
-  for(int n=0;n<N;++n){ 
+  for(int n=0;n<N_p;++n){ 
     exercise_when(n) = M;
     exercise_st(n) = payoff(paths(M,n),E,payoff_fun);
   };
@@ -110,7 +104,7 @@ double mc_amer
 #pragma omp parallel
     {
 #pragma omp for nowait schedule(dynamic,1000) private(E,payoff_fun,m,N)
-    for(int n=0;n<N;++n){
+    for(int n=0;n<N_p;++n){
       double tmp = paths(m,n);
       info(0,n) = payoff(tmp,E,payoff_fun);
       info(1,n) = tmp;
@@ -122,7 +116,7 @@ double mc_amer
     if(in_money==0) continue;
 
     if(in_money==1){
-      for(int n=0;n<N;++n){
+      for(int n=0;n<N_p;++n){
         if(info(0,n)>0){
           double payoff_val = info(0,n);
           double discounted =  exp(-r*dt*(info(2,n)-m))*payoff(paths(info(2,n),n),E,payoff_fun);
@@ -145,8 +139,8 @@ double mc_amer
     int counter=0;
 #pragma omp parallel 
     {
-#pragma omp for schedule(dynamic,100) nowait private(E,payoff_fun,m,N,r,dt,info)
-    for(int n=0;n<N;++n){
+#pragma omp for schedule(dynamic,100) nowait private(E,payoff_fun,m,r,dt,info)
+    for(int n=0;n<N_p;++n){
       if(info(0,n)>0){
         x(counter,0) = 1;
         x(counter,1) = info(1,n);
@@ -181,8 +175,8 @@ double mc_amer
     counter=0;
 #pragma omp parallel
     {
-#pragma omp for schedule(dynamic,1000) nowait private(E,payoff_fun,m,coef,x,exercise_when,exercise_st)
-    for(int n=0;n<N;++n){
+#pragma omp for schedule(dynamic,1000) nowait //private(E,payoff_fun,m,coef,x,exercise_when,exercise_st)
+    for(int n=0;n<N_p;++n){
       if(info(0,n)>0){
         double EYIX;
         double payoff_val;
@@ -206,12 +200,12 @@ double mc_amer
 #pragma omp parallel
   {
 #pragma omp for nowait reduction(+:result) schedule(dynamic,1000) //private(r,dt)
-  for(int n=0;n<N;++n){
+  for(int n=0;n<N_p;++n){
     if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
   }
 
-  return std::max(payoff(S0,E,payoff_fun),result/(double)N);
+  return std::max(payoff(S0,E,payoff_fun),result/(double)N_p);
 }
 
 int main (int argc, char *argv[]){
@@ -232,8 +226,6 @@ int main (int argc, char *argv[]){
   if (payoff_fun=="put") payoff_fun_d = -1;
   if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
 
-  /* std::cout << pathsfinder(S0,E,r,sigma,T,N,M) << std::endl; */ 
-  
   auto start = std::chrono::system_clock::now();
   double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,threads);
   auto end = std::chrono::system_clock::now();
