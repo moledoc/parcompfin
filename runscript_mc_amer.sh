@@ -15,7 +15,7 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(1000 2500 5000 7500 10000 25000 50000 75000 100000 250000 500000 750000 1000000) # paths
+  Ns=(10000 25000 50000 75000 100000 250000 500000 750000 1000000) # paths
   Ms=(200 1000) # steps in path
   thr=(1 5 10 25 32 50 64 100 125)
   proc=(1 5 10 25 32 50 64 100 125)
@@ -67,6 +67,7 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
   #     done
   #   done
   # done
+
   echo "MC amer ${payoff_fun} w/ E=${E}: DONE -- N=$N"
 }
 

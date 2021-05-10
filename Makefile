@@ -95,27 +95,27 @@ mc_amer_prep: include/common.h include/comparison.h
 	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer.cpp -o obj/mc_amer.o
 	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
 	$(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
-	# $(CXX_MPI) $(CXXFLAGS) -c src/mc_amer_hybrid.cpp -o obj/mc_amer_hybrid.o -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_hybrid.cpp -o obj/mc_amer_hybrid.o -fopenmp
 
 mc_amer_bin: mc_amer_prep
 	$(CXX) $(CXXFLAGS) obj/binom_vanilla_amer.o -o bin/binom_vanilla_amer # test american option value
 	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer.o -o bin/mc_amer 
 	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
 	$(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
-	# $(CXX_MPI) $(CXXFLAGS) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
+	# $(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_hybrid.o -o bin/mc_amer_hybrid -fopenmp
 
 mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
-	./bin/mc_amer call 100 110 0.02 0.75 1 100000 200
-	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 200 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 200
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
+	./bin/mc_amer call 100 110 0.02 0.75 1 10000 200
+	./bin/mc_amer_omp call 100 110 0.02 0.75 1 10000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 10000 200
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 10000 100 4
 	################
 	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
-	./bin/mc_amer put 100 90 0.02 0.75 1 100000 200
-	./bin/mc_amer_omp put 100 90 0.02 0.75 1 100000 200 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 100000 200
-	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 100000 200 4
+	./bin/mc_amer put 100 90 0.02 0.75 1 10000 200
+	./bin/mc_amer_omp put 100 90 0.02 0.75 1 10000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 10000 200
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 10000 200 4
 
 mc_amer: init mc_amer_bin
 	bash runscript_mc_amer.sh

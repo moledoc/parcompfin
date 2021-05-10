@@ -52,9 +52,9 @@ std::vector<std::vector<double>> pathsfinder
 {
   double dt = T/M;
   // matrix to store paths
-  std::vector<std::vector<double>> paths(N);
-  for(int i=0;i<N;++i){
-    paths[i].resize(M+1);
+  std::vector<std::vector<double>> paths(M+1);
+  for(int i=0;i<M+1;++i){
+    paths[i].resize(N);
   };
   // make a generator from  N(0,sqrt(T))
   time_t cur_time;
@@ -66,17 +66,18 @@ std::vector<std::vector<double>> pathsfinder
     // for each path use different seed
     gen.seed(time(&cur_time)+n+1);
     // init new path
-    paths[n][0] = S0;
-    paths[n+N/2][0] = S0;
+    paths[0][n] = S0;
+    paths[0][n+N/2] = S0;
     // fill path
     for(int m=1;m<M+1;++m){
       double w = norm(gen);
-      paths[n][m] = paths[n][m-1]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
-      paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
+      paths[m][n] = paths[m-1][n]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
+      paths[m][n+N/2] = paths[m-1][n+N/2]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
 
     };
   };
-  return transpose(paths);
+  /* return transpose(paths); */
+  return paths;
 }
 
 std::vector<double> mat_vec_mul
@@ -157,6 +158,9 @@ double mc_amer
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
     double x_length=0;
 
+    double fst_po;
+    double fst_y;
+    int fst_n;
     for(int n=0;n<N;++n){
       double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
@@ -176,12 +180,24 @@ double mc_amer
         sum_y   += cont;
         sum_yx  += cont*exer;
         sum_yx2 += cont*exer*exer;
+        if(x_length==1){
+          fst_po=payoff_val;
+          fst_y=cont;
+          fst_n=n;
+        };
       };
     };
     
     // if no path was in the money, skip it, because we are not interested in it.
     // when M is big and dt is small, the step m=1 might not be in money.
     if (x_length==0) continue;
+    if(x_length==1){
+      if(fst_po>fst_y){
+        exercise_when[fst_n] = m;
+        exercise_st[fst_n] = fst_po;
+      };
+      continue;
+    };
     
     // compose xTx and xTy
     xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;

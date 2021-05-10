@@ -3,6 +3,16 @@
 #include <comparison.h>
 #include <mvn.h>
 
+Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
+  if (A.isZero(0)){
+    return B;
+  }
+  Eigen::MatrixXd C(A.rows(),A.cols()+B.cols());
+  C << A,B;
+  return C;
+};
+
+
 Eigen::MatrixXd pathsfinder
 (
  double S0
@@ -12,6 +22,7 @@ Eigen::MatrixXd pathsfinder
  ,double T
  ,int N
  ,int M
+ ,int thread
 )
 {
   double dt = T/M;
@@ -27,7 +38,7 @@ Eigen::MatrixXd pathsfinder
 /* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+(n+1));
+    gen.seed(time(&cur_time)+(n+1)*(thread+1));
     // init new path
     paths(0,n) = S0;
     paths(0,n+N/2) = S0;
@@ -51,12 +62,31 @@ double mc_amer
   ,int N
   ,int M
   ,double payoff_fun
+  ,int threads
  )
 {
   double dt = T/(double)M;
   double result = 0;
+  int N_p;
+  if(N%threads!=0) N_p=(N+threads-N%threads)/threads;
+  else N_p=N/threads;
+  if(N_p%2!=0) ++N_p;
+  int N_fixed = N_p*threads;
   // calculate paths
-  Eigen::MatrixXd paths = pathsfinder(S0,E,r,sigma,T,N,M);
+  Eigen::MatrixXd paths(M+1,N_p);
+
+#pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))
+
+#pragma omp parallel
+  {
+#pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait
+  for(int i=0;i<threads;++i){
+    paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
+  };
+
+  Eigen::MatrixXd xTx(3,3);
+  Eigen::VectorXd xTy(3);
+
 
   // store each paths timestep value when option is exercised
   Eigen::VectorXd exercise_when(N);
@@ -74,9 +104,6 @@ double mc_amer
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
     double x_length=0;
 
-    double fst_po;
-    double fst_y;
-    int fst_n;
     for(int n=0;n<N;++n){
       double payoff_val = payoff(paths(m,n),E,payoff_fun);
       // keep only paths that are in the money
@@ -96,41 +123,38 @@ double mc_amer
         sum_y   += cont;
         sum_yx  += cont*exer;
         sum_yx2 += cont*exer*exer;
-        if(x_length==1){
-          fst_po=payoff_val;
-          fst_y=cont;
-          fst_n=n;
-        };
       };
     };
 
-    Eigen::MatrixXd xTx;
-    Eigen::VectorXd xTy;
-    // if no path was in the money, skip it, because we are not interested in it.
-    // when M is big and dt is small, the step m=1 might not be in money.
-    if(x_length==0){
-      continue;
-    } else if(x_length==1){
-    // if only 1 paths in the money, then compare current and discounted price.
-      if(fst_po>fst_y){
-        exercise_when(fst_n) = m;
-        exercise_st(fst_n) = fst_po;
-      };
-      continue;
-    } else if(x_length==2){
-    // if only 2 paths in the money, then do linear regression
-      xTx.resize(2,2); xTy.resize(2);
-      xTx << x_length,sum_x,sum_x2,
-             sum_x,sum_x2,sum_x3;
-      xTy << sum_y,sum_yx;
-   // more than 2 paths in the money
-    } else if(x_length>2){
-      xTx.resize(3,3); xTy.resize(3);
+    if(x_length>2){
       xTx << x_length,sum_x,sum_x2,
              sum_x,sum_x2,sum_x3,
              sum_x2,sum_x3,sum_x4;
       xTy << sum_y,sum_yx,sum_yx2;
-    }; 
+    } else if(x_length==2){
+    // if only 2 paths in the money, then do linear regression
+      xTx << x_length,sum_x,sum_x2,
+             sum_x,sum_x2,sum_x3;
+      xTy << sum_y,sum_yx;
+    } else if(x_length==1){
+    // if only 1 paths in the money, then compare current and discounted price.
+      double payoff_val;
+      double discounted;
+      for (int i=0;i<N;++i){
+        if(x(i)!=0){
+          payoff_val = payoff(x(i),E,payoff_fun);
+          discounted = y(i);
+          if(payoff_val > discounted){
+            exercise_when(i) = m;
+            exercise_st(i) = payoff_val;
+          };
+        };
+        break;
+      };
+      continue;
+    // if no path was in the money, skip it, because we are not interested in it.
+    // when M is big and dt is small, the step m=1 might not be in money.
+    } else if (x_length==0) continue;
      
     Eigen::VectorXd coef = xTx.inverse()*xTy;
     for(int n=0;n<N;++n){
@@ -148,9 +172,11 @@ double mc_amer
     };
   };
 
+#pragma omp for nowait reduction(+:result) schedule(dynamic,1000) //private(r,dt)
   for(int n=0;n<N;++n){
     if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
+  }
 
   return std::max(payoff(S0,E,payoff_fun),result/(double)N);
 }
@@ -165,6 +191,8 @@ int main (int argc, char *argv[]){
   double T =                getArgD(argv,6);
   int N =                   getArg(argv,7);
   int M =                   getArg(argv,8);
+  int threads =             getArg(argv,9);
+  omp_set_num_threads(threads);
 
   double payoff_fun_d;
   if (payoff_fun=="call") payoff_fun_d = 1;
@@ -174,13 +202,13 @@ int main (int argc, char *argv[]){
   /* std::cout << pathsfinder(S0,E,r,sigma,T,N,M) << std::endl; */ 
   
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,threads);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::chrono::duration<double> elapsed_seconds_overall = end-start_overall;
   reporting(
-      "Serial"
+      "OMP"
       ,payoff_fun
       ,S0
       ,E
@@ -192,7 +220,7 @@ int main (int argc, char *argv[]){
       ,result
       ,comparison
       ,N
-      ,0
+      ,threads
       ,M
       );
   return EXIT_SUCCESS;
