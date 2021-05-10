@@ -68,6 +68,38 @@ double comb(int N,int i){
   return result;
 }
 
+// in my case it is always 3x3 or 2x2 matrix
+std::vector<std::vector<double>> inverse
+(
+ std::vector<std::vector<double>> x
+ ,int size=3
+)
+{
+  std::vector<std::vector<double>> inversed(size);
+  for(int i=0;i<size;++i){
+    inversed[i].resize(size);
+  };
+  double determinant=0;
+  
+  //finding determinant of the matrix
+  for(int i=0; i<size;++i){
+    if(size==2) determinant += (x[0][0] * x[1][1])-(x[0][1] * x[1][0]);
+    if(size==3) determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3]));
+  };
+  //Condition to check if the derterminat is zero or not if zero than inverse dont exists
+  if(determinant<=0){
+    throw std::invalid_argument("Detereminant is not > 0");
+  };
+  for(int i=0;i<size;++i){
+    for(int j=0;j<size;++j){
+      if(size==3) inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant;
+      if(size==2) inversed[i][j] = determinant*x[i][j];
+    };
+   };
+  return inversed;
+}
+
+
 void reporting
 (
   std::string method
