@@ -27,20 +27,14 @@ double binom
   else until = N/2;
 
   double V0=0;
-  int ni;
-  int ni1;
-  if (N%2==0){
-    ni = rank * (N/2)/size;
-    ni1 = (rank+1) * (N/2)/size;
-    if (rank == 0) {
+  int ni = rank * until/size;
+  int ni1 = (rank+1) * until/size;
+  if (N%2==0 && rank == 0) {
       double binom_mid = comb(N,N/2) + N/2*log(p) + N/2*log(q);
       V0 = exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
-    };
-  } else {
-    ni = rank * (N/2)/size;
-    ni1 = (rank+1) * (N/2)/size;
   };
 
+  // fix ni1, if it goes over 'until'
   ni1 = std::min(ni1,until);
   for(int i=ni;i<ni1;++i){
     double comb_val = comb(N,i);
