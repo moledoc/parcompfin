@@ -19,7 +19,7 @@ double mc_eur
 
   /* Fix N if necessary */
   double N_p;
-  if (N%size > 0) N_p = (N+size-N%size)/size;
+  if (N%size!=0) N_p = (N+size-N%size)/size;
   else N_p=N/size;
 
   std::random_device rd{};
