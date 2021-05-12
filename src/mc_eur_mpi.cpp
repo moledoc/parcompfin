@@ -16,6 +16,12 @@ double mc_eur
   ,int rank
 )
 {
+
+  /* Fix N if necessary */
+  double N_p;
+  if (N%size > 0) N_p = (N+size-N%size)/size;
+  else N_p=N/size;
+
   std::random_device rd{};
   std::mt19937 gen{rd()};
   gen.seed(time(&cur_time)*(rank+1));
@@ -24,12 +30,12 @@ double mc_eur
   double result;
   double result_inter=0;
 
-  for(int n=0;n<N;++n){
+  for(int n=0;n<N_p;++n){
     result_inter += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E,payoff_fun);
   };
 
   MPI_Reduce(&result_inter,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return (exp(-r*T)*result)/(double)N/(double)size;
+  if(rank==0) return (exp(-r*T)*result)/(double)N_p;
   else return 0;
 }
 
@@ -61,18 +67,9 @@ int main (int argc, char *argv[]){
   MPI_Comm_size(MPI_COMM_WORLD,&size);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  /* Fix N if necessary */
-  double N_fixed = N;
-  if (N % size > 0){
-    N_fixed = N + (size - (N % size));
-  };
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_eur(S0,E,r,sigma,T,N_fixed/size,payoff_fun_d,cur_time,size,rank);
-  /* double inter_result = mc_eur(N_fixed/size,S0,E,r,T,sigma,cur_time,rank); */
-  /* double result; */
-  /* MPI_Reduce(&inter_result,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
-  /* result = result/size; */
+  double result = mc_eur(S0,E,r,sigma,T,N,payoff_fun_d,cur_time,size,rank);
   auto end = std::chrono::system_clock::now();
 
   // close processes
