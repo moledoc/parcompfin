@@ -99,29 +99,29 @@ std::vector<double> mat_vec_mul
   return mat;
 }
 
-std::vector<std::vector<double>> merge(std::vector<std::vector<double>> A,std::vector<std::vector<double>> B){
-  bool is_zero=1;
-  for(int i=0;i<A[0].size();++i){
-    if (A[0][i] !=0) {is_zero=0;break;};
-  };
-  std::vector<std::vector<double>> C;
-  std::vector<double> tmp;
-  if(is_zero!=1){
-    for(int i=0;i<A.size();++i){
-      copy(A[i].begin(),A[i].end(),back_inserter(tmp));
-      copy(B[i].begin(),B[i].end(),back_inserter(tmp));
-      C.push_back(tmp);
-      tmp.clear();
-     };
-  }else{
-    for(int i=0;i<B.size();++i){
-      copy(B[i].begin(),B[i].end(),back_inserter(tmp));
-      C.push_back(tmp);
-      tmp.clear();
-     };
-  };
-  return C;
-};
+/* std::vector<std::vector<double>> merge(std::vector<std::vector<double>> A,std::vector<std::vector<double>> B){ */
+/*   bool is_zero=1; */
+/*   for(int i=0;i<A[0].size();++i){ */
+/*     if (A[0][i] !=0) {is_zero=0;break;}; */
+/*   }; */
+/*   std::vector<std::vector<double>> C; */
+/*   std::vector<double> tmp; */
+/*   if(is_zero!=1){ */
+/*     for(int i=0;i<A.size();++i){ */
+/*       copy(A[i].begin(),A[i].end(),back_inserter(tmp)); */
+/*       copy(B[i].begin(),B[i].end(),back_inserter(tmp)); */
+/*       C.push_back(tmp); */
+/*       tmp.clear(); */
+/*      }; */
+/*   }else{ */
+/*     for(int i=0;i<B.size();++i){ */
+/*       copy(B[i].begin(),B[i].end(),back_inserter(tmp)); */
+/*       C.push_back(tmp); */
+/*       tmp.clear(); */
+/*      }; */
+/*   }; */
+/*   return C; */
+/* }; */
 
 double mc_amer
  (
@@ -139,23 +139,23 @@ double mc_amer
   double dt = T/M;
   double result = 0;
   // calculate paths
-  /* std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M,threads); */
+  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M,threads);
 
-  int N_p;
-  if(N%threads!=0) N_p=(N+threads-N%threads)/threads;
-  else N_p=N/threads;
-  if(N_p%2!=0) ++N_p;
+  /* int N_p; */
+  /* if(N%threads!=0) N_p=(N+threads-N%threads)/threads; */
+  /* else N_p=N/threads; */
+  /* if(N_p%2!=0) ++N_p; */
 
-  std::vector<std::vector<double>> paths(M+1);
-  for(int i=0;i<M+1;++i) paths[i].resize(N_p);
-#pragma omp declare reduction (merge: std::vector<std::vector<double>>: omp_out=merge(omp_out,omp_in))
-#pragma omp parallel
-  {
-#pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait
-  for(int i=0;i<threads;++i){
-    paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
-  };
-  }
+  /* std::vector<std::vector<double>> paths(M+1); */
+  /* for(int i=0;i<M+1;++i) paths[i].resize(N_p); */
+/* #pragma omp declare reduction (merge: std::vector<std::vector<double>>: omp_out=merge(omp_out,omp_in)) */
+/* #pragma omp parallel */
+  /* { */
+/* #pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait */
+  /* for(int i=0;i<threads;++i){ */
+  /*   paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num()); */
+  /* }; */
+  /* } */
 
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N,M);
