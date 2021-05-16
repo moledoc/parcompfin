@@ -14,23 +14,23 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 
 common_cycle(){
   payoff_fun=$1
-  E=$2
-  M=$3
+  e=$2
+  m=$3
   compare=$4
-  Ns=(10000 25000 50000 75000 100000 250000 500000 750000 1000000)  # paths
-  # Ms=(200 1000) # steps in paths
-  thr=(1 5 10 25 32 50 64 100 125)
-  proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 5 16 25 32 50 60)
+  ns=(10000 25000 32000 50000 64000 100000 250000 32000 500000 64000 1000000 2500000 3200000 5000000 6400000 10000000)  # paths
+  # ms=(200 1000) # steps in paths
+  thr=(1 5 10 25 32 50 64 100)
+  proc=(1 5 10 25 32 50 64 100)
+  hybr=(1 5 16 25 32 50)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in ${Ns[@]}
+  for n in ${ns[@]}
   do
-    # for M in ${Ms[@]}
+    # for m in ${ms[@]}
     # do
-      ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
-      echo "Serial N=${N}, M=${M} -- DONE"
+      ./bin/mc_asia ${payoff_fun} ${s0} ${e} ${r} ${sigma} ${t} ${n} ${m} >> ${results} 
+      echo "serial n=${n}, m=${m} -- done"
     # done
   done
 
@@ -74,19 +74,20 @@ double comparison = ${compare};" > include/comparison.h
 
 # https://www.coggit.com/freetools aritmhetic asian option price
 
-M=(200 1000)
+M=(200) # 1000)
 
-C110=(13.71 13.74)
+C110=(13.71) # 13.74)
 # for E in 110
-for i in 0 1
+for i in 0 #1
 do
   common_cycle "call" 110 ${M[${m}]} ${C110[${i}]} #$(eval "echo \"\$C${E}\"")
 done
 
-P90=(10.94 10.98)
-# for E in 110
-for i in 0 1
-do
-  common_cycle "put" 90 ${M[${m}]} ${P90[${i}]} #$(eval "echo \"\$P${E}\"")
-done
+# Since put and call give analogous results, only call optsion will be calculated from now on (2021-05-16)
+# P90=(10.94 10.98)
+# # for E in 110
+# for i in 0 1
+# do
+#   common_cycle "put" 90 ${M[${m}]} ${P90[${i}]} #$(eval "echo \"\$P${E}\"")
+# done
 

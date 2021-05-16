@@ -25,10 +25,10 @@ common_cycle(){
   E=$2
   asset=$3
   compare=$4
-  Ns=(100000 250000 500000 750000 1000000 2500000 5000000 7500000 10000000 25000000 50000000 75000000 100000000)
-  thr=(1 5 10 25 32 50 64 100 125)
-  proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 5 16 25 32 50 60)
+  Ns=(100000 250000 320000 500000 640000 1000000 2500000 3200000 5000000 6400000 10000000 25000000 32000000 50000000 64000000 100000000)
+  thr=(1 5 10 25 32 50 64 100)
+  proc=(1 5 10 25 32 50 64 100)
+  hybr=(1 5 16 25 32 50)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_eur_multi_bin
@@ -70,18 +70,10 @@ double comparison = ${compare};" > include/comparison.h
 for E in 100 #110 #90 95 100 105 110 120 130 140
 do
   # for asset in ${assets[@]}
-  for i in 0 1
+  for i in 0 #1
   do
     common_cycle "call" ${E} ${assets[${i}]} ${compares[${i}]}
   done
 done
 
-# # commented out, because article does not have a comparison value
-# for E in 90 #110 105 100 95 90 80 70 60
-# do
-#   for i in 0 1
-#   do
-#     common_cycle "put" ${E} ${assets[${i}]} ${compares[${i}]}
-#   done
-# done
 

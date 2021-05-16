@@ -15,11 +15,11 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(10000 25000 50000 75000 100000 250000 500000 750000 1000000) # paths
-  Ms=(200 1000) # steps in path
-  thr=(1 5 10 25 32 50 64 100 125)
-  proc=(1 5 10 25 32 50 64 100 125)
-  hybr=(1 5 16 25 32 50 60)
+  Ns=(10000 25000 32000 50000 64000 100000 250000 32000 500000 64000 1000000 2500000 3200000 5000000 6400000 10000000) # paths
+  Ms=(200) # 1000) # steps in path
+  thr=(1 5 10 25 32 50 64 100)
+  proc=(1 5 10 25 32 50 64 100)
+  hybr=(1 5 16 25 32 50)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 10000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make mc_amer_bin
@@ -76,8 +76,9 @@ do
   common_cycle "call" ${E}
 done
 
-for E in 90 #110 105 100 95 90 80 70 60
-do
-  common_cycle "put" ${E}
-done
+# Since put and call give analogous results, only call optsion will be calculated from now on (2021-05-16)
+# for E in 90 #110 105 100 95 90 80 70 60
+# do
+#   common_cycle "put" ${E}
+# done
 
