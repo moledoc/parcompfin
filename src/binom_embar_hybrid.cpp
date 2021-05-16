@@ -15,16 +15,18 @@ double binom
  ,double payoff_fun
  )
 {
-  double V0=0;
+  double result_p=0;
 #pragma omp parallel
   {
-  double dt = T/(double)N;
-  double u = exp(sigma*sqrt(dt));
-  double d = 1/u;
+  double dt = (double)T/(double)N;
+  double beta = 0.5*(exp(-r*dt)+exp((r+pow(sigma,2))*dt));
+  double u = beta + sqrt(pow(beta,2)-1);
+  double d = beta - sqrt(pow(beta,2)-1);
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
+  /* double u = exp(sigma*sqrt(dt)); */
+  /* double d = 1/u; */
   double q = 1-p;
-
   int until;
   if (N%2!=0) until = (N+1)/2;
   else until = N/2;
@@ -36,7 +38,7 @@ double binom
     ni1 = (rank+1) * (N/2)/size;
     if (rank == 0) {
       double binom_mid = comb(N,N/2) + N/2*log(p) + N/2*log(q);
-      V0 = exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
+      result_p = exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
     };
   } else {
     ni = rank * (N/2)/size;
@@ -44,18 +46,18 @@ double binom
   };
 
   ni1 = std::min(ni1,until);
-#pragma omp for schedule(dynamic,1000) nowait reduction(+:V0)
+#pragma omp for schedule(dynamic,1000) nowait reduction(+:result_p)
   for(int i=ni;i<ni1;++i){
     double comb_val = comb(N,i);
     double binom1 = comb_val + i*log(p) + (N-i)*log(q);
     double binom2 = comb_val + (N-i)*log(p) + i*log(q);
-    V0 +=  exp(binom1) * payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
-    V0 +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
+    result_p +=  exp(binom1) * payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
+    result_p +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
   };
   }
     
   double result;
-  MPI_Reduce(&V0,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+  MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
   if(rank==0) return exp(-r*T)*result;
   else return 0;

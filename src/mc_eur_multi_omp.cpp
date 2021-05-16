@@ -3,6 +3,15 @@
 #include <comparison.h>
 #include <mvn.h>
 
+Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
+  if (A.isZero(0)){
+    return B;
+  }
+  Eigen::MatrixXd C(A.rows(),A.cols()+B.cols());
+  C << A,B;
+  return C;
+};
+
 double mc_eur
 (
   double S0
@@ -24,7 +33,7 @@ double mc_eur
   {
   // payoff of the basket option will depend on the  arithmetic average of prices at maturity T.
   double w_i = 1.0/(double)assets;
-#pragma omp for schedule(dynamic,1000) reduction(+:result) nowait //collapse(1)// private(rho) 
+#pragma omp for schedule(dynamic,1000) reduction(+:result) nowait
   for(int n=0;n<N;++n){
     double result_n = 0;
     for(int asset=0;asset<assets;++asset){

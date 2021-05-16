@@ -21,7 +21,6 @@ double mc_eur
   std::mt19937 gen{rd()};
   gen.seed(time(&cur_time));
   std::normal_distribution<> norm{0,sqrt(T)};
-  /* double local_result=0; */
 #pragma omp for nowait schedule(dynamic,1000) reduction(+:result) 
   for(int n=0;n<N;++n){
     result += payoff(S0*exp((r-pow(sigma,2)/2)*T+sigma*norm(gen)),E,payoff_fun);

@@ -18,7 +18,7 @@ double mc_eur
 {
   double result;
   double result_inter=0;
-#pragma omp parallel //private(n) shared(T,N,r,sigma,E,S0)
+#pragma omp parallel
 {
   std::random_device rd{};
   std::mt19937 gen{rd()};

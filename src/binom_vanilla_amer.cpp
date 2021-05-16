@@ -14,10 +14,13 @@ double binom
 )
 {
   double dt = (double)T/(double)N;
-  double u = exp(sigma*sqrt(dt));
-  double d = 1/u;
+  double beta = 0.5*(exp(-r*dt)+exp((r+pow(sigma,2))*dt));
+  double u = beta + sqrt(pow(beta,2)-1);
+  double d = beta - sqrt(pow(beta,2)-1);
   double R = exp(r*dt);
   double p = (R-d)/(u-d);
+  /* double u = exp(sigma*sqrt(dt)); */
+  /* double d = 1/u; */
   double q = 1-p;
 
   std::vector<double> v_ij;
