@@ -33,7 +33,6 @@ double mc_asia
   for (int n=0;n<N;++n){
     double St = S0;
     double I = 0;
-
     for (int m=0;m<M;++m){
       I += St*(1+r*dt/2+sigma*norm2(gen2)/2);
       St *= exp((r-pow(sigma,2)/2)*dt+sigma*norm1(gen1));

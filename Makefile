@@ -174,32 +174,39 @@ mc_eur_multi: init mc_eur_multi_bin
 ########################################################################################################################
 
 tsting_prep: include/common.h include/comparison.h	
+	$(CXX) $(CXXFLAGS_EIGEN) -c depr/mc_amer/v3/mc_amer.cpp -o obj/mc_amer.o
+	$(CXX) $(CXXFLAGS_EIGEN) -c depr/mc_amer/v3/mc_amer_omp.cpp -o obj/mc_amer_omp.o -fopenmp
+	$(CXX_MPI) $(CXXFLAGS_EIGEN) -c depr/mc_amer/v3/mc_amer_mpi.cpp -o obj/mc_amer_mpi.o
 	# $(CXX) $(CXXFLAGS) -c src/mc_amer.cpp -o obj/mc_amer.o
-	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3.cpp -o obj/mc_amer_v3.o
+	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3.cpp -o obj/mc_amer_v3.o
 	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2.cpp -o obj/mc_amer_v2.o
-	$(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3_omp.cpp -o obj/mc_amer_v3_omp.o -fopenmp
+	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v3_omp.cpp -o obj/mc_amer_v3_omp.o -fopenmp
 	# $(CXX) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_omp.cpp -o obj/mc_amer_v2_omp.o -fopenmp
 	# $(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_mpi.cpp -o obj/mc_amer_v2_mpi.o
 	# $(CXX_MPI) $(CXXFLAGS_EIGEN) -c src/mc_amer_v2_1_mpi.cpp -o obj/mc_amer_v2_1_mpi.o
 	# $(CXX) $(CXXFLAGS) -c src/tst.cpp -o obj/tst.o -fopenmp
 
 tsting_bin: tsting_prep
-	# $(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
-	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3.o -o bin/mc_amer_v3
+	$(CXX) $(CXXFLAGS) obj/mc_amer.o -o bin/mc_amer 
+	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_omp.o -o bin/mc_amer_omp -fopenmp
+	$(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_mpi.o -o bin/mc_amer_mpi
+	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3.o -o bin/mc_amer_v3
 	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v2.o -o bin/mc_amer_v2
-	$(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3_omp.o -o bin/mc_amer_v3_omp -fopenmp
+	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v3_omp.o -o bin/mc_amer_v3_omp -fopenmp
 	# $(CXX) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_omp.o -o bin/mc_amer_v2_omp -fopenmp
 	# $(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_mpi.o -o bin/mc_amer_v2_mpi
 	# $(CXX_MPI) $(CXXFLAGS_EIGEN) obj/mc_amer_v2_1_mpi.o -o bin/mc_amer_v2_1_mpi
 	# $(CXX) $(CXXFLAGS) obj/tst.o -o bin/tst -fopenmp 
 
 tsting_tst: tsting_bin
-	./bin/mc_amer_v3 call 100 110 0.02 0.75 1 100000 500
+	./bin/mc_amer call 100 110 0.02 0.75 1 1000000 200
+	./bin/mc_amer_omp call 100 110 0.02 0.75 1 1000000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer call 100 110 0.02 0.75 1 1000000 200
 	# ./bin/mc_amer call 100 110 0.02 0.75 1 100000 500
 	# ./bin/mc_amer_v2 call 100 110 0.02 0.75 1 100000 500
-	./bin/mc_amer_v3_omp call 100 110 0.02 0.75 1 100000 500 4
+	# ./bin/mc_amer_v3_omp call 100 110 0.02 0.75 1 100000 500 4
 	# ./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 500 4
-	./bin/mc_amer_v2_omp call 100 110 0.02 0.75 1 100000 500 4
+	# ./bin/mc_amer_v2_omp call 100 110 0.02 0.75 1 100000 500 4
 	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_v2_1_mpi call 100 110 0.02 0.75 1 100000 500
 	# mpirun -n 2 --hostfile hostfile ./bin/mc_amer_v2_mpi call 100 110 0.02 0.75 1 100000 500
 	# ./bin/tst

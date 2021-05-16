@@ -24,10 +24,9 @@ Eigen::MatrixXd pathsfinder
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
   // generate paths
-/* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+(n+1));
+    gen.seed(time(&cur_time)*(n+1));
     // init new path
     paths(0,n) = S0;
     paths(0,n+N/2) = S0;
@@ -152,7 +151,8 @@ double mc_amer
     if(exercise_st(n)!=0) result+=exp(-r*exercise_when(n)*dt)*exercise_st(n);
   };
 
-  return std::max(payoff(S0,E,payoff_fun),result/(double)N);
+  return result/(double)N;
+  /* return std::max(payoff(S0,E,payoff_fun),result/(double)N); */
 }
 
 int main (int argc, char *argv[]){

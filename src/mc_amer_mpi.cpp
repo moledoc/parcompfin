@@ -96,35 +96,6 @@ std::vector<double> mat_vec_mul
   return mat;
 }
 
-/* // in my case it is always 3x3 matrix */
-/* // TODO: might be 2x2 */
-/* std::vector<std::vector<double>> inverse */
-/* ( */
-/*  std::vector<std::vector<double>> x */
-/*  ,int size */
-/* ) */
-/* { */
-/*   std::vector<std::vector<double>> inversed(3); */
-/*   for(int i=0;i<3;++i){ */
-/*     inversed[i].resize(3); */
-/*   }; */
-/*   double determinant=0; */
-/*   //finding determinant of the matrix */
-/*   for(int i=0; i<3;++i) */
-/*     determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3])); */
-/*   //Condition to check if the derterminat is zero or not if zero than inverse dont exists */
-/*   if(determinant<=0){ */
-/*     throw std::invalid_argument("Detereminant is not > 0"); */
-/*   }; */
-/*   for(int i=0;i<3;++i){ */
-/*     for(int j=0;j<3;++j){ */
-/*       inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant; */
-/*     }; */
-/*    }; */
-/*   return inversed; */
-/* } */
-
-
 double mc_amer
  (
   double S0
@@ -166,6 +137,7 @@ double mc_amer
 
     double x_length; double x_length_p=0;
 
+    // save first non-zero payoff incase there is only one path in the money.
     double fst_po;
     double fst_y;
     int fst_n;
@@ -180,7 +152,7 @@ double mc_amer
         double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
         y[n] = cont;
 
-        // calc values for xTx and xTy.
+        // calc xTx and xTy elements
         sum_x_p   += exer;
         sum_x2_p  += exer*exer;
         sum_x3_p  += exer*exer*exer;
@@ -196,10 +168,10 @@ double mc_amer
       };
     };
 
-    
     std::vector<std::vector<double>> xTx;
     std::vector<double> xTy;
 
+    // collect xTx and xTy elements to root process.
     MPI_Reduce(&sum_x_p  ,&sum_x  ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_x2_p ,&sum_x2 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_x3_p ,&sum_x3 ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
@@ -208,8 +180,6 @@ double mc_amer
     MPI_Reduce(&sum_yx_p ,&sum_yx ,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
     MPI_Reduce(&sum_yx2_p,&sum_yx2,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
-    /* MPI_Reduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD); */
-    //
     // Use allreduce, becase if some process continues, then following bcast will deadlock.
     // if every x_length_p==0 then collectively go to next iteration.
     MPI_Allreduce(&x_length_p,&x_length,1,MPI_DOUBLE,MPI_SUM,MPI_COMM_WORLD);
@@ -252,11 +222,12 @@ double mc_amer
       };
     };
     
+    // calculate LSM coefficients
     if(rank==0){
       coef = mat_vec_mul(inverse(xTx),xTy);
     };
 
-
+    // broadcast coefficients to other processes
     MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
   
     for(int i=0;i<N_p;++i){

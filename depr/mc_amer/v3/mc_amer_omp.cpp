@@ -35,10 +35,9 @@ Eigen::MatrixXd pathsfinder
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
   // generate paths
-/* #pragma omp parallel for */
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+(n+1)*(thread+1));
+    gen.seed(time(&cur_time)*(n+1)*(thread+1));
     // init new path
     paths(0,n) = S0;
     paths(0,n+N/2) = S0;
@@ -71,11 +70,10 @@ double mc_amer
   if(N%threads!=0) N_p=(N+threads-N%threads)/threads;
   else N_p=N/threads;
   if(N_p%2!=0) ++N_p;
-  
   // calculate paths
   /* Eigen::MatrixXd paths = pathsfinder(S0,E,r,sigma,T,N,M,omp_get_thread_num()); */
-  Eigen::MatrixXd paths(M+1,N_p);
 
+  Eigen::MatrixXd paths(M+1,N_p);
 #pragma omp declare reduction (merge: Eigen::MatrixXd: omp_out=merge(omp_out,omp_in))
 
 #pragma omp parallel
@@ -167,6 +165,9 @@ double mc_amer
     }; 
      
     Eigen::VectorXd coef = xTx.inverse()*xTy;
+#pragma omp parallel
+  {
+#pragma omp for schedule(dynamic,1000) nowait
     for(int n=0;n<N;++n){
       if(x(n)>0){
         double poly=0;
@@ -181,6 +182,7 @@ double mc_amer
       };
     };
   };
+  }
 
 #pragma omp parallel
   {

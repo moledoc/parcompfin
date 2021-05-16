@@ -61,6 +61,7 @@ std::vector<std::vector<double>> pathsfinder
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
+  
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
@@ -73,10 +74,9 @@ std::vector<std::vector<double>> pathsfinder
       double w = norm(gen);
       paths[m][n] = paths[m-1][n]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
       paths[m][n+N/2] = paths[m-1][n+N/2]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-
     };
   };
-  /* return transpose(paths); */
+
   return paths;
 }
 
@@ -94,33 +94,6 @@ std::vector<double> mat_vec_mul
   };
   return mat;
 }
-
-/* // in my case it is always 3x3 or 2x2 matrix */
-/* std::vector<std::vector<double>> inverse */
-/* ( */
-/*  std::vector<std::vector<double>> x */
-/* ) */
-/* { */
-/*   std::vector<std::vector<double>> inversed(3); */
-/*   for(int i=0;i<3;++i){ */
-/*     inversed[i].resize(3); */
-/*   }; */
-/*   double determinant=0; */
-/*   //finding determinant of the matrix */
-/*   for(int i=0; i<3;++i) */
-/*     determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3])); */
-/*   //Condition to check if the derterminat is zero or not if zero than inverse dont exists */
-/*   if(determinant<=0){ */
-/*     throw std::invalid_argument("Detereminant is not > 0"); */
-/*   }; */
-/*   for(int i=0;i<3;++i){ */
-/*     for(int j=0;j<3;++j){ */
-/*       inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant; */
-/*     }; */
-/*    }; */
-/*   return inversed; */
-/* } */
-
 
 double mc_amer
  (
@@ -154,6 +127,7 @@ double mc_amer
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
     double x_length=0;
 
+    // save first non-zero payoff incase there is only one path in the money.
     double fst_po;
     double fst_y;
     int fst_n;
@@ -217,6 +191,7 @@ double mc_amer
     };
     
 
+    // calculate LSM coefficients
     std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
     for(int i=0;i<N;++i){
       if(x[i]!=-1){

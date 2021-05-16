@@ -51,6 +51,7 @@ std::vector<std::vector<double>> pathsfinder
  ,double T
  ,int N
  ,int M
+ ,int thread
 )
 {
   double dt = T/M;
@@ -67,7 +68,7 @@ std::vector<std::vector<double>> pathsfinder
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+n+1);
+    gen.seed(time(&cur_time)*(n+1)*(thread+1));
     // init new path
     paths[0][n] = S0;
     paths[0][n+N/2] = S0;
@@ -98,32 +99,29 @@ std::vector<double> mat_vec_mul
   return mat;
 }
 
-/* // in my case it is always 3x3 matrix */
-/* std::vector<std::vector<double>> inverse */
-/* ( */
-/*  std::vector<std::vector<double>> x */
-/* ) */
-/* { */
-/*   std::vector<std::vector<double>> inversed(3); */
-/*   for(int i=0;i<3;++i){ */
-/*     inversed[i].resize(3); */
-/*   }; */
-/*   double determinant=0; */
-/*   //finding determinant of the matrix */
-/*   for(int i=0; i<3;++i) */
-/*     determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3])); */
-/*   //Condition to check if the derterminat is zero or not if zero than inverse dont exists */
-/*   if(determinant<=0){ */
-/*     throw std::invalid_argument("Detereminant is not > 0"); */
-/*   }; */
-/*   for(int i=0;i<3;++i){ */
-/*     for(int j=0;j<3;++j){ */
-/*       inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant; */
-/*     }; */
-/*    }; */
-/*   return inversed; */
-/* } */
-
+std::vector<std::vector<double>> merge(std::vector<std::vector<double>> A,std::vector<std::vector<double>> B){
+  bool is_zero=1;
+  for(int i=0;i<A[0].size();++i){
+    if (A[0][i] !=0) {is_zero=0;break;};
+  };
+  std::vector<std::vector<double>> C;
+  std::vector<double> tmp;
+  if(is_zero!=1){
+    for(int i=0;i<A.size();++i){
+      copy(A[i].begin(),A[i].end(),back_inserter(tmp));
+      copy(B[i].begin(),B[i].end(),back_inserter(tmp));
+      C.push_back(tmp);
+      tmp.clear();
+     };
+  }else{
+    for(int i=0;i<B.size();++i){
+      copy(B[i].begin(),B[i].end(),back_inserter(tmp));
+      C.push_back(tmp);
+      tmp.clear();
+     };
+  };
+  return C;
+};
 
 double mc_amer
  (
@@ -135,12 +133,30 @@ double mc_amer
   ,int N
   ,int M
   ,double payoff_fun
+  ,int threads
  )
 {
   double dt = T/M;
   double result = 0;
   // calculate paths
-  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M);
+  /* std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N,M,threads); */
+
+  int N_p;
+  if(N%threads!=0) N_p=(N+threads-N%threads)/threads;
+  else N_p=N/threads;
+  if(N_p%2!=0) ++N_p;
+
+  std::vector<std::vector<double>> paths(M+1);
+  for(int i=0;i<M+1;++i) paths[i].resize(N_p);
+#pragma omp declare reduction (merge: std::vector<std::vector<double>>: omp_out=merge(omp_out,omp_in))
+#pragma omp parallel
+  {
+#pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait
+  for(int i=0;i<threads;++i){
+    paths = pathsfinder(S0,E,r,sigma,T,N_p,M,omp_get_thread_num());
+  };
+  }
+
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N,M);
   // store each paths payoff value at timestep, when option is exercised. Value is 0 when it's not exercised
@@ -156,6 +172,7 @@ double mc_amer
     std::vector<double> y(N,-1);
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
     double x_length=0;
+    // save first non-zero payoff incase there is only one path in the money.
     double fst_po;
     double fst_y;
     int fst_n;
@@ -267,7 +284,7 @@ int main (int argc, char *argv[]){
   if(payoff_fun != "call" && payoff_fun != "put") throw std::invalid_argument("Unknown payoff function");
 
   auto start = std::chrono::system_clock::now();
-  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d);
+  double result = mc_amer(S0,E,r,sigma,T,N,M,payoff_fun_d,threads);
   auto end = std::chrono::system_clock::now();
 
   std::chrono::duration<double> elapsed_seconds = end-start;
