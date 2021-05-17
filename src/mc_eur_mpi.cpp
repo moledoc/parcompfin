@@ -34,7 +34,7 @@ double mc_eur
   };
 
   MPI_Reduce(&result_inter,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return (exp(-r*T)*result)/(double)N_p;
+  if(rank==0) return (exp(-r*T)*result)/(double)N;
   else return 0;
 }
 

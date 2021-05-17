@@ -15,7 +15,7 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 common_cycle(){
   payoff_fun=$1
   E=$2
-  Ns=(10000 25000 32000 50000 64000 100000 250000 32000 500000 64000 1000000 2500000 3200000 5000000 6400000 10000000) # paths
+  Ns=(10000 25000 32000 50000 64000 100000 250000 320000 500000 640000 1000000 2500000 3200000 5000000 6400000 10000000) # paths
   Ms=(200) # 1000) # steps in path
   thr=(1 5 10 25 32 50 64 100)
   proc=(1 5 10 25 32 50 64 100)
@@ -56,17 +56,17 @@ double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${s
     done
   done
 
-  # for N in ${Ns[@]}
-  # do
-  #   for M in ${Ms[@]}
-  #   do
-  #     for hybrid in ${hybr[@]}
-  #     do
-  #       mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
-  #       echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
-  #     done
-  #   done
-  # done
+  for N in ${Ns[@]}
+  do
+    for M in ${Ms[@]}
+    do
+      for hybrid in ${hybr[@]}
+      do
+        mpirun -np ${hybrid} --hostfile hostfile ./bin/mc_amer_hybrid ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} ${hybrid} >> ${results}
+        echo "Hybrid N=${N}, processes=${hybrid}, thread=${hybrid} -- DONE"
+      done
+    done
+  done
 
   echo "MC amer ${payoff_fun} w/ E=${E}: DONE -- N=$N"
 }

@@ -14,23 +14,23 @@ echo "Method,Payoff,S0,E,r,sigma,T,N,M,Parallel,Nr_of_assets,T_overall,T_calcula
 
 common_cycle(){
   payoff_fun=$1
-  e=$2
-  m=$3
+  E=$2
+  M=$3
   compare=$4
-  ns=(10000 25000 32000 50000 64000 100000 250000 32000 500000 64000 1000000 2500000 3200000 5000000 6400000 10000000)  # paths
-  # ms=(200 1000) # steps in paths
+  Ns=(10000 25000 32000 50000 64000 100000 250000 320000 500000 640000 1000000 2500000 3200000 5000000 6400000 10000000)  # paths
+  # Ms=(200 1000) # steps in paths
   thr=(1 5 10 25 32 50 64 100)
   proc=(1 5 10 25 32 50 64 100)
   hybr=(1 5 16 25 32 50)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for n in ${ns[@]}
+  for N in ${Ns[@]}
   do
-    # for m in ${ms[@]}
+    # for M in ${Ms[@]}
     # do
-      ./bin/mc_asia ${payoff_fun} ${s0} ${e} ${r} ${sigma} ${t} ${n} ${m} >> ${results} 
-      echo "serial n=${n}, m=${m} -- done"
+      ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
+      echo "serial n=${N}, m=${M} -- done"
     # done
   done
 
