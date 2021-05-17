@@ -18,10 +18,10 @@ double mc_asia
 {
   double result;  
   double result_inter=0;
+  int N_p;
 #pragma omp parallel
   {
 
-  int N_p;
   if(N%size!=0) N_p = (N+size-N%size)/size;
   else N_p = N/size;
   double dt = (double)T/(double)M;
