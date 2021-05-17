@@ -65,7 +65,7 @@ std::vector<std::vector<double>> pathsfinder
   // generate paths
   for(int n=0;n<N/2;++n){
     // for each path use different seed
-    gen.seed(time(&cur_time)+(n+1)*(rank+1));
+    gen.seed(time(&cur_time)*(n+1)*(rank+1));
     // init new path
     paths[0][n] = S0;
     paths[0][n+N/2] = S0;
@@ -248,7 +248,7 @@ double mc_amer
   };
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N);
+  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size));
   else return 0;
 }
 

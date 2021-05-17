@@ -299,7 +299,7 @@ double mc_amer
   }
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N);
+  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size));
   else return 0;
 }
 
