@@ -18,6 +18,9 @@ double mc_eur
 {
   double result;
   double result_inter=0;
+  double N_p;
+  if (N%size!=0) N_p = (N+size-N%size)/size;
+  else N_p=N/size;
 #pragma omp parallel
 {
   std::random_device rd{};
