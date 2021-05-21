@@ -21,7 +21,7 @@ common_cycle(){
   # Ms=(200) # 1000) # steps in path
   thr=(1 8 16 32 64)
   proc=(1 8 16 32 64)
-  hybr=(1 4 8 16 32)
+  hybr=(1 4 8)
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin

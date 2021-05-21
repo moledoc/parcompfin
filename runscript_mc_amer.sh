@@ -19,7 +19,7 @@ common_cycle(){
   Ms=(200) # 1000) # steps in path
   thr=(1 8 16 32 64)
   proc=(1 8 16 32 64)
-  hybr=(1 4 8 16 32)
+  hybr=(1 4 8)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_amer ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 10000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make mc_amer_bin

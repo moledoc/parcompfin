@@ -18,7 +18,7 @@ common_cycle(){
   Ns=(10000 80000 100000 160000 320000 640000 800000 1000000 1600000 3200000 6400000 8000000 10000000 16000000 32000000 64000000 80000000 100000000)
   thr=(1 8 16 32 64)
   proc=(1 8 16 32 64)
-  hybr=(1 4 8 16 32)
+  hybr=(1 4 8)
   echo "#pragma once
 double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make mc_eur_bin
