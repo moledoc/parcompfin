@@ -17,7 +17,7 @@ common_cycle(){
   E=$2
   M=$3
   compare=$4
-  Ns=(10000 80000 100000 160000 320000 640000 800000 1000000 1600000 3200000 6400000 8000000 10000000) # paths
+  Ns=(100000 160000 320000 640000 800000 1000000 1600000 3200000 6400000 8000000 10000000) # paths
   # Ms=(200) # 1000) # steps in path
   thr=(1 8 16 32 64)
   proc=(1 8 16 32 64)
@@ -25,14 +25,14 @@ common_cycle(){
   echo "#pragma once
 double comparison = ${compare};" > include/comparison.h
   make mc_asia_bin
-  for N in ${Ns[@]}
-  do
-    # for M in ${Ms[@]}
-    # do
-      ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
-      echo "serial n=${N}, m=${M} -- done"
-    # done
-  done
+  #for N in ${Ns[@]}
+  #do
+  #  # for M in ${Ms[@]}
+  #  # do
+  #    ./bin/mc_asia ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} ${N} ${M} >> ${results} 
+  #    echo "serial n=${N}, m=${M} -- done"
+  #  # done
+  #done
 
   for N in ${Ns[@]} 
   do

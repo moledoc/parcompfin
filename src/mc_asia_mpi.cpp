@@ -24,24 +24,33 @@ double mc_asia
   else N_p = N/size;
   double dt = (double)T/(double)M;
 
-  time_t cur_time1;
-  std::random_device rd1{};
-  std::mt19937 gen1{rd1()};
-  gen1.seed(time(&cur_time1));
-  std::normal_distribution<> norm1{0,sqrt(dt)};
+  time_t cur_time;
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+  gen.seed(time(&cur_time)*(1+rank));
+  std::normal_distribution<> norm{0,sqrt(dt)};
 
-  time_t cur_time2;
-  std::random_device rd2{};
-  std::mt19937 gen2{rd2()};
-  gen2.seed(time(&cur_time2));
-  std::normal_distribution<> norm2{0,sqrt(dt)};
+  /* time_t cur_time1; */
+  /* std::random_device rd1{}; */
+  /* std::mt19937 gen1{rd1()}; */
+  /* gen1.seed(time(&cur_time1)); */
+  /* std::normal_distribution<> norm1{0,sqrt(dt)}; */
+
+  /* time_t cur_time2; */
+  /* std::random_device rd2{}; */
+  /* std::mt19937 gen2{rd2()}; */
+  /* gen2.seed(time(&cur_time2)); */
+  /* std::normal_distribution<> norm2{0,sqrt(dt)}; */
 
   for (int n=0;n<N_p;++n){
     double St = S0;
     double I = 0;
     for (int m=0;m<M;++m){
-      I += St*(1+r*dt/2+sigma*norm2(gen2)/2);
-      St *= exp((r-pow(sigma,2)/2)*dt+sigma*norm1(gen1));
+      double dBi = norm(gen);
+      I += St*(1+r*dt/2+sigma*dBi/2);
+      St *= exp((r-pow(sigma,2)/2)*dt+sigma*dBi);
+      /* I += St*(1+r*dt/2+sigma*norm2(gen2)/2); */
+      /* St *= exp((r-pow(sigma,2)/2)*dt+sigma*norm1(gen1)); */
     };
     result_inter += payoff(I/(double)M,E,payoff_fun);
   };
