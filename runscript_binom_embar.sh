@@ -20,7 +20,8 @@ common_cycle(){
   proc=(1 8 16 32 64)
   hybr=(1 4 8)
   echo "#pragma once
-double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
+double comparison = 26.61224;" > include/comparison.h
+# double comparison = $(./bin/binom_vanilla_eur ${payoff_fun} ${S0} ${E} ${r} ${sigma} ${T} 100000 | tr ',' '\t' | awk '{print $14}');" > include/comparison.h
   make binom_bin
   for N in ${Ns[@]}
   do
