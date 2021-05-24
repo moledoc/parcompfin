@@ -111,11 +111,11 @@ mc_amer_tst: mc_amer_bin
 	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 10000 200
 	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 10000 100 4
 	################
-	./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
-	./bin/mc_amer put 100 90 0.02 0.75 1 10000 200
-	./bin/mc_amer_omp put 100 90 0.02 0.75 1 10000 200 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 10000 200
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 10000 200 4
+	# ./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
+	# ./bin/mc_amer put 100 90 0.02 0.75 1 10000 200
+	# ./bin/mc_amer_omp put 100 90 0.02 0.75 1 10000 200 4
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi put 100 90 0.02 0.75 1 10000 200
+	# mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid put 100 90 0.02 0.75 1 10000 200 4
 
 mc_amer: init mc_amer_bin
 	bash runscript_mc_amer.sh
