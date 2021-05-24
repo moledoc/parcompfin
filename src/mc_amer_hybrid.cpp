@@ -206,7 +206,7 @@ double mc_amer
         sum_y_p   += cont;
         sum_yx_p  += cont*exer;
         sum_yx2_p += cont*exer*exer;
-        if(x_length==1){
+        if(x_length_p==1){
           fst_po=payoff_val;
           fst_y=cont;
           fst_n=n;
