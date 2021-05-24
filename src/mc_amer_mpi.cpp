@@ -205,8 +205,8 @@ double mc_amer
       if(rank==0){
         xTx.resize(2); xTy.resize(2);
         for(int i=0;i<2;++i) xTx[i].resize(2);
-        xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
-        xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
+        xTx[0][0] = x_length; xTx[0][1] = sum_x ;
+        xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2;
         xTy[0]    = sum_y   ; xTy[1]    = sum_yx;
       };
     }else if(x_length>2){
@@ -250,8 +250,8 @@ double mc_amer
   };
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  /* if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size)); */
-  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N);
+  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size));
+  /* if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N); */
   else return 0;
 }
 

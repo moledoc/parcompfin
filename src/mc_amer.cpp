@@ -177,8 +177,8 @@ double mc_amer
       // compose xTx and xTy
       xTx.resize(2); xTy.resize(2);
       for(int i=0;i<2;++i) xTx[i].resize(2);
-      xTx[0][0] = x_length; xTx[0][1] = sum_x ; xTx[0][2] = sum_x2 ;
-      xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2; xTx[1][2] = sum_x3 ;
+      xTx[0][0] = x_length; xTx[0][1] = sum_x ;
+      xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2;
       xTy[0]    = sum_y   ; xTy[1]    = sum_yx;
     }else if(x_length>2){
      // more than 2 paths in the money
