@@ -279,7 +279,9 @@ double mc_amer
   
     for(int i=0;i<N_p;++i){
       if(x[i]!=-1){
-        double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
+        double poly=0;
+        if(coef.size()>2) poly=coef[2]*pow(x[i],2);
+        double EYIX = coef[0] + coef[1]*x[i] + poly;
         // exercise value at t_m
         double payoff_val = payoff(x[i],E,payoff_fun);
         if (payoff_val > EYIX) {

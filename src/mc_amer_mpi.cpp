@@ -232,7 +232,9 @@ double mc_amer
   
     for(int i=0;i<N_p;++i){
       if(x[i]!=-1){
-        double EYIX = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
+        double poly=0;
+        if(coef.size()>2) poly=coef[2]*pow(x[i],2);
+        double EYIX = coef[0] + coef[1]*x[i] + poly;
         // exercise value at t_m
         double payoff_val = payoff(x[i],E,payoff_fun);
         if (payoff_val > EYIX) {
@@ -248,7 +250,8 @@ double mc_amer
   };
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
-  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size));
+  /* if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size)); */
+  if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N);
   else return 0;
 }
 

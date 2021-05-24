@@ -22,7 +22,6 @@ double mc_asia
 
   int thr_num = omp_get_thread_num();
 
-
   time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
