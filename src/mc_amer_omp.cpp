@@ -65,21 +65,43 @@ std::vector<std::vector<double>> pathsfinder
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
+  
   // generate paths
-  for(int n=0;n<N/2;++n){
+  for(int m=1;m<M+1;++m){
     // for each path use different seed
-    gen.seed(time(&cur_time)*(n+1)*(thread+1));
-    // init new path
-    paths[0][n] = S0;
-    paths[0][n+N/2] = S0;
+    gen.seed(time(&cur_time)*(m+1)*(thread+1));
     // fill path
-    for(int m=1;m<M+1;++m){
+#pragma omp parallel 
+    {
+#pragma omp for schedule(dynamic,1000) nowait
+    for(int n=0;n<N/2;++n){
+      if (m==1){
+        // init new path
+        paths[0][n] = S0;
+        paths[0][n+N/2] = S0;
+      };
       double w = norm(gen);
       paths[m][n] = paths[m-1][n]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
       paths[m][n+N/2] = paths[m-1][n+N/2]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-
     };
+    }
   };
+
+  /* // generate paths */
+  /* for(int n=0;n<N/2;++n){ */
+  /*   // for each path use different seed */
+  /*   gen.seed(time(&cur_time)*(n+1)*(thread+1)); */
+  /*   // init new path */
+  /*   paths[0][n] = S0; */
+  /*   paths[0][n+N/2] = S0; */
+  /*   // fill path */
+  /*   for(int m=1;m<M+1;++m){ */
+  /*     double w = norm(gen); */
+  /*     paths[m][n] = paths[m-1][n]*exp((r-0.5*sigma*sigma)*dt+sigma*w); */
+  /*     paths[m][n+N/2] = paths[m-1][n+N/2]*exp((r-0.5*sigma*sigma)*dt-sigma*w); */
+  /*   }; */
+  /* }; */
+
   /* return transpose(paths); */
   return paths;
 }
