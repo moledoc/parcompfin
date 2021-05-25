@@ -10,15 +10,15 @@
 /*   std::cout<<std::endl; */
 /* } */
 
-/* void matprinter(std::vector<std::vector<double>> mat) */
-/* { */
-/*   for(int i = 0;i<mat.size();++i){ */
-/*     for(int j = 0;j<mat[i].size();++j){ */
-/*       std::cout<<mat[i][j] << " " ; */
-/*     }; */
-/*     std::cout<<std::endl; */
-/*   }; */
-/* } */
+void matprinter(std::vector<std::vector<double>> mat)
+{
+  for(int i = 0;i<mat.size();++i){
+    for(int j = 0;j<mat[i].size();++j){
+      std::cout<<mat[i][j] << " " ;
+    };
+    std::cout<<std::endl;
+  };
+}
 
 
 std::vector<std::vector<double>> transpose
@@ -77,7 +77,6 @@ std::vector<std::vector<double>> pathsfinder
 
     };
   };
-  /* return transpose(paths); */
   return paths;
 }
 
@@ -90,7 +89,7 @@ std::vector<double> mat_vec_mul
   std::vector<double> mat(x.size());
   for(int i=0;i<x.size();++i){
     for(int j=0;j<y.size();++j){
-        mat[i]+=x[i][j]*y[j];
+        mat[i]+=x[i][j]*y[j]; 
       };
   };
   return mat;
@@ -192,7 +191,7 @@ double mc_amer
       continue;
     } else if(x_length==1){
       // if only 1 paths in the money, then compare current and discounted price.
-      if(x_length_p) continue;
+      if(x_length_p==0) continue;
       else if(fst_po>fst_y){
         exercise_when[fst_n] = m;
         exercise_st[fst_n] = fst_po;
@@ -251,7 +250,6 @@ double mc_amer
 
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/((double)N_p*size));
-  /* if(rank==0) return std::max(payoff(S0,E,payoff_fun),result/(double)N); */
   else return 0;
 }
 
