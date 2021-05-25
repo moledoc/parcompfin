@@ -6,6 +6,7 @@ Magistritöö
 Meelis Utt
 
 **Lühikokkuvõte.**
+
 Optsioon on finantsinstrument, mis annab optsiooni omanikule õiguse, aga mitte kohustuse osta või müüa mingit riskantset vara.
 Keerulisemate optsioonide hinna leidmise jaoks on vaja kasutada numbrilisi meetodeid: võremeetodid (binoom- ja trinoommeetod), Monte Carlo meetodid ning diferentsiaalmeetodid.
 Selleks, et arvutamisele kuluvat aega vähendada, saab kasutusele võtta paralleelarvutamise.
