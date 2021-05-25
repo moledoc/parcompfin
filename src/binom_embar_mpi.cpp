@@ -15,7 +15,9 @@ double binom
   ,double payoff_fun
  )
 {
+  // initialize result variable
   double dt = (double)T/(double)N;
+  // calculate parameters
   double beta = 0.5*(exp(-r*dt)+exp((r+pow(sigma,2))*dt));
   double u = beta + sqrt(pow(beta,2)-1);
   double d = beta - sqrt(pow(beta,2)-1);
@@ -24,10 +26,14 @@ double binom
   /* double u = exp(sigma*sqrt(dt)); */
   /* double d = 1/u; */
   double q = 1-p;
+
+  // We will reuse calculated combination value.
+  // Handle the iterationi limit for combination value reuse.
   int until;
   if (N%2!=0) until = (N+1)/2;
   else until = N/2;
 
+  // appoint subtasks to processes.
   double result_p=0;
   int ni = rank * until/size;
   int ni1 = (rank+1) * until/size;
@@ -46,9 +52,11 @@ double binom
     result_p +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
   };
 
+  // reduce result to root process
   double result;
   MPI_Reduce(&result_p,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
+  // discount result if root process, otherwise 0.
   if(rank==0) return exp(-r*T)*result;
   else return 0;
 }

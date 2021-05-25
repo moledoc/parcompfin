@@ -13,9 +13,12 @@ double binom
  ,double payoff_fun
 )
 {
+  // initialize result variable
   double result=0;
+  // initialize parallel region
 #pragma omp parallel
   {
+  // calculate parameters
   double dt = (double)T/(double)N;
   double beta = 0.5*(exp(-r*dt)+exp((r+pow(sigma,2))*dt));
   double u = beta + sqrt(pow(beta,2)-1);
@@ -25,6 +28,9 @@ double binom
   /* double u = exp(sigma*sqrt(dt)); */
   /* double d = 1/u; */
   double q = 1-p;
+
+  // We will reuse calculated combination value.
+  // Handle the iterationi limit for combination value reuse.
   int until;
   if (N%2!=0) until = (N+1)/2;
   else until = N/2;
@@ -42,6 +48,7 @@ double binom
     };
   };
   }
+  // discount the result.
   return exp(-r*T)*result;
 }
 

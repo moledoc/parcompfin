@@ -2,121 +2,7 @@
 #include <common.h>
 #include <comparison.h>
 
-/* void matprinter(std::vector<std::vector<double>> mat) */
-/* { */
-/*   for(int i = 0;i<mat.size();++i){ */
-/*     for(int j = 0;j<mat[i].size();++j){ */
-/*       std::cout<<mat[i][j] << " " ; */
-/*     }; */
-/*     std::cout<<std::endl; */
-/*   }; */
-/* } */
-
-std::vector<std::vector<double>> transpose
-(
- std::vector<std::vector<double>> y
-)
-{
-  std::vector<std::vector<double>> transposed(y[0].size());
-  for(int i=0;i<y[0].size();++i){
-    transposed[i].resize(y.size());
-  };
-#pragma omp parallel
-  {
-#pragma omp for schedule(dynamic,1000) nowait
-  for(int j=0;j<y[0].size();++j){
-    for(int i=0;i<y.size();++i){
-      transposed[j][i] = y[i][j];
-    };
-  };
-  }
-  return transposed;
-}
-
-std::vector<std::vector<double>> pathsfinder
-(
- double S0
- ,double E
- ,double r
- ,double sigma
- ,double T
- ,int N
- ,int M
- ,int rank
- ,int thread
-)
-{
-  if (N%2!=0) throw std::invalid_argument("N needs to be divisible by 2 for finding paths");
-  double dt = T/M;
-  // matrix to store paths
-  std::vector<std::vector<double>> paths(N);
-  for(int i=0;i<N;++i){
-    paths[i].resize(M+1);
-  };
-  // make a generator from  N(0,sqrt(T))
-  time_t cur_time;
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
-  std::normal_distribution<> norm{0,sqrt(dt)};
-
-  // generate paths
-  for(int n=0;n<N/2;++n){
-    // for each path use different seed
-    gen.seed(time(&cur_time)+(rank+1)*(n+1)*(thread+1));
-
-    // init new path
-    paths[n][0] = S0;
-    paths[n+N/2][0] = S0;
-
-    // fill path
-    for(int m=1;m<M+1;++m){
-      double w = norm(gen);
-      paths[n][m] = paths[n][m-1]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
-      paths[n+N/2][m] = paths[n+N/2][m-1]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-    };
-  };
-  return transpose(paths);
-
-}
-
-std::vector<double> mat_vec_mul
-(
-  std::vector<std::vector<double>> x
-  ,std::vector<double> y
-)
-{
-  std::vector<double> mat(x.size());
-  for(int i=0;i<x.size();++i){
-    for(int j=0;j<y.size();++j){
-        mat[i]+=x[i][j]*y[j]; 
-      };
-  };
-  return mat;
-}
-
-/* std::vector<std::vector<double>> merge(std::vector<std::vector<double>> A,std::vector<std::vector<double>> B){ */
-/*   bool is_zero=1; */
-/*   for(int i=0;i<A[0].size();++i){ */
-/*     if (A[0][i] !=0) {is_zero=0;break;}; */
-/*   }; */
-/*   std::vector<std::vector<double>> C; */
-/*   std::vector<double> tmp; */
-/*   if(is_zero!=1){ */
-/*     for(int i=0;i<A.size();++i){ */
-/*       copy(A[i].begin(),A[i].end(),back_inserter(tmp)); */
-/*       copy(B[i].begin(),B[i].end(),back_inserter(tmp)); */
-/*       C.push_back(tmp); */
-/*       tmp.clear(); */
-/*      }; */
-/*   }else{ */
-/*     for(int i=0;i<B.size();++i){ */
-/*       copy(B[i].begin(),B[i].end(),back_inserter(tmp)); */
-/*       C.push_back(tmp); */
-/*       tmp.clear(); */
-/*      }; */
-/*   }; */
-/*   return C; */
-/* }; */
+// comments analog to serial, omp, mpi.
 
 double mc_amer
  (
@@ -139,30 +25,12 @@ double mc_amer
   // calculate the number of paths process is responsible for
   int N_p;
   
-  // calculate paths
-  // make N_p for paths: N is divided by processe with are then divided by threads
-  
-  /* int parallel=(threads*size); */
-  /* if(N%parallel!=0) N_p=(N+parallel-N%parallel)/parallel; */
-  /* else N_p=N/parallel; */
-  /* if(N_p%2!=0) ++N_p ; */
-
-  /* std::vector<std::vector<double>> paths(M+1); */
-  /* for(int i=0;i<M+1;++i) paths[i].resize(N_p); */
-/* #pragma omp declare reduction (merge: std::vector<std::vector<double>>: omp_out=merge(omp_out,omp_in)) */
-/* #pragma omp parallel */
-  /* { */
-/* #pragma omp for reduction(merge:paths) schedule(dynamic,1)  //nowait */
-  /* for(int i=0;i<threads;++i){ */
-  /*   paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank,omp_get_thread_num()); */
-  /* }; */
-  /* } */
-
-  // make N_p for rest of program, where N is divided by processes.
+  // divide nr of iterations between processes.
+  // if N is not divisible by size, then fix N, so that it would - each process does one more iteration and when N is big, it does not matter that much.
   if(N%size!=0) N_p=(N+size-N%size)/size;
   else N_p=N/size;
   if(N_p%2!=0) ++N_p ;
-  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank,threads);
+  std::vector<std::vector<double>> paths = pathsfinder(S0,E,r,sigma,T,N_p,M,rank*1000+threads);
 
   // store each paths timestep value when option is exercised
   std::vector<double> exercise_when(N_p,M);

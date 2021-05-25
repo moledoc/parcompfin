@@ -13,7 +13,9 @@ double binom
   ,double payoff_fun
 )
 {
+  // initialize result variable
   double result=0;
+  // calculate parameters
   double dt = (double)T/(double)N;
   double beta = 0.5*(exp(-r*dt)+exp((r+pow(sigma,2))*dt));
   double u = beta + sqrt(pow(beta,2)-1);
@@ -23,8 +25,10 @@ double binom
   /* double u = exp(sigma*sqrt(dt)); */
   /* double d = 1/u; */
   double q = 1-p;
-  int until;
 
+  // We will reuse calculated combination value.
+  // Handle the iterationi limit for combination value reuse.
+  int until;
   if (N%2!=0) until = (N+1)/2;
   else until = N/2;
   for(int i=0;i<until;++i){
@@ -34,12 +38,14 @@ double binom
     result +=  exp(binom1) * payoff(S0*pow(u,i)*pow(d,N-i),E,payoff_fun);
     result +=  exp(binom2) * payoff(S0*pow(u,N-i)*pow(d,i),E,payoff_fun);
 
+    // Handle the middle combination value, when mod(N,2)==0.
     if(i==0 && N%2==0) {
       double binom_mid = comb(N,N/2) + N/2*log(p) + N/2*log(q);
       result+= exp(binom_mid) * payoff(S0*pow(u,N/2)*pow(d,N/2),E,payoff_fun);
     };
   };
 
+  // discount the result.
   return exp(-r*T)*result;
 }
 

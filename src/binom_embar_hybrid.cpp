@@ -2,6 +2,8 @@
 #include <common.h>
 #include <comparison.h>
 
+// comments analog to omp and mpi codes.
+
 double binom 
 (
  double S0

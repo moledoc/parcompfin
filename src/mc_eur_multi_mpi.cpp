@@ -21,6 +21,8 @@ double mc_eur
   double result;
   double result_inter=0;
 
+  // divide number of iterations between processes.
+  // if N is not divisible by size, then fix N, so that it would - each process does one more iteration and when N is big, it does not matter that much.
   int N_p;
   if(N%size!=0) N_p=(N+size-N%size)/size;
   else N_p=N/size;
@@ -34,13 +36,15 @@ double mc_eur
   for(int n=0;n<N_p;++n){
     double result_n = 0;
     for(int asset=0;asset<assets;++asset){
-      // assuming same constant volatility for each underlying asset.
+      // calculate basket price.
       result_n += w_i*S0*exp((r-pow(sigma,2)/2)*T+sigma*Bt(asset,n));
     };
     result_inter += payoff(result_n,E,payoff_fun);
   };
 
+  // reduce result to root process.
   MPI_Reduce(&result_inter,&result,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+  // discount the result when root process, otherwise 0.
   if (rank==0) return (exp(-r*T)*result)/((double)N_p*size);
   else return 0;
 }

@@ -25,8 +25,8 @@ double mc_eur
   double result=0;
   for(int n=0;n<N;++n){
     double result_n = 0;
+    // calculate basket price.
     for(int asset=0;asset<assets;++asset){
-      // assuming same constant volatility for each underlying asset.
       result_n += w_i*S0*exp((r-pow(sigma,2)/2)*T+sigma*Bt(asset,n));
     };
     result += payoff(result_n,E,payoff_fun);

@@ -106,10 +106,10 @@ mc_amer_bin: mc_amer_prep
 
 mc_amer_tst: mc_amer_bin
 	./bin/binom_vanilla_amer call 100 110 0.02 0.75 1 1000
-	./bin/mc_amer call 100 110 0.02 0.75 1 10000 200
-	./bin/mc_amer_omp call 100 110 0.02 0.75 1 10000 200 4
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 10000 200
-	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 10000 100 4
+	./bin/mc_amer call 100 110 0.02 0.75 1 100000 200
+	./bin/mc_amer_omp call 100 110 0.02 0.75 1 100000 200 4
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_mpi call 100 110 0.02 0.75 1 100000 200
+	mpirun -n 4 --hostfile hostfile ./bin/mc_amer_hybrid call 100 110 0.02 0.75 1 100000 100 4
 	################
 	# ./bin/binom_vanilla_amer put 100 90 0.02 0.75 1 1000
 	# ./bin/mc_amer put 100 90 0.02 0.75 1 10000 200

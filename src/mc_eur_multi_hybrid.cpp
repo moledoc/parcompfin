@@ -3,6 +3,8 @@
 #include <comparison.h>
 #include <mvn.h>
 
+/* comments analog to mpi and omp */
+
 double mc_eur
 (
   double S0

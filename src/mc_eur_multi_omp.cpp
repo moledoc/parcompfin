@@ -3,6 +3,7 @@
 #include <comparison.h>
 #include <mvn.h>
 
+// user-defined function for reduction
 Eigen::MatrixXd merge(Eigen::MatrixXd A,Eigen::MatrixXd B){
   if (A.isZero(0)){
     return B;
@@ -37,7 +38,7 @@ double mc_eur
   for(int n=0;n<N;++n){
     double result_n = 0;
     for(int asset=0;asset<assets;++asset){
-      // assuming same constant volatility for each underlying asset.
+      // calculate basket price.
       result_n += w_i*S0*exp((r-pow(sigma,2)/2)*T+sigma*Bt(asset,n));
     };
     result += payoff(result_n,E,payoff_fun);

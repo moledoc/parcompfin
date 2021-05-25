@@ -16,35 +16,22 @@ double mc_asia
 {
   double dt = (double)T/(double)M;
 
+  // prepare generator
   time_t cur_time;
   std::random_device rd{};
   std::mt19937 gen{rd()};
   gen.seed(time(&cur_time));
   std::normal_distribution<> norm{0,sqrt(dt)};
 
-  /* time_t cur_time1; */
-  /* std::random_device rd1{}; */
-  /* std::mt19937 gen1{rd1()}; */
-  /* gen1.seed(time(&cur_time1)); */
-  /* std::normal_distribution<> norm1{0,sqrt(dt)}; */
-
-  /* time_t cur_time2; */
-  /* std::random_device rd2{}; */
-  /* std::mt19937 gen2{rd2()}; */
-  /* gen2.seed(time(&cur_time2)); */
-  /* std::normal_distribution<> norm2{0,sqrt(dt)}; */
-
-  double result=0;  
-
+  double result=0; 
   for (int n=0;n<N;++n){
     double St = S0;
     double I = 0;
+    // reuse variables I and St, so we could avoid making a vector.
     for (int m=0;m<M;++m){
       double dBi = norm(gen);
       I += St*(1+r*dt/2+sigma*dBi/2);
       St *= exp((r-pow(sigma,2)/2)*dt+sigma*dBi);
-      /* I += St*(1+r*dt/2+sigma*norm2(gen2)/2); */
-      /* St *= exp((r-pow(sigma,2)/2)*dt+sigma*norm1(gen1)); */
     };
     result += payoff(I/(double)M,E,payoff_fun);
   };

@@ -2,99 +2,6 @@
 #include <common.h>
 #include <comparison.h>
 
-/* void vecprinter(std::vector<double> vec) */
-/* { */
-/*   for(int i = 0;i<vec.size();++i){ */
-/*     std::cout<<vec[i]<< " " ; */
-/*   }; */
-/*   std::cout<<std::endl; */
-/* } */
-
-void matprinter(std::vector<std::vector<double>> mat)
-{
-  for(int i = 0;i<mat.size();++i){
-    for(int j = 0;j<mat[i].size();++j){
-      std::cout<<mat[i][j] << " " ;
-    };
-    std::cout<<std::endl;
-  };
-}
-
-
-std::vector<std::vector<double>> transpose
-(
- std::vector<std::vector<double>> y
-)
-{
-  std::vector<std::vector<double>> transposed(y[0].size());
-  for(int i=0;i<y[0].size();++i){
-    transposed[i].resize(y.size());
-  };
-  for(int j=0;j<y[0].size();++j){
-    for(int i=0;i<y.size();++i){
-      transposed[j][i] = y[i][j];
-    };
-  };
-  return transposed;
-}
-
-std::vector<std::vector<double>> pathsfinder
-(
- double S0
- ,double E
- ,double r
- ,double sigma
- ,double T
- ,int N
- ,int M
- ,int rank
-)
-{
-  if (N%2!=0) throw std::invalid_argument("N needs to be divisible by 2 for finding paths");
-  double dt = T/M;
-  // matrix to store paths
-  std::vector<std::vector<double>> paths(M+1);
-  for(int i=0;i<M+1;++i){
-    paths[i].resize(N);
-  };
-  // make a generator from  N(0,sqrt(T))
-  time_t cur_time;
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
-  std::normal_distribution<> norm{0,sqrt(dt)};
-  // generate paths
-  for(int n=0;n<N/2;++n){
-    // for each path use different seed
-    gen.seed(time(&cur_time)*(n+1)*(rank+1));
-    // init new path
-    paths[0][n] = S0;
-    paths[0][n+N/2] = S0;
-    // fill path
-    for(int m=1;m<M+1;++m){
-      double w = norm(gen);
-      paths[m][n] = paths[m-1][n]*exp((r-0.5*sigma*sigma)*dt+sigma*w);
-      paths[m][n+N/2] = paths[m-1][n+N/2]*exp((r-0.5*sigma*sigma)*dt-sigma*w);
-
-    };
-  };
-  return paths;
-}
-
-std::vector<double> mat_vec_mul
-(
-  std::vector<std::vector<double>> x
-  ,std::vector<double> y
-)
-{
-  std::vector<double> mat(x.size());
-  for(int i=0;i<x.size();++i){
-    for(int j=0;j<y.size();++j){
-        mat[i]+=x[i][j]*y[j]; 
-      };
-  };
-  return mat;
-}
-
 double mc_amer
  (
   double S0
@@ -112,7 +19,8 @@ double mc_amer
   double dt = T/M;
   double result_p = 0;
   double result;
-  // calculate the number of paths process is responsible for
+  // divide nr of iterations between processes.
+  // if N is not divisible by size, then fix N, so that it would - each process does one more iteration and when N is big, it does not matter that much.
   int N_p;
   if(N%size!=0) N_p=(N+size-N%size)/size;
   else N_p=N/size;
@@ -229,14 +137,14 @@ double mc_amer
     // broadcast coefficients to other processes
     MPI_Bcast(coef.data(),3,MPI_DOUBLE,0,MPI_COMM_WORLD);
   
+    // save asset price and step index, when we use the options rights
     for(int i=0;i<N_p;++i){
       if(x[i]!=-1){
         double poly=0;
         if(coef.size()>2) poly=coef[2]*pow(x[i],2);
-        double EYIX = coef[0] + coef[1]*x[i] + poly;
-        // exercise value at t_m
+        double Y_hat = coef[0] + coef[1]*x[i] + poly;
         double payoff_val = payoff(x[i],E,payoff_fun);
-        if (payoff_val > EYIX) {
+        if (payoff_val > Y_hat) {
           exercise_when[i] = m;
           exercise_st[i] = payoff_val;
         };

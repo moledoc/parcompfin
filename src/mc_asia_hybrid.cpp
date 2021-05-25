@@ -2,6 +2,8 @@
 #include <common.h>
 #include <comparison.h>
 
+// comments analog to omp and mpi solutions
+
 double mc_asia
 (
   double S0
