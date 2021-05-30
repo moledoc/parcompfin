@@ -48,20 +48,16 @@ double mc_amer
 
     double x_length; double x_length_p=0;
 
-    // save first non-zero payoff incase there is only one path in the money.
-    double fst_po;
-    double fst_y;
-    int fst_n;
 #pragma omp parallel
   {
-#pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x_p,sum_x2_p,sum_x3_p,sum_x4_p,sum_y_p,sum_yx_p,sum_yx2_p,x_length_p)
+#pragma omp for schedule(dynamic,1000) nowait reduction(+:sum_x_p,sum_x2_p,sum_x3_p,sum_x4_p,sum_y_p,sum_yx_p,sum_yx2_p,x_length_p)
     for(int n=0;n<N_p;++n){
       double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
         ++x_length_p;
         // stock price at time t_m
-        double exer = paths[m][n];
+        double exer = paths[m][n]-E;
         x[n] = exer;
         double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
         y[n] = cont;
@@ -74,11 +70,6 @@ double mc_amer
         sum_y_p   += cont;
         sum_yx_p  += cont*exer;
         sum_yx2_p += cont*exer*exer;
-        if(x_length_p==1){
-          fst_po=payoff_val;
-          fst_y=cont;
-          fst_n=n;
-        };
       };
     };
   }
@@ -106,24 +97,18 @@ double mc_amer
     // when M is big and dt is small, the step m=1 might not be in money.
     if (x_length==0){ 
       continue;
-    } else if(x_length==1){
-      // if only 1 paths in the money, then compare current and discounted price.
-      if(x_length_p) continue;
-      else if(fst_po>fst_y){
-        exercise_when[fst_n] = m;
-        exercise_st[fst_n] = fst_po;
-      };
-      continue;
-    }else if(x_length==2){
-      // if only 2 paths in the money, then do linear regression
-      // compose xTx and xTy
-      coef.resize(2);
-      if(rank==0){
-        xTx.resize(2); xTy.resize(2);
-        for(int i=0;i<2;++i) xTx[i].resize(2);
-        xTx[0][0] = x_length; xTx[0][1] = sum_x ;
-        xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2;
-        xTy[0]    = sum_y   ; xTy[1]    = sum_yx;
+    } else if(x_length<=2 && x_length>0){
+      if(x_length_p==0) continue;
+      // if only 1-2 paths in the money, then compare current and discounted price.
+      else {
+#pragma omp parallel for
+        for(int i=0;i<N;++i){
+          if(x[i]>y[i]){
+            exercise_when[i] = m;
+            exercise_st[i] = x[i];
+          };
+        };
+        continue;
       };
     }else if(x_length>2){
       coef.resize(3);

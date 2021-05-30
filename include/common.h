@@ -109,8 +109,7 @@ std::vector<std::vector<double>> inverse
   
   //finding determinant of the matrix
   for(int i=0; i<size;++i){
-    if(size==2) determinant += (x[0][0] * x[1][1])-(x[0][1] * x[1][0]);
-    if(size==3) determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3]));
+    determinant += (x[0][i] * (x[1][(i+1)%3] * x[2][(i+2)%3] - x[1][(i+2)%3] * x[2][(i+1)%3]));
   };
   //Condition to check if the derterminat is zero or not if zero than inverse dont exists
   if(determinant<=0){
@@ -118,8 +117,7 @@ std::vector<std::vector<double>> inverse
   };
   for(int i=0;i<size;++i){
     for(int j=0;j<size;++j){
-      if(size==3) inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant;
-      if(size==2) inversed[i][j] = determinant*x[i][j];
+      inversed[j][i] = ((x[(j+1)%3][(i+1)%3] * x[(j+2)%3][(i+2)%3]) - (x[(j+1)%3][(i+2)%3] * x[(j+2)%3][(i+1)%3]))/determinant;
     };
    };
   return inversed;
@@ -191,10 +189,10 @@ std::vector<std::vector<double>> pathsfinder
   std::random_device rd{};
   std::mt19937 gen{rd()};
   std::normal_distribution<> norm{0,sqrt(dt)};
+  gen.seed(time(&cur_time)+100*parallel);
+
   // generate paths
   for(int n=0;n<N/2;++n){
-    // for each path use different seed
-    gen.seed(time(&cur_time)*(n+1)*(parallel+1));
     // init new path
     paths[0][n] = S0;
     paths[0][n+N/2] = S0;

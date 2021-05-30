@@ -35,20 +35,17 @@ double mc_amer
     std::vector<double> y(N,-1);
     double sum_x = 0; double sum_x2 = 0; double sum_x3 = 0; double sum_x4 = 0; double sum_y = 0; double sum_yx = 0; double sum_yx2 = 0;
     double x_length=0;
-    // save first non-zero payoff incase there is only one path in the money.
-    double fst_po;
-    double fst_y;
-    int fst_n;
+    
 #pragma omp parallel
   {
-#pragma omp for schedule(dynamic,1000) private(E,r,dt) nowait reduction(+:sum_x,sum_x2,sum_x3,sum_x4,sum_y,sum_yx,sum_yx2,x_length)
+#pragma omp for schedule(dynamic,1000) nowait reduction(+:sum_x,sum_x2,sum_x3,sum_x4,sum_y,sum_yx,sum_yx2,x_length)
     for(int n=0;n<N;++n){
       double payoff_val = payoff(paths[m][n],E,payoff_fun);
       // keep only paths that are in the money
       if(payoff_val>0){
         ++x_length;
         // stock price at time t_m
-        double exer = paths[m][n];
+        double exer = paths[m][n]-E;
         x[n] = exer;
         // discounted cashflow at time t_{m+1}
         double cont = exp(-r*dt*(exercise_when[n]-m))*payoff(paths[exercise_when[n]][n],E,payoff_fun);
@@ -62,11 +59,6 @@ double mc_amer
         sum_y   += cont;
         sum_yx  += cont*exer;
         sum_yx2 += cont*exer*exer;
-        if(x_length==1){
-          fst_po=payoff_val;
-          fst_y=cont;
-          fst_n=n;
-        };
       };
     };
   }
@@ -77,21 +69,16 @@ double mc_amer
     // when M is big and dt is small, the step m=1 might not be in money.
     if (x_length==0){ 
       continue;
-    } else if(x_length==1){
-    // if only 1 paths in the money, then compare current and discounted price.
-      if(fst_po>fst_y){
-        exercise_when[fst_n] = m;
-        exercise_st[fst_n] = fst_po;
+    } else if(x_length<=2 && x_length>0){
+      // if only 1-2 paths in the money, then compare current and discounted price.
+#pragma omp parallel for
+      for(int i=0;i<N;++i){
+        if(x[i]>y[i]){
+          exercise_when[i] = m;
+          exercise_st[i] = x[i];
+        };
       };
       continue;
-    }else if(x_length==2){
-      // if only 2 paths in the money, then do linear regression
-      // compose xTx and xTy
-      xTx.resize(2); xTy.resize(2);
-      for(int i=0;i<2;++i) xTx[i].resize(2);
-      xTx[0][0] = x_length; xTx[0][1] = sum_x ;
-      xTx[1][0] = sum_x   ; xTx[1][1] = sum_x2;
-      xTy[0]    = sum_y   ; xTy[1]    = sum_yx;
     }else if(x_length>2){
      // more than 2 paths in the money
       xTx.resize(3); xTy.resize(3);
@@ -104,12 +91,11 @@ double mc_amer
     
     // calculate LSM coefficients
     std::vector<double> coef = mat_vec_mul(inverse(xTx),xTy);
+
     // save asset price and step index, when we use the options rights
     for(int i=0;i<N;++i){
       if(x[i]!=-1){
-        double poly=0;
-        if(coef.size()>2) poly=coef[2]*pow(x[i],2);
-        double Y_hat = coef[0] + coef[1]*x[i] + poly;
+        double Y_hat = coef[0] + coef[1]*x[i] + coef[2]*pow(x[i],2);
         double payoff_val = payoff(x[i],E,payoff_fun);
         if (payoff_val > Y_hat) {
           exercise_when[i] = m;
